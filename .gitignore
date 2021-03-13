@@ -1,52 +1,16 @@
-# Prerequisites
-*.d
+# This file represents all the files that will be ignored for commits & changes
+# Generally you add files here, that can be built from the sources anyways and other junk from editors & such.
+# Since directories are just files too, you can type in directory names as well
+# Everything written in this file IS IGNORED for commits, hence it's called gitignore
+# This also means that CHANGES to these files are NOT SYNCED
 
-# Object files
+# Compiler-Output
+build
 *.o
-*.ko
-*.obj
-*.elf
 
-# Linker output
-*.ilk
-*.map
-*.exp
+# Doxygen-Output
+doc
 
-# Precompiled Headers
-*.gch
-*.pch
+# VS-Code Junk
+.vscode
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
