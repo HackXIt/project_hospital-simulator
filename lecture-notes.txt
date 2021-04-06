@@ -1,4 +1,4 @@
-git log --all --graph --oneline
+* edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
 * fe58bc8 Initial commit
 
 Added this line in Web.
@@ -16,4 +16,5 @@ git log --all --graph --oneline
 * 0a52b22 (origin/master) Update lecture-notes.txt
 * c02c5ec (HEAD -> master) Update lecture-notes.txt
 * edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
-* fe58bc8 Initial commit
+* fe58bc8 Initial commitAdded this line locally
+git log --all --graph --oneline
