@@ -39,3 +39,16 @@ Yay... new branch.
 * edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
 * fe58bc8 Initial commit
 
+*   2319266 Merged first-branch with master
+|\  
+| * f36cf62 Updated lecture-notes.txt locally
+| * 605a557 Branching is nice
+* | a11710c Update lecture-notes.txt
+|/  
+* 6a82128 Updated lecture-notes.txt locally
+* 5d20141 Updated lecture-notes.txt locally
+* c3327ed Update lecture-notes.txt
+* 0a52b22 Update lecture-notes.txt
+* c02c5ec Update lecture-notes.txt
+* edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
+* fe58bc8 Initial commit
