@@ -1,0 +1,2 @@
+git log --all --graph --oneline
+* fe58bc8 Initial commit
