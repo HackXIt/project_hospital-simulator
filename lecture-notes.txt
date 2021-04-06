@@ -2,3 +2,11 @@ git log --all --graph --oneline
 * fe58bc8 Initial commit
 
 Added this line in Web.
+After 'git pull origin master:
+
+git log --all --graph --oneline
+* c02c5ec (HEAD -> master, origin/master) Update lecture-notes.txt
+* edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
+* fe58bc8 Initial commit
+
+Added this line in Web.
