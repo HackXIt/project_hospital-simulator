@@ -18,3 +18,9 @@ git log --all --graph --oneline
 * edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
 * fe58bc8 Initial commitAdded this line locally
 git log --all --graph --oneline
+* 5d20141 Updated lecture-notes.txt locally
+* c3327ed Update lecture-notes.txt
+* 0a52b22 Update lecture-notes.txt
+* c02c5ec Update lecture-notes.txt
+* edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
+* fe58bc8 Initial commit
