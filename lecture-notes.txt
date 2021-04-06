@@ -25,5 +25,17 @@ git log --all --graph --oneline
 * edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
 * fe58bc8 Initial commit
 
-
 Oh no.. master changed during branching
+MERGED BRANCH
+Yay... new branch.
+* a11710c Update lecture-notes.txt
+| * 605a557 Branching is nice
+|/  
+* 6a82128 Updated lecture-notes.txt locally
+* 5d20141 Updated lecture-notes.txt locally
+* c3327ed Update lecture-notes.txt
+* 0a52b22 Update lecture-notes.txt
+* c02c5ec Update lecture-notes.txt
+* edbc677 Learning some git stuff in the lecture, taking notes in the project, this will be rebased later
+* fe58bc8 Initial commit
+
