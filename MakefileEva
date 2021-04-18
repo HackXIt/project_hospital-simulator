@@ -1,8 +1,0 @@
-#This is a makefile
-
-CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -Werror
-
-
-all: helloworldEva.c
-$(CC) $(CFLAGS) helloworldEva.c -o helloworld
