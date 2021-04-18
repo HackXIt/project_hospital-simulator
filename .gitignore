@@ -1,3 +1,9 @@
+# ---- EVA ----
+
+# IDE related
+.project
+.settings
+
 # ---- NICK ----
 
 # IDE related
@@ -6,3 +12,7 @@
 # Programming related
 build/
 *.o
+
+# ---- STEVE ----
+cmake-build-debug/
+.idea
