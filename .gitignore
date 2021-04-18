@@ -1,5 +1,16 @@
+
 # ---- EVA ----
 
 # IDE related
 .project
 .settings
+
+# ---- NICK ----
+
+# IDE related
+.vscode
+
+# Programming related
+build/
+*.o
+
