@@ -1,6 +1,7 @@
+# Variables
 CC=gcc
-WORKSPACE=/home/rini-debian/git-stash/HWSE2/project_hospital-simulator
-INC=-iquote${WORKSPACE}/inc
+# WORKSPACE=/home/rini-debian/git-stash/HWSE2/project_hospital-simulator
+# INC=-iquote${WORKSPACE}/inc
 CFLAGS=-std=c99 -Wall -Wextra -pedantic -g -Wno-unused-parameter
 BUILD=./build/
 # VPATH:=src:build
@@ -34,4 +35,4 @@ current: test.c test.h
 
 # Executed with: make clean
 clean:
-	rm $(BUILD)*.o $(BUILD)pipetest
+	rm $(BUILD)*.o $(BUILD)current
