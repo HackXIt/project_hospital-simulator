@@ -24,6 +24,9 @@
 
 int main()
 {
+
+    //5x Sitzreihen aufrufen
+
     ListPersons_t activePersons = createListPersons();
     return 0;
 }
