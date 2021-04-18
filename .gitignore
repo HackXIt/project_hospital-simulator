@@ -1,4 +1,3 @@
-
 # ---- EVA ----
 
 # IDE related
@@ -14,3 +13,6 @@
 build/
 *.o
 
+# ---- STEVE ----
+cmake-build-debug/
+.idea
