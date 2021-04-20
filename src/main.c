@@ -1,13 +1,5 @@
 /* MAIN.c
  *   by Nikolaus Rieder, Stefan Bittgen, Eva Grabler
- *
- * Created:
- *   4/18/2021, 7:26:45 PM
- * Last edited:
- *   4/18/2021, 7:30:21 PM
- * Auto updated?
- *   Yes
- *
  * Description:
  *   Main execution of the project
 **/
@@ -16,7 +8,6 @@
 
 /*--- CUSTOM LIBRARIES ---*/
 #include "hospital_structures.h"
-#include "persons.h"
 /*--- MACROS ---*/
 
 #include <stdio.h>
@@ -25,8 +16,9 @@
 int main()
 {
 
-    //5x Sitzreihen aufrufen
-
-    ListPersons_t activePersons = createListPersons();
+    // Possible example of Person-List-creation: ListPersons_t activePersons = createListPersons();
+    // ^ Will be executed 2 times to generate an active Persons-List and an inactive Persons-List
+    // Possible example of Row-List-creation: ListRows_t row1 = createListRow();
+    // ^ Will be executed 5 times to generate 5 rows.
     return 0;
 }

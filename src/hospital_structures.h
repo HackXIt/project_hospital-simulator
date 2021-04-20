@@ -36,5 +36,9 @@ typedef struct ListRows
     unsigned short count;
     struct Seat *start;
     struct Seat *last;
+<<<<<<< HEAD
 }
+=======
+} ListRows_t;
+>>>>>>> nick
 #endif
