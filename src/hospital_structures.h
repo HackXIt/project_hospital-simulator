@@ -1,10 +1,15 @@
 #ifndef HOSPITAL_STRUCTURES_H
 #define HOSPITAL_STRUCTURES_H
 
-struct node
+struct node_p
 {
-    void *next;
-    void *prev;
+    struct Person *next;
+    struct Person *prev;
+};
+struct node_s
+{
+    struct Seat *next;
+    struct Seat *prev;
 };
 
 typedef struct Person
@@ -15,13 +20,13 @@ typedef struct Person
     char *last_name;
     struct Person *neighbour[2]; // storage of left & right neighbour
     struct Seat *seat;           // reference to seat, if any
-    struct node;
+    struct node_p node;
 } Person_t;
 
 typedef struct Seat
 {
     struct Person *occupied; // if occupied != NULL then it is occupied
-    struct node;
+    struct node_s node;
 } Seat_t;
 
 typedef struct ListPersons
