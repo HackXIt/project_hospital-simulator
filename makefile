@@ -8,15 +8,15 @@ BUILD=./build/
 # These define where make should look for certain project files
 vpath %.o ./build
 vpath %.c ./src
-vpath %.h ./inc
+vpath %.h ./src
 
 # This is required for source-files without header-files
 #$(BUILD)object.o: source.c
-#	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+#	$(CC) $(CFLAGS) -c $< -o $@
 
 # For singular targets with source & header-files
 # target: source.c header.h
-# 	$(CC) $(CFLAGS) $(INC) $< -o $(BUILD)$@
+# 	$(CC) $(CFLAGS) $< -o $(BUILD)$@
 
 # For singular targets with just source files and no custom includes
 # target: test.c
@@ -24,14 +24,18 @@ vpath %.h ./inc
 
 # Automatic variable for object files
 %.o: %.c %.h
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $(BUILD)$@
 
 # Executed when just using 'make'
 all: current
 
 # Executed with: make current
-current: test.c test.h
-	$(CC) $(CFLAGS) $(INC) $< -o $(BUILD)$@
+current: main.c seat_rows.o
+	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
+
+# Executed with: make test
+test: test.c test.h
+	$(CC) $(CFLAGS) $< -o $(BUILD)$@
 
 # Executed with: make clean
 clean:

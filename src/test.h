@@ -2,9 +2,9 @@
 #define TEST_H
 enum words
 {
-    WORD,
-    VERB,
-    ABC,
-    DEF
+	WORD,
+	VERB,
+	ABC,
+	DEF
 };
 #endif
