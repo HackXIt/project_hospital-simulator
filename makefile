@@ -2,8 +2,10 @@
 CC=gcc
 # WORKSPACE=/home/rini-debian/git-stash/HWSE2/project_hospital-simulator
 # INC=-iquote${WORKSPACE}/inc
-CFLAGS=-std=c99 -Wall -Wextra -pedantic -g -Wno-unused-parameter
+CFLAGS=-Wall -Wextra -pedantic -g -Wno-unused-parameter
 BUILD=./build/
+GTKFLAGS=`pkg-config --cflags gtk+-3.0`
+GTKLIB=`pkg-config --libs gtk+-3.0`
 # VPATH:=src:build
 # These define where make should look for certain project files
 vpath %.o ./build
@@ -36,6 +38,9 @@ current: main.c seat_rows.o
 # Executed with: make test
 test: test.c test.h
 	$(CC) $(CFLAGS) $< -o $(BUILD)$@
+
+gtk: gtk_test.c
+	$(CC) $(GTKFLAGS) $< -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make clean
 clean:
