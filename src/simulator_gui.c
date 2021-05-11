@@ -19,14 +19,14 @@ GtkWidget *entry_patient_name;		 // Entry-Box for the patient name - GtkEntry
 GtkWidget *label_patient_arrival;	 // Label for the patient arrival box - GtkLabel
 GtkWidget *combobox_patient_arrival; // Combo-Box for the patient arrival - GtkComboBoxText
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
 	gtk_init(&argc, &argv);
 
 	builder = gtk_builder_new_from_file("hospital-simulator.glade");
 
-	main_window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));  // connect the glade-ID with the actual window widget
-	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL); // gtk_main_quit() is called when Window is closed
+	main_window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));				   // connect the glade-ID with the actual window widget
+	g_signal_connect(GTK_WINDOW(main_window), "destroy", G_CALLBACK(gtk_main_quit), NULL); // gtk_main_quit() is called when Window is closed
 
 	gtk_builder_connect_signals(builder, NULL); // Creates a dynamically linked table for all the signals in the glade-project with the code
 
@@ -43,7 +43,7 @@ int main(int argc, char const *argv[])
 	label_patient_arrival = GTK_WIDGET(gtk_builder_get_object(builder, "label_patient_arrival"));
 	combobox_patient_arrival = GTK_WIDGET(gtk_builder_get_object(builder, "combobox_patient_arrival"));
 
-	gtk_widget_show(window);
+	gtk_widget_show(main_window);
 
 	gtk_main();
 

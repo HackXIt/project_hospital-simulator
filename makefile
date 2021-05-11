@@ -4,7 +4,7 @@ CC=gcc
 # INC=-iquote${WORKSPACE}/inc
 CFLAGS=-std=c99 -Wall -Wextra -pedantic -g -Wno-unused-parameter
 BUILD=./build/
-GTKFLAGS=`pkg-config --cflags gtk+-3.0`
+GTKFLAGS=`pkg-config --cflags gtk+-3.0` -export-dynamic
 GTKLIB=`pkg-config --libs gtk+-3.0`
 # VPATH:=src:build
 # These define where make should look for certain project files
