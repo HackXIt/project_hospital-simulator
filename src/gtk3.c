@@ -1,180 +1,166 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#define VBOX   3
+#include "hospital_structures.h"
+#define VBOX 3
 #define ENTRYS 3
 #define SCALES 3
-#define SPIN   2
+#define SPIN 2
 #define BUF 50
 
 //Global Variables:
-static  GtkEntry   *entry[ENTRYS]; //    Textfields - GtkEntry
+static GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
 static gint;
 
-
-delete_Event(GtkWidget *widget, GdkEvent event, gpointer daten) {
-    g_print("Die Anwendung wird beendet.\n");
-    /* Only with FALSE the application is really terminated */
-    return FALSE;
+delete_Event(GtkWidget *widget, GdkEvent event, gpointer daten)
+{
+	g_print("Die Anwendung wird beendet.\n");
+	/* Only with FALSE the application is really terminated */
+	return FALSE;
 }
 
-static void end ( GtkWidget *widget, gpointer data ) {
-    g_print("Good Bye!\n");
-    gtk_main_quit();
+static void end(GtkWidget *widget, gpointer data)
+{
+	g_print("Good Bye!\n");
+	gtk_main_quit();
 }
 
 /* Evaluation input fields */
-static void entry_evaluation(gpointer evalu) {
-    gchar *e1, *e2, *e3;
-    g_object_get(entry[0], "text", &e1, NULL);
-    g_object_get(entry[1], "text", &e2, NULL);
-    g_object_get(entry[2], "text", &e3, NULL);
-    g_print("Entry-Field Evaluation:\n");
-    g_print("New Patient   : %s\n", e1);
-    g_print("Arrival       : %s\n", e2);
-    g_print("Seat/Row      : %s\n", e3);
-    g_print("---------------------------\n");
+static void entry_evaluation(gpointer evalu)
+{
+	gchar *e1, *e2, *e3;
+	g_object_get(entry[0], "text", &e1, NULL);
+	g_object_get(entry[1], "text", &e2, NULL);
+	g_object_get(entry[2], "text", &e3, NULL);
+	g_print("Entry-Field Evaluation:\n");
+	g_print("New Patient   : %s\n", e1);
+	g_print("Arrival       : %s\n", e2);
+	g_print("Seat/Row      : %s\n", e3);
+	g_print("---------------------------\n");
 }
 
 /* Reset input fields - delete */
-static void entry_loeschen(gpointer evalu) {
-    gint i;
-    for(i=0; i<ENTRYS; i++)
-        gtk_entry_set_text(entry[i], "");
+static void entry_loeschen(gpointer evalu)
+{
+	gint i;
+	for (i = 0; i < ENTRYS; i++)
+		gtk_entry_set_text(entry[i], "");
 }
 
-int main(int argc, char **argv) {
-    GtkWindow  *win;
-    GdkPixbuf  *pic;
-    GtkGrid    *table; //Pack widgets in rows and columns
-    GtkLabel   *label[ENTRYS];
-    GtkButton  *entry_button[3];
-    GtkWidget  *hbox, *hbox_2, *hbox_3, *hbox_vscale; //Base class for all widgets
-    GtkWidget  *vbox, *vbox_spin; //Base class for all widgets
-    GtkWidget  *hsep;
-    guint i;
+int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
+{
+	GtkWindow *win;
+	GdkPixbuf *pic;
+	GtkGrid *table; //Pack widgets in rows and columns
+	GtkLabel *label[ENTRYS];
+	GtkButton *entry_button[3];
+	GtkWidget *hbox, *hbox_2, *hbox_3, *hbox_vscale; //Base class for all widgets
+	GtkWidget *vbox, *vbox_spin;					 //Base class for all widgets
+	GtkWidget *hsep;
+	guint i;
 
-    gtk_init( &argc, &argv );
-    /* Load a graphic into a pixbuf */
-    pic = gdk_pixbuf_new_from_file("icon/at-work.gif", NULL );
-    /* Create window with the following properties: */
-    win = g_object_new( GTK_TYPE_WINDOW,
-                        "title", "Hospital Simulator",
-                        "default-width",  380,
-                        "default-height", 200,
-                        "resizable", TRUE,
-                        "window-position", GTK_WIN_POS_CENTER,
-                        "border-width", 10,
-                        "icon", pic,
-                        NULL );
-    /* Create a table 8x3 */
-    table = GTK_GRID(gtk_grid_new()); //Creates a new Grid-Widget
-    gtk_grid_set_row_spacing(table, 3); //Sets the amount of space between rows of grid .
-    gtk_grid_set_column_spacing(table, 3); //Sets the amount of space between columns of grid .
-    /* Create a horizontal box */
-    hbox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL , 10 ); //Creates a new GTK-Box -> GtkBox — A container for packing widgets in a single row or column
-    /* Create a second horizontal box */
-    hbox_2 = gtk_box_new( GTK_ORIENTATION_HORIZONTAL , 10 );
+	gtk_init(&argc, &argv);
+	/* Load a graphic into a pixbuf */
+	pic = gdk_pixbuf_new_from_file("icon/at-work.gif", NULL);
+	/* Create window with the following properties: */
+	win = g_object_new(GTK_TYPE_WINDOW,
+					   "title", "Hospital Simulator",
+					   "default-width", 380,
+					   "default-height", 200,
+					   "resizable", TRUE,
+					   "window-position", GTK_WIN_POS_CENTER,
+					   "border-width", 10,
+					   "icon", pic,
+					   NULL);
+	/* Create a table 8x3 */
+	table = GTK_GRID(gtk_grid_new());	   //Creates a new Grid-Widget
+	gtk_grid_set_row_spacing(table, 3);	   //Sets the amount of space between rows of grid .
+	gtk_grid_set_column_spacing(table, 3); //Sets the amount of space between columns of grid .
+	/* Create a horizontal box */
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10); //Creates a new GTK-Box -> GtkBox — A container for packing widgets in a single row or column
+	/* Create a second horizontal box */
+	hbox_2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 
+	/* Create a vertical box */
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+	/* Create a vertical box for the number fields */
+	vbox_spin = gtk_box_new(GTK_ORIENTATION_VERTICAL, 7);
 
-    /* Create a vertical box */
-    vbox = gtk_box_new( GTK_ORIENTATION_VERTICAL , 10 );
-    /* Create a vertical box for the number fields */
-    vbox_spin = gtk_box_new( GTK_ORIENTATION_VERTICAL , 7 );
+	/* Creates ENTRYS number fields */
+	for (i = 0; i < ENTRYS; i++)
+	{
+		entry[i] = GTK_ENTRY(gtk_entry_new());
+		gtk_entry_set_text(entry[i], "Type here ...");
+		gtk_entry_set_max_length(entry[i], BUF);
+	}
+	/* Create labels for text fields */
+	label[0] = g_object_new(GTK_TYPE_LABEL,
+							"justify", GTK_JUSTIFY_LEFT,
+							"label", "Name",
+							NULL);
+	label[1] = g_object_new(GTK_TYPE_LABEL,
+							"label", "Arrival",
+							NULL);
+	label[2] = g_object_new(GTK_TYPE_LABEL,
+							"label", "Seat/Row",
+							NULL);
+	/* Create buttons to evaluate the text fields */
+	entry_button[0] = g_object_new(GTK_TYPE_BUTTON, "label", "New Patient", NULL);
+	entry_button[1] = g_object_new(GTK_TYPE_BUTTON, "label", "Reset", NULL);
+	entry_button[2] = g_object_new(GTK_TYPE_BUTTON, "label", "Next Patient", NULL);
 
-    /* Creates ENTRYS number fields */
-    for(i=0; i < ENTRYS; i++) {
-        entry[i] = GTK_ENTRY(gtk_entry_new());
-        gtk_entry_set_text(entry[i], "Type here ...");
-        gtk_entry_set_max_length(entry[i], BUF);
-    }
-    /* Create labels for text fields */
-    label[0] = g_object_new( GTK_TYPE_LABEL,
-                             "justify", GTK_JUSTIFY_LEFT,
-                             "label", "Name",
-                             NULL );
-    label[1] = g_object_new( GTK_TYPE_LABEL,
-                             "label", "Arrival",
-                             NULL );
-    label[2] = g_object_new( GTK_TYPE_LABEL,
-                             "label", "Seat/Row",
-                             NULL );
-    /* Create buttons to evaluate the text fields */
-    entry_button[0] = g_object_new( GTK_TYPE_BUTTON,"label", "New Patient",NULL );
-    entry_button[1] = g_object_new( GTK_TYPE_BUTTON,"label", "Reset",NULL );
-    entry_button[2] = g_object_new( GTK_TYPE_BUTTON,  "label", "Next Patient", NULL);
+	// Create horizontal line
+	hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 
-    // Create horizontal line
-    hsep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	// Create Signalhandler for closing program
+	g_signal_connect(win, "delete-event",
+					 G_CALLBACK(delete_Event), NULL);
+	g_signal_connect(win, "destroy",
+					 G_CALLBACK(end), NULL);
+	// Signalhandler for the Buttons
+	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(entry_evaluation), NULL);
+	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
+	//  g_signal_connect( entry_button[2], "clicked",G_CALLBACK(entry_evaluation, NULL );
 
-    // Create Signalhandler for closing program
-    g_signal_connect( win, "delete-event",
-                      G_CALLBACK(delete_Event), NULL );
-    g_signal_connect( win, "destroy",
-                      G_CALLBACK(end), NULL );
-    // Signalhandler for the Buttons
-    g_signal_connect(entry_button[0], "clicked", G_CALLBACK(entry_evaluation), NULL);
-    g_signal_connect( entry_button[1], "clicked",G_CALLBACK(entry_loeschen), NULL);
-    //  g_signal_connect( entry_button[2], "clicked",G_CALLBACK(entry_evaluation, NULL );
-
-/* Great packing of the widgets begins
+	/* Great packing of the widgets begins
 *  Adds a widget to the grid.
 *  The position of child is determined by left and top .
 *  The number of “cells” that child will occupy is determined by width and height .
 */
-    gtk_grid_attach ( table, GTK_WIDGET(label[0]),0, 0, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(entry[0]),1, 0, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(label[1]),0, 2, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(entry[1]),1, 2, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(label[2]),0, 4, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(entry[2]),1, 4, 1, 1);
-    gtk_grid_attach ( table, GTK_WIDGET(hbox),1, 6, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(label[0]), 0, 0, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(entry[0]), 1, 0, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(label[1]), 0, 2, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(entry[1]), 1, 2, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(label[2]), 0, 4, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(entry[2]), 1, 4, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(hbox), 1, 6, 1, 1);
 
-/* Adds child to box , packed with reference to the start of box .
+	/* Adds child to box , packed with reference to the start of box .
 *  The child is packed after any other child packed with reference to the start of box .
 */
 
-    gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[0]),FALSE, FALSE, 0); //New Button
-    gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[1]),FALSE, FALSE, 0); //Reset Button
-    gtk_box_pack_start( GTK_BOX(hbox), GTK_WIDGET( entry_button[2]), FALSE, FALSE, 0); //Next Button
+	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[0]), FALSE, FALSE, 0); //New Button
+	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[1]), FALSE, FALSE, 0); //Reset Button
+	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[2]), FALSE, FALSE, 0); //Next Button
 
-    gtk_box_pack_start( GTK_BOX(vbox_spin),GTK_WIDGET(hsep),FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_spin), GTK_WIDGET(hsep), FALSE, FALSE, 0);
 
-/* Adds widget to container . Typically used for simple containers such as GtkWindow,
+	/* Adds widget to container . Typically used for simple containers such as GtkWindow,
  * GtkFrame, or GtkButton; for more complicated layout containers such as GtkBox or GtkGrid,
  * this function will pick default packing parameters that may not be correct.
  *
 */
 
-    gtk_container_add( GTK_CONTAINER( vbox ),GTK_WIDGET( hbox_2) );
-    gtk_container_add( GTK_CONTAINER( hbox_2 ),GTK_WIDGET( table ) );
-    gtk_container_add( GTK_CONTAINER( win ), GTK_WIDGET( vbox ) );
+	gtk_container_add(GTK_CONTAINER(vbox), GTK_WIDGET(hbox_2));
+	gtk_container_add(GTK_CONTAINER(hbox_2), GTK_WIDGET(table));
+	gtk_container_add(GTK_CONTAINER(win), GTK_WIDGET(vbox));
 
-    /* Show the window */
-    gtk_widget_show_all( GTK_WIDGET(win) );
+	/* Show the window */
+	gtk_widget_show_all(GTK_WIDGET(win));
 
-    /* Mainloop of gtk. Program awaits interaction  */
-    gtk_main();
-    g_print("The Main loop has been terminated.\n");
+	/* Mainloop of gtk. Program awaits interaction  */
+	gtk_main();
+	g_print("The Main loop has been terminated.\n");
 
-    return 0;
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
