@@ -12,6 +12,7 @@
 # Programming related
 build/
 *.o
+*~
 
 # ---- STEVE ----
 cmake-build-debug/
