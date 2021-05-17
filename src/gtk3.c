@@ -10,10 +10,6 @@
 #include <gtk/gtk.h>
 /*--- CUSTOM LIBRARIES ---*/
 #include "gtk3.h"
-<<<<<<< HEAD
-=======
-#include "hospital_structures.h"
->>>>>>> 804d590... Quick-Fix for wrong code from resolving merge conflicts
 #include "persons.h"
 #include "seat_rows.h"
 /*--- MACROS ---*/
@@ -87,11 +83,7 @@ static void entry_loeschen(gpointer evalu)
 		gtk_entry_set_text(entry[i], "");
 }
 
-<<<<<<< HEAD
 int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
-=======
-int main(int argc, char **argv)
->>>>>>> 804d590... Quick-Fix for wrong code from resolving merge conflicts
 {
 	GtkWindow *win;
 	GdkPixbuf *pic;
