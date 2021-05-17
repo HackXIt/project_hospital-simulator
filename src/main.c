@@ -10,11 +10,19 @@
 #include <stdbool.h> // for bool-datatype
 #include <unistd.h>	 // getopt(3)
 /*--- CUSTOM LIBRARIES ---*/
-#include "hospital_structures.h"
+//#include "gtk3.h"
+#include <gtk/gtk.h>
+//#include "hospital_structures.h"
+#include "persons.h"
 #include "seat_rows.h"
 #include "persons.h"
 #include "gtk3.h"
 /*--- MACROS ---*/
+#define VBOX 3
+#define SCALES 3
+#define SPIN 2
+#define ENTRYS 4
+#define BUF 50
 
 void print_help();
 int main(int argc, char *argv[])
