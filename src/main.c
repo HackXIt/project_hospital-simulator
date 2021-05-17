@@ -7,14 +7,16 @@
 /*--- COMMON LIBRARIES ---*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> // getopt(3)
+#include <stdbool.h> // for bool-datatype
+#include <unistd.h>	 // getopt(3)
 /*--- CUSTOM LIBRARIES ---*/
 //#include "gtk3.h"
 #include <gtk/gtk.h>
 //#include "hospital_structures.h"
 #include "persons.h"
 #include "seat_rows.h"
-#include <gtk/gtk.h>
+#include "persons.h"
+#include "gtk3.h"
 /*--- MACROS ---*/
 #define VBOX 3
 #define SCALES 3
@@ -23,7 +25,7 @@
 #define BUF 50
 
 void print_help();
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
 	if (argc == 1) // Program is executed normally in GUI-Mode (no parameters given)
 	{
@@ -37,8 +39,8 @@ int main(int argc, char const *argv[])
 		ListRows_t *row_4 = createRow();
 		ListRows_t *row_5 = createRow();
 		ListRows_t *rows[5] = {row_1, row_2, row_3, row_4, row_5};
-		gtk_init(argc, argv); // GTK Initialisierung
-		gtk_main(persons_active, persons_completed, rows);
+		// gtk_main(persons_active, persons_completed, rows);
+		gui_main(argc, argv, persons_active, persons_completed, rows);
 	}
 	else if (argc > 1) // Program is executed in CLI-Mode (parameters exist)
 	{
@@ -50,8 +52,8 @@ int main(int argc, char const *argv[])
 		p = patients | List of patients to be used in automatic execution
 		t = test | Test program execution with given testcase automatically (requires option 'p')
 		*/
-		bool p_given = FALSE;
-		bool t_given = FALSE;
+		bool p_given = false;
+		bool t_given = false;
 		while ((opt = getopt(argc, argv, valid_options))) // Parse parameters
 		{
 			switch (opt) // NOTE Please retain the order of this switch-statement alphabetically
@@ -63,11 +65,11 @@ int main(int argc, char const *argv[])
 				print_help(argv[0]);
 				break;
 			case 'p':
-				p_given = TRUE;
+				p_given = true;
 				// TODO Parse argument of p
 				break;
 			case 't':
-				t_given = TRUE;
+				t_given = true;
 				// TODO Parse argument of t
 				break;
 			default:

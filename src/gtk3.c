@@ -10,7 +10,7 @@
 /*--- CUSTOM LIBRARIES ---*/
 //#include "gtk3.h"
 #include <gtk/gtk.h>
-//#include "hospital_structures.h"
+#include "hospital_structures.h"
 #include "persons.h"
 #include "seat_rows.h"
 /*--- MACROS ---*/
@@ -31,9 +31,10 @@ static gint delete_Event(GtkWidget *widget, GdkEvent event, gpointer daten) {
     return FALSE;
 }
 
-static void end ( GtkWidget *widget, gpointer data ) {
-    g_print("Good Bye!\n");
-    gtk_main_quit();
+static void end(GtkWidget *widget, gpointer data)
+{
+	g_print("Good Bye!\n");
+	gtk_main_quit();
 }
 
 /* Evaluation input fields */
@@ -71,11 +72,7 @@ static void entry_evaluation(gpointer evalu) {
         g_print("Error! Only 'Z' for Zivil or 'R' for Rettung is accepted.");
         exit(0);
     }
-
 }
-
-
-/* Reset input fields - delete */
 
 static void entry_loeschen(gpointer evalu) {
     gint i;
@@ -199,17 +196,17 @@ int main(int argc, char **argv) {
     gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[1]),FALSE, FALSE, 0); //Reset Button
     gtk_box_pack_start( GTK_BOX(hbox), GTK_WIDGET( entry_button[2]), FALSE, FALSE, 0); //Next Button
 
-    gtk_box_pack_start( GTK_BOX(vbox_spin),GTK_WIDGET(hsep),FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_spin), GTK_WIDGET(hsep), FALSE, FALSE, 0);
 
-/* Adds widget to container . Typically used for simple containers such as GtkWindow,
+	/* Adds widget to container . Typically used for simple containers such as GtkWindow,
  * GtkFrame, or GtkButton; for more complicated layout containers such as GtkBox or GtkGrid,
  * this function will pick default packing parameters that may not be correct.
  *
 */
 
-    gtk_container_add( GTK_CONTAINER( vbox ),GTK_WIDGET( hbox_2) );
-    gtk_container_add( GTK_CONTAINER( hbox_2 ),GTK_WIDGET( table ) );
-    gtk_container_add( GTK_CONTAINER( win ), GTK_WIDGET( vbox ) );
+	gtk_container_add(GTK_CONTAINER(vbox), GTK_WIDGET(hbox_2));
+	gtk_container_add(GTK_CONTAINER(hbox_2), GTK_WIDGET(table));
+	gtk_container_add(GTK_CONTAINER(win), GTK_WIDGET(vbox));
 
 /* Show the window */
     gtk_widget_show_all( GTK_WIDGET(win) );
@@ -218,5 +215,5 @@ int main(int argc, char **argv) {
     gtk_main();
     g_print("The Main loop has been terminated.\n");
 
-    return 0;
+	return 0;
 }
