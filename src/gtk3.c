@@ -19,6 +19,7 @@
 #define SPIN 2
 #define ENTRYS 4
 #define BUF 50
+#define MAX_ROWS 5
 
 
 //Global Variable:
@@ -26,7 +27,7 @@ static GtkEntry   *entry[ENTRYS]; //    Textfields - GtkEntry
 
 
 static gint delete_Event(GtkWidget *widget, GdkEvent event, gpointer daten) {
-    g_print("Die Anwendung wird beendet.\n");
+    g_print("The application will be terminated.\n");
 /* Only with FALSE the application is really terminated */
     return FALSE;
 }
@@ -40,8 +41,11 @@ static void end ( GtkWidget *widget, gpointer data ) {
 static void entry_evaluation(gpointer evalu) {
     gchar *first_name, *last_name, *arrival; //, *seat;
     unsigned short num;
-    ListPersons_t *list;
-    Person_t *person;
+    ListPersons_t *list = NULL;
+    Person_t *person = NULL;
+    ListRows_t *row = NULL;
+    ListRows_t *rows[MAX_ROWS];
+
 
     g_object_get(entry[0], "text", &first_name, NULL);
     g_object_get(entry[1], "text", &last_name, NULL);
@@ -51,13 +55,15 @@ static void entry_evaluation(gpointer evalu) {
     g_print("First Name   : %s\n", first_name);
     g_print("Last Name   : %s\n", last_name);
 
-//TODO: Arrival Button wird aufgerufen und entweder "Z" oder "R" anklicken. Checkboxen vllt
-    if (strcmp(arrival, "Z") == 0 || strcmp(arrival, "R") == 0) {
-  //      g_print("Arrival       : %s\n", arrival);
-//TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werdne.
-//      g_print("Seat/Row      : %s\n", seat);
-        g_print("---------------------------\n");
-/*
+/*    if (strcmp(arrival, "Z") == 0 || strcmp(arrival, "R") == 0) {
+              g_print("Arrival       : %s\n", arrival);
+      } else {
+        g_print("Error! Only 'Z' for Zivil or 'R' for Rettung is accepted.");
+        exit(0);
+    }
+*/
+
+//TODO: fillStructPerson wird derzeit nicht richtig befülllt da Arrival nicht befüllt wird. Diese Funktion wird noch implementiert.
         fillStructPerson(num, arrival, first_name, last_name);
 //      fillStructPersonMan(ListPersons_t *list);
 
@@ -66,11 +72,21 @@ static void entry_evaluation(gpointer evalu) {
         freeListPersons(list);
         printListPersons(list);
         exportListPersons(list);
+
+//TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werden.
+
+    ListRows_t *createRow();
+    occupySeat(row, person); //TODO: Segmentation Fault
+// int assignSeat(ListRows_t *row, Person_t *person);
+    selectRow(rows[MAX_ROWS], person);
+
+
+ //   g_print("Seat/Row      : %s\n", seat);
+ //   g_print("---------------------------\n");
+
+
+/*
 */
-    } else {
-        g_print("Error! Only 'Z' for Zivil or 'R' for Rettung is accepted.");
-        exit(0);
-    }
 
 }
 
@@ -155,7 +171,7 @@ int main(int argc, char **argv) {
 
     // Create buttons to evaluate the text fields
     entry_button[0] = g_object_new( GTK_TYPE_BUTTON, "label", "New Patient", NULL);
-    entry_button[1] = g_object_new( GTK_TYPE_BUTTON,"label", "Reset",NULL );
+//    entry_button[1] = g_object_new( GTK_TYPE_BUTTON,"label", "Reset",NULL );
     entry_button[2] = g_object_new( GTK_TYPE_BUTTON,"label", "Next Patient",NULL );
 
 
@@ -171,7 +187,7 @@ int main(int argc, char **argv) {
 
     // Signalhandler for the Buttons
     g_signal_connect(entry_button[0], "clicked", G_CALLBACK(entry_evaluation), NULL);
-    g_signal_connect( entry_button[1], "clicked",G_CALLBACK(entry_loeschen), NULL);
+//    g_signal_connect( entry_button[1], "clicked",G_CALLBACK(entry_loeschen), NULL);
     g_signal_connect(entry_button[2], "clicked", G_CALLBACK(entry_evaluation), NULL);
 
 
@@ -196,7 +212,7 @@ int main(int argc, char **argv) {
 *  The child is packed after any other child packed with reference to the start of box .
 */
     gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[0]),FALSE, FALSE, 0); //New Button
-    gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[1]),FALSE, FALSE, 0); //Reset Button
+//    gtk_box_pack_start( GTK_BOX(hbox),GTK_WIDGET(entry_button[1]),FALSE, FALSE, 0); //Reset Button
     gtk_box_pack_start( GTK_BOX(hbox), GTK_WIDGET( entry_button[2]), FALSE, FALSE, 0); //Next Button
 
     gtk_box_pack_start( GTK_BOX(vbox_spin),GTK_WIDGET(hsep),FALSE, FALSE, 0);
