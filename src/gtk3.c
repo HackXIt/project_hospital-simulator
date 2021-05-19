@@ -13,41 +13,33 @@
 #include "persons.h"
 #include "seat_rows.h"
 /*--- MACROS ---*/
-#define VBOX 3
 #define SCALES 3
-#define SPIN 2
+
 #define ENTRYS 4
 #define BUF 50
 #define MAX_ROWS 5
 
 //Global Variable:
 static GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
+static gint;
 
-<<<<<<< HEAD
-static gint delete_Event(GtkWidget *widget, GdkEvent event, gpointer daten) {
-    g_print("The application will be terminated.\n");
-/* Only with FALSE the application is really terminated */
-    return FALSE;
-=======
 
->>>>>>> master
-}
 
 static void end(GtkWidget *widget, gpointer data)
 {
-	g_print("Good Bye!\n");
-	gtk_main_quit();
+    g_print("Good Bye!\n");
+    gtk_main_quit();
 }
 
 /* Evaluation input fields */
-<<<<<<< HEAD
-=======
 static void entry_evaluation(gpointer evalu)
 {
 	gchar *first_name, *last_name, *arrival; //, *seat;
 	unsigned short num;
-	ListPersons_t *list;
-	Person_t *person;
+    ListPersons_t *list;
+    Person_t *person;
+    ListRows_t *row;
+    ListRows_t *rows[MAX_ROWS];
 
 	g_object_get(entry[0], "text", &first_name, NULL);
 	g_object_get(entry[1], "text", &last_name, NULL);
@@ -57,23 +49,18 @@ static void entry_evaluation(gpointer evalu)
 	g_print("First Name   : %s\n", first_name);
 	g_print("Last Name   : %s\n", last_name);
 
-	//TODO: Arrival Button wird aufgerufen und entweder "Z" oder "R" anklicken. Checkboxen vllt
-	if (strcmp(arrival, "Z") == 0 || strcmp(arrival, "R") == 0)
-	{
-		//      g_print("Arrival       : %s\n", arrival);
-		//TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werdne.
-		//      g_print("Seat/Row      : %s\n", seat);
-		g_print("---------------------------\n");
-		/*
->>>>>>> master
-        fillStructPerson(num, arrival, first_name, last_name);
+//TODO: Arrival Button mit Combo Boxen belegen "Z" oder "R" soll ausgewählt werden können.
+
+
+//TODO: fillStructPerson wird derzeit nicht richtig befülllt da Arrival nicht befüllt wird. Diese Funktion wird noch implementiert.
+    fillStructPerson(num, arrival, first_name, last_name);
 //      fillStructPersonMan(ListPersons_t *list);
 
-        addPerson(list, person);
-        movePerson(list);
-        freeListPersons(list);
-        printListPersons(list);
-        exportListPersons(list);
+    addPerson(list, person);
+    movePerson(list);
+    freeListPersons(list);
+    printListPersons(list);
+    exportListPersons(list);
 
 //TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werden.
 
@@ -83,34 +70,19 @@ static void entry_evaluation(gpointer evalu)
     selectRow(rows[MAX_ROWS], person);
 
 
- //   g_print("Seat/Row      : %s\n", seat);
- //   g_print("---------------------------\n");
+    //   g_print("Seat/Row      : %s\n", seat);
+    //   g_print("---------------------------\n");
 
 
-/*
-*/
-<<<<<<< HEAD
-
-=======
-	}
-	else
-	{
-		g_print("Error! Only 'Z' for Zivil or 'R' for Rettung is accepted.");
-		exit(0);
-	}
->>>>>>> master
+}
+/* Reset input fields - delete */
+static void entry_loeschen(gpointer evalu) {
+    gint i;
+    for(i=0; i<ENTRYS-2; i++)
+        gtk_entry_set_text(entry[i], "");
 }
 
-static void entry_loeschen(gpointer evalu)
-{
-	gint i;
-	for (i = 0; i < ENTRYS - 2; i++)
-		gtk_entry_set_text(entry[i], "");
-}
 
-<<<<<<< HEAD
-
-=======
 int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
 {
 	GtkWindow *win;
@@ -126,6 +98,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 
 	gtk_init(&argc, &argv);
 	// Load a graphic into a pixbuf
+//TODO pic necessary?
 	pic = gdk_pixbuf_new_from_file("icon/at-work.gif", NULL);
 	// Create window with the following properties:
 	win = g_object_new(GTK_TYPE_WINDOW,
@@ -182,25 +155,23 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 
 	// Create buttons to evaluate the text fields
 	entry_button[0] = g_object_new(GTK_TYPE_BUTTON, "label", "New Patient", NULL);
-	entry_button[1] = g_object_new(GTK_TYPE_BUTTON, "label", "Reset", NULL);
+    //    entry_button[1] = g_object_new( GTK_TYPE_BUTTON,"label", "Reset",NULL );
 	entry_button[2] = g_object_new(GTK_TYPE_BUTTON, "label", "Next Patient", NULL);
 
 	// Create horizontal line
 	hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 
 	// Create Signalhandler for closing program
-	g_signal_connect(win, "delete-event",
-					 G_CALLBACK(delete_Event), NULL);
+
 	g_signal_connect(win, "destroy",
 					 G_CALLBACK(end), NULL);
 
 	// Signalhandler for the Buttons
 	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(entry_evaluation), NULL);
-	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
+//	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
 	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(entry_evaluation), NULL);
 
-	/* Great packing of the widgets begins
->>>>>>> master
+/* Great packing of the widgets begins
 *  Adds a widget to the grid.
 *  The position of child is determined by left and top .
 *  The number of “cells” that child will occupy is determined by width and height .
@@ -220,16 +191,15 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	/* Adds child to box , packed with reference to the start of box .
 *  The child is packed after any other child packed with reference to the start of box .
 */
-<<<<<<< HEAD
-=======
+
 	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[0]), FALSE, FALSE, 0); //New Button
-	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[1]), FALSE, FALSE, 0); //Reset Button
+//	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[1]), FALSE, FALSE, 0); //Reset Button
 	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[2]), FALSE, FALSE, 0); //Next Button
->>>>>>> master
+
 
 	gtk_box_pack_start(GTK_BOX(vbox_spin), GTK_WIDGET(hsep), FALSE, FALSE, 0);
 
-	/* Adds widget to container . Typically used for simple containers such as GtkWindow,
+/* Adds widget to container . Typically used for simple containers such as GtkWindow,
  * GtkFrame, or GtkButton; for more complicated layout containers such as GtkBox or GtkGrid,
  * this function will pick default packing parameters that may not be correct.
  *
