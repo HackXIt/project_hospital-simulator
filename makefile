@@ -2,8 +2,11 @@
 CC=gcc
 # WORKSPACE=/home/rini-debian/git-stash/HWSE2/project_hospital-simulator
 # INC=-iquote${WORKSPACE}/inc
-CFLAGS=-std=c99 -Wall -Wextra -pedantic -g -Wno-unused-parameter
+CFLAGS=-Wall -Wextra -pedantic -g -Wno-unused-parameter
 BUILD=./build/
+# For GTK
+GTKFLAGS=`pkg-config --cflags gtk+-3.0`
+GTKLIB=`pkg-config --libs gtk+-3.0`
 # VPATH:=src:build
 # These define where make should look for certain project files
 vpath %.o ./build
@@ -22,6 +25,9 @@ vpath %.h ./src
 # target: test.c
 # 	$(CC) $(CFLAGS) $< -o $(BUILD)$@
 
+gtk3.o: gtk3.c gtk3.h
+	$(CC) $(GTKFLAGS) -c $< -o $(BUILD)$@ $(GTKLIB)
+
 # Automatic variable for object files
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $(BUILD)$@
@@ -30,12 +36,16 @@ vpath %.h ./src
 all: current
 
 # Executed with: make current
-current: main.c seat_rows.o
-	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
+current: main.c seat_rows.o persons.o gtk3.o
+	$(CC) $(GTKFLAGS) $(CFLAGS) $^ -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make test
 test: test.c test.h
 	$(CC) $(CFLAGS) $< -o $(BUILD)$@
+
+# Executed with: make gtk
+gtk: gtk3.c gtk3.h
+	$(CC) $(GTKFLAGS) $< -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make clean
 clean:
