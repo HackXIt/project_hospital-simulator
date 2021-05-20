@@ -13,17 +13,17 @@
 #include "persons.h"
 #include "seat_rows.h"
 /*--- MACROS ---*/
-#define SCALES 3
-
 #define ENTRYS 4
 #define BUF 50
 #define MAX_ROWS 5
 
 //Global Variable:
 static GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
-static gint;
-
-
+ListPersons_t *list = NULL;
+ListPersons_t *active_P = NULL;
+ListPersons_t *completed_P = NULL;
+ListRows_t *row_ = NULL;
+ListRows_t **rows_ = NULL;
 
 static void end(GtkWidget *widget, gpointer data)
 {
@@ -34,12 +34,9 @@ static void end(GtkWidget *widget, gpointer data)
 /* Evaluation input fields */
 static void entry_evaluation(gpointer evalu)
 {
-	gchar *first_name, *last_name, *arrival; //, *seat;
-	unsigned short num;
-    ListPersons_t *list;
-    Person_t *person;
-    ListRows_t *row;
-    ListRows_t *rows[MAX_ROWS];
+	char *first_name, *last_name, arrival; //, *seat;
+	unsigned short num = 0;
+    Person_t *person = NULL;
 
 	g_object_get(entry[0], "text", &first_name, NULL);
 	g_object_get(entry[1], "text", &last_name, NULL);
@@ -52,7 +49,9 @@ static void entry_evaluation(gpointer evalu)
 //TODO: Arrival Button mit Combo Boxen belegen "Z" oder "R" soll ausgewählt werden können.
 
 
-//TODO: fillStructPerson wird derzeit nicht richtig befülllt da Arrival nicht befüllt wird. Diese Funktion wird noch implementiert.
+//TODO: fillStructPerson wird derzeit nicht vollständig befülllt da Arrival fehlt.
+// Diese Funktion wird mit den Combo Boxen implementiert.
+//TODO: Rückgabewert von fillStructPerson muss noch geändert werden
     fillStructPerson(num, arrival, first_name, last_name);
 //      fillStructPersonMan(ListPersons_t *list);
 
@@ -64,10 +63,10 @@ static void entry_evaluation(gpointer evalu)
 
 //TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werden.
 
-    ListRows_t *createRow();
-    occupySeat(row, person); //TODO: Segmentation Fault
+    createRow();
+    occupySeat(row_, person); //TODO: Segmentation Fault
 // int assignSeat(ListRows_t *row, Person_t *person);
-    selectRow(rows[MAX_ROWS], person);
+    selectRow(rows_, person);
 
 
     //   g_print("Seat/Row      : %s\n", seat);
@@ -75,16 +74,15 @@ static void entry_evaluation(gpointer evalu)
 
 
 }
-/* Reset input fields - delete */
-static void entry_loeschen(gpointer evalu) {
-    gint i;
-    for(i=0; i<ENTRYS-2; i++)
-        gtk_entry_set_text(entry[i], "");
-}
+
 
 
 int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
 {
+    active_P = active;
+    completed_P = completed;
+    rows_ = rows;
+
 	GtkWindow *win;
 	GdkPixbuf *pic;
 	GtkGrid *table; //Pack widgets in rows and columns
