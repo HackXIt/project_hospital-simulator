@@ -32,7 +32,7 @@ static void end(GtkWidget *widget, gpointer data)
 }
 
 /* Evaluation input fields */
-static void entry_evaluation(gpointer evalu)
+static void entry_evaluation()
 {
 	char *first_name, *last_name, arrival; //, *seat;
 	unsigned short num = 0;
@@ -96,8 +96,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 
 	gtk_init(&argc, &argv);
 	// Load a graphic into a pixbuf
-//TODO pic necessary?
-	pic = gdk_pixbuf_new_from_file("icon/at-work.gif", NULL);
+	pic = gdk_pixbuf_new_from_file("icon/a.gif", NULL);
 	// Create window with the following properties:
 	win = g_object_new(GTK_TYPE_WINDOW,
 					   "title", "Hospital Simulator",
