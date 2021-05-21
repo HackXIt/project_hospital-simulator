@@ -32,6 +32,7 @@ typedef struct Seat
 typedef struct ListPersons
 {
 	unsigned short count;
+	unsigned short countZivil;
 	struct Person *start;
 	struct Person *last;
 } ListPersons_t;
