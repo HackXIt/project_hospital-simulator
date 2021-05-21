@@ -2,13 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /*--- CUSTOM LIBRARIES ---*/
 #include "hospital_structures.h"
 #include "persons.h"
 
 /*--- MACROS ---*/
-#define MAXLENGTH_NAME 20
+#define MAX_LENGTH_NAME 20
+#define MAX_PERSONS_SEATED 25 // Max.  number of seated persons
+#define MAX_PERSONS_ACTIVE 50 // Max. number of active persons
+#define MAX_PERSONS_COMPLETED 100 // Max. number of completed persons
 
 // TODO Error handling in this file
 
@@ -44,7 +48,7 @@ Person_t * fillStructPerson(unsigned short num, char arrival, char *first_name, 
 	Person_t * newPerson = createStructPerson();
 
 	// set num
-	newPerson->num = num;
+	newPerson->num = num; // TODO how should this number be assigned in GTK framework?
 
 	// set arrival
 	newPerson->arrival = arrival;
@@ -66,79 +70,42 @@ Person_t * fillStructPerson(unsigned short num, char arrival, char *first_name, 
 	}
 	strcpy(newPerson->last_name, last_name);
 
-	/*
-	newPerson->neighbour[0] = NULL; // TODO Ask colleagues is this necessary?
-    newPerson->neighbour[1] = NULL;
-*/
 	return newPerson;
 }
-
-// TODO implement function - is this even necessary?
-// Fill empty struct of person with information provided by user input
-/*
-Person_t * fillStructPersonMan(ListPersons_t *list){
-    // create empty struct
-    Person_t * newPerson = createStructPerson();
-
-    // set num
-    newPerson->num = list->count + 1;
-
-    // set arrival
-    char c;
-    char buf[2];
-    printf("Insert Type of arrival: ");
-    do {scanf("%c",&c);} while ( getchar() != '\n' );
-    newPerson->arrival = c;
-
-    // set first name
-    char firstName [MAXLENGTH_NAME];
-    printf("Insert first name: ");
-    scanf("%s", firstName);
-    newPerson->first_name = malloc(sizeof(char) * (MAXLENGTH_NAME+1));
-    if (newPerson->first_name == NULL) {
-        free(newPerson);
-        return NULL;
-    }
-    strcpy(newPerson->first_name, firstName);
-
-    // set last name
-    char lastName [MAXLENGTH_NAME];
-    printf("Insert last name: ");
-    scanf("%s", lastName);
-    newPerson->last_name = malloc(sizeof(char) * (MAXLENGTH_NAME+1));
-    if (newPerson->last_name == NULL) {
-        free(newPerson);
-        return NULL;
-    }
-    strcpy(newPerson->last_name, lastName);
-
-    return newPerson;
-
-}
-*/
 
 // Insert person into list of persons according to mode of arrival
 int addPerson(ListPersons_t *list, Person_t *person) {
 
-	Person_t *newPerson = person;
+	// check if person can be added, considering limits
+    if (list->count >= MAX_PERSONS_ACTIVE) {
+        fprintf(stderr, "New person can not be added - Limit reached, no more new active patients allowed.\n");
+        return -1;
+    }
+
+	if (person->arrival == 'Z') {
+        if (list->countZivil >= MAX_PERSONS_SEATED) {
+            fprintf(stderr,"New person with mode of arrival 'Zivil' can not be added - Limit reached, no seats left.\n");
+            return -1;
+        }
+	}
 
     // if list is empty: insert new person as first element (can be either type R or Z)
 	if (list->start == NULL) {
-		list->start = newPerson;
-		list->last = newPerson;
+		list->start = person;
+		list->last = person;
 
 	// if list ist not empty: find place for insertion depending on mode of arrival R or Z
 	} else {
 
 		Person_t *tmp = list->start;
 
-		if (newPerson->arrival == 'R') {
+		if (person->arrival == 'R') {
 
 			// case 1: only Zs in list! - insert R  before first Z
 			if (tmp->arrival == 'Z'){
-				tmp->node.prev = newPerson;
-				newPerson->node.next = tmp;
-				list->start = newPerson; // assign pointer to new start
+				tmp->node.prev = person;
+				person->node.next = tmp;
+				list->start = person; // assign pointer to new start
 
             // case 2: Rs and Zs in list - insert R before first Z
 			} else {
@@ -146,40 +113,91 @@ int addPerson(ListPersons_t *list, Person_t *person) {
                     tmp = tmp->node.next; //
                 }
                 if (tmp->arrival = 'Z') { // if tmp->arrival is NOT Z, we are at end of list, skip this part
-                    newPerson->node.prev = tmp->node.prev; // set last r as previous of newPerson, link between newPerson and previous element - established in newPerson
-                    newPerson->node.next = tmp; // set tmp as next of newPerson, link between newPerson and following element - established in newPerson
-                    tmp->node.prev->node.next = newPerson; // set of newPerson as next of last r, link between newPerson and previous element - established in previous element
-                    tmp->node.prev = newPerson; // set newPerson als previous of tmp, link between newPerson and following element - established in following element
+                    person->node.prev = tmp->node.prev; // set last r as previous of person, link between person and previous element - established in person
+                    person->node.next = tmp; // set tmp as next of person, link between person and following element - established in person
+                    tmp->node.prev->node.next = person; // set person as next of last r, link between person and previous element - established in previous element
+                    tmp->node.prev = person; // set person als previous of tmp, link between person and following element - established in following element
                 }
             }
 
         // case 3: type R: only Rs in list - insert last OR case 4: type Z: always insert last
 		} else {
 			tmp = list->last;
-			tmp->node.next = newPerson; // set newPerson als new last element
-			newPerson->node.prev = tmp; // set tmp as previous element of newPerson
-		    list->last = newPerson;
+			tmp->node.next = person; // set person als new last element
+			person->node.prev = tmp; // set tmp as previous element of person
+		    list->last = person;
 		}
 	}
+
+	// adjust count
     list->count = list->count + 1;
-	return 0;
+    if (person->arrival == 'Z'){
+        list->countZivil = list->countZivil + 1;
+    }
+
+    return 0;
+}
+
+int appendPerson(Person_t *person, ListPersons_t *list) {
+
+    Person_t *tmp = NULL;
+
+    // delete first element if limit is reached
+    if (list->count >= MAX_PERSONS_COMPLETED) {
+        tmp = list->start;
+        list->start = tmp->node.next;
+        free(tmp->first_name);
+        free(tmp->last_name);
+        free(tmp);
+    }
+
+    // if list is empty: insert new person as first element
+    if (list->start == NULL) {
+        list->start = person;
+        list->last = person;
+        person->node.prev = NULL;
+        person->node.next = NULL; // necessary, because initially filled with next of active list
+    } else {
+        // append person as last element
+        tmp = list->last;
+        tmp->node.next = person; // set person als new last element
+        person->node.prev = tmp; // set tmp as previous element of person
+        person->node.next = NULL;
+        list->last = person;
+    }
+
+    // adjust count
+    list->count = list->count + 1;
+    if (person->arrival == 'Z'){
+        list->countZivil = list->countZivil + 1;
+    }
+
+    return 0;
 }
 
 // Move person from list - always first person
-int movePerson(ListPersons_t *list) {
-    if (list->start == NULL) {
+int movePerson(ListPersons_t *listActive, ListPersons_t *listCompleted) {
+
+    Person_t *tmp = listActive->start;
+
+    if (tmp == NULL) {
         fprintf(stderr, "List is empty.\n");
         return -1;
     }
-    Person_t *tmp = list->start;
-    list->start = list->start->node.next;
 
-    free(tmp->first_name);
-    free(tmp->last_name);
-    free(tmp);
+    // reassign pointer to start of list
+    listActive->start = tmp->node.next;
 
-    list->count = list->count - 1;
+    // append to list of completed persons
+    appendPerson(tmp, listCompleted);
 
+    // adjust count
+    listActive->count = listActive->count - 1;
+    if (tmp->arrival == 'Z'){
+        listActive->countZivil = listActive->countZivil - 1;
+    }
+    printf("Patient moved to list of completed patients:\n");
+    printPerson(tmp);
     return 0;
 }
 
@@ -187,48 +205,65 @@ int movePerson(ListPersons_t *list) {
 void freeListPersons(ListPersons_t *list){
 
 	Person_t *tmp = list->start;
+    if (list->start == NULL) {
+        fprintf(stderr, "List is empty.\n");
+        return;
+    }
 	while (tmp->node.next != NULL) { // until finding last element tmp at end of list
     	Person_t *next = tmp->node.next; // set pointer to next element in list after tmp
     	free(tmp->first_name);
         free(tmp->last_name);
         free(tmp);
-        tmp = next; // set previously safed element next as new tmp
+        tmp = next; // set previously saved element next as new tmp
     }
     printf("Success: Freeing list of persons.\n");
 }
 
+
+void printPerson(Person_t *person) {
+    printf("Number: %d\tArrival: %c\tFirst name: %s\tLast name: %s\t\t", person->num, person->arrival, person->first_name, person->last_name);
+    if (person->neighbour[0] == NULL) {
+        printf("Neighbour 1: None.\t");
+    } else {
+        printf("Neighbour 1: %s %s\t", person->neighbour[0]->first_name, person->neighbour[0]->last_name);
+    }
+    if (person->neighbour[1] == NULL) {
+        printf("Neighbour 2: None.\t");
+    } else {
+        printf("Neighbour 2: %s %s\t", person->neighbour[0]->first_name, person->neighbour[0]->last_name);
+    }
+    printf("\n");
+}
 // Print list of persons
 // TODO names of neighbours need to be printed correctly
 void printListPersons(ListPersons_t *list) {
+    if (list->start == NULL) {
+        fprintf(stderr, "List is empty.\n");
+    }
     Person_t *tmp = list->start;
     while (tmp != NULL) { // until end of list
-        printf("Number: %d\tArrival: %c\tFirst name: %s\tLast name: %s\t",
-               tmp->num, tmp->arrival, tmp->first_name, tmp->last_name);
-        if (tmp->neighbour[0] == NULL) {
-            printf("Neighbour 1: None.\t");
-        } else {
-            printf("Neighbour 1: %s %s\t", tmp->neighbour[0]->first_name,
-                   tmp->neighbour[0]->last_name); // TODO is this dereferenced correctly??
-        }
-            if (tmp->neighbour[1] == NULL) {
-                printf("Neighbour 2: None.\t");
-            } else {
-                printf("Neighbour 2: %s %s\t", tmp->neighbour[0]->first_name,
-                       tmp->neighbour[0]->last_name); // TODO is this dereferenced correctly??
-            }
-            printf("\n");
-            tmp = tmp->node.next; // set next element as tmp
-        }
-        printf("Final count: %hu\n", list->count);
+        printPerson(tmp);
+        tmp = tmp->node.next; // set next element as tmp
     }
+    printf("Final count: %hu\n", list->count);
+    printf("Zivil persons count: %hu\n", list->countZivil);
+}
 
 // Export Persons
 // TODO names of neighbours need to be printed correctly
 void exportListPersons(ListPersons_t *list) {
 
     // Create file
+
     FILE *fp;
-    fp = fopen("export.txt", "w");
+    // fp = fopen("export.txt", "w");
+    char name[40];
+
+    time_t now = time(NULL);
+    struct tm *timenow = localtime(&now);
+
+    strftime(name, sizeof(name), "Export_%Y-%m-%d_%H:%M:%S", timenow);
+    fp = fopen(name,"w");
 
     // Check if valid pointer has been returned
     if (fp == NULL) {
