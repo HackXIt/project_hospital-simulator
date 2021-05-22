@@ -12,18 +12,17 @@
 #include "gtk3.h"
 #include "persons.h"
 #include "seat_rows.h"
+#include "hospital_structures.h" // Is listed here for completion, but not necessary since gtk3.h includes it
 /*--- MACROS ---*/
+#define DEBUG
 #define ENTRYS 4
 #define BUF 50
 #define MAX_ROWS 5
 
 //Global Variable:
-static GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
-ListPersons_t *list = NULL;
 ListPersons_t *active_P = NULL;
 ListPersons_t *completed_P = NULL;
-ListRows_t *row_ = NULL;
-ListRows_t **rows_ = NULL;
+ListRows_t **all_rows = NULL;
 // char current_arrival_type;
 
 // Enum for the arrival combobox
@@ -35,6 +34,39 @@ enum
 	N_COLUMNS
 };
 
+typedef struct gtk_patient_info
+{
+	GtkWidget *first_name_entry;
+	GtkWidget *last_name_entry;
+	GtkWidget *arrival_combobox;
+} gtk_patient_info_t;
+
+char get_arrival_type_from_combobox(GtkComboBox *combobox)
+{
+	GtkListStore *store;
+	GtkTreeIter iter;
+	int return_value;
+	int row;
+	gchar *arrival_string;
+	gchar arrival_type;
+
+	return_value = gtk_combo_box_get_active_iter(combobox, &iter);
+	// g_print("Return: %i\n", return_value);
+	store = GTK_LIST_STORE(gtk_combo_box_get_model(combobox));
+	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+					   COLUMN_INT, &row,
+					   COLUMN_CHAR, &arrival_type,
+					   COLUMN_STRING, &arrival_string,
+					   -1);
+#ifdef DEBUG
+	g_print("DEBUG get_arrival_type_from_combobox():\n");
+	g_print("element-number: %i\n", row);
+	g_print("arrival_string: %s\n", arrival_string);
+	g_print("arrival_type: %c\n", arrival_type);
+#endif
+	return arrival_type;
+}
+
 static void on_destroy(GtkWidget *widget, gpointer data)
 {
 	g_print("Good Bye!\n");
@@ -42,46 +74,44 @@ static void on_destroy(GtkWidget *widget, gpointer data)
 }
 
 /* Evaluation input fields */
-static void on_add_Patient_clicked()
+static void on_add_Patient_clicked(GtkButton *button, gpointer data)
 {
-	char *first_name, *last_name, arrival; //, *seat;
+	gtk_patient_info_t *patient_info = data;
+	char *first_name;
+	char *last_name;
+	char arrival;
 	unsigned short num = 0;
 	Person_t *person = NULL;
 
-	g_object_get(entry[0], "text", &first_name, NULL);
-	g_object_get(entry[1], "text", &last_name, NULL);
-	//   g_object_get(entry[2], "text", &arrival, NULL);
-	//    g_object_get(entry[3], "text", &seat, NULL);
+#ifdef DEBUG
+	g_print(GTK_IS_WIDGET(patient_info->first_name_entry) ? "First_Name: true\n" : "First_Name: false\n");
+	g_print(GTK_IS_WIDGET(patient_info->last_name_entry) ? "Last_Name: true\n" : "Last_Name: false\n");
+	g_print(GTK_IS_WIDGET(patient_info->arrival_combobox) ? "Arrival_Combobox: true\n" : "Arrival_Combobox: false\n");
+#endif
+
+	first_name = (char *)gtk_entry_get_text(GTK_ENTRY(patient_info->first_name_entry));
+	last_name = (char *)gtk_entry_get_text(GTK_ENTRY(patient_info->last_name_entry));
+	arrival = get_arrival_type_from_combobox(GTK_COMBO_BOX(patient_info->arrival_combobox));
+
+#ifdef DEBUG
 	g_print("Entry-Field Evaluation:\n");
-	g_print("First Name   : %s\n", first_name);
-	g_print("Last Name   : %s\n", last_name);
-
-	//TODO: Arrival Button mit Combo Boxen belegen "Z" oder "R" soll ausgewählt werden können.
-
-	//TODO: fillStructPerson wird derzeit nicht vollständig befülllt da Arrival fehlt.
-	// Diese Funktion wird mit den Combo Boxen implementiert.
-	//TODO: Rückgabewert von fillStructPerson muss noch geändert werden
-	fillStructPerson(num, arrival, first_name, last_name);
-	//      fillStructPersonMan(ListPersons_t *list);
-
-	addPerson(list, person);
-	movePerson(list);
-	freeListPersons(list);
-	printListPersons(list);
-	exportListPersons(list);
-
-	//TODO: Seat/Row kein Textfeld sondern soll durch den Button NEw Patient angestoßen werden.
-
-	createRow();
-	occupySeat(row_, person); //TODO: Segmentation Fault
-							  // int assignSeat(ListRows_t *row, Person_t *person);
-	selectRow(rows_, person);
-
-	//   g_print("Seat/Row      : %s\n", seat);
-	//   g_print("---------------------------\n");
+	g_print("First Name: %s\n", first_name);
+	g_print("Last Name: %s\n", last_name);
+	g_print("Arrival: %c\n", arrival);
+#endif
+	person = fillStructPerson(num, arrival, first_name, last_name);
+	if (addPerson(active_P, person) < 0)
+	{
+		fprintf(stderr, "Failed to add Person.\n");
+	}
+	if (selectRow(all_rows, person) < 0)
+	{
+		fprintf(stderr, "Failed to select row.\n");
+	}
+	g_print("Person hinzugefügt.\n");
 }
 
-static void on_next_Patient_clicked()
+static void on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
 	// TODO Callback for nextPatient
 	g_print("Not implemented!\n");
@@ -89,34 +119,20 @@ static void on_next_Patient_clicked()
 
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)
 {
-	GtkListStore *store;
-	GtkTreeIter iter;
-	int return_value;
-	int row;
-	char *arrival_string;
-	char arrival_type;
-
-	return_value = gtk_combo_box_get_active_iter(combobox, &iter);
-	g_print("Return: %i\n", return_value);
-	store = GTK_LIST_STORE(gtk_combo_box_get_model(combobox));
-	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
-					   COLUMN_INT, &row,
-					   COLUMN_CHAR, &arrival_type,
-					   COLUMN_STRING, &arrival_string,
-					   -1);
-	g_print("Arrival Type: %c\n", arrival_type);
+	g_print("Arrival Type: %c\n", get_arrival_type_from_combobox(combobox));
 }
 
 int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
 {
 	active_P = active;
 	completed_P = completed;
-	rows_ = rows;
+	all_rows = rows;
 
 	GtkWindow *win;
 	GdkPixbuf *pic;
 	GtkGrid *table; //Pack widgets in rows and columns
 	GtkLabel *label[ENTRYS];
+	GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
 	GtkButton *entry_button[3];
 	GtkWidget *hbox, *hbox_2, *hbox_3, *hbox_vscale; //Base class for all widgets
 	GtkWidget *vbox, *vbox_spin;					 //Base class for all widgets
@@ -212,17 +228,23 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	// Create horizontal line
 	hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 
+	// Initialize struct for all the relevant patient_information widgets
+	gtk_patient_info_t patient_info = {
+		.first_name_entry = GTK_WIDGET(entry[0]),
+		.last_name_entry = GTK_WIDGET(entry[1]),
+		.arrival_combobox = arrival_combobox};
+
 	// Create Signalhandler for closing program
 	g_signal_connect(win, "destroy",
 					 G_CALLBACK(on_destroy), NULL);
 
 	// Signalhandler for the Buttons
-	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(on_add_Patient_clicked), NULL);
+	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(on_add_Patient_clicked), &patient_info);
 	//	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
-	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(on_next_Patient_clicked), NULL);
+	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(on_next_Patient_clicked), &patient_info);
 
 	// Signalhandler for combobox
-	g_signal_connect(arrival_combobox, "changed", G_CALLBACK(on_arrival_combobox_changed), NULL);
+	g_signal_connect(arrival_combobox, "changed", G_CALLBACK(on_arrival_combobox_changed), &patient_info);
 
 	/* Great packing of the widgets begins
 *  Adds a widget to the grid.
