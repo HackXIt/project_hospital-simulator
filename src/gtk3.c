@@ -113,14 +113,19 @@ static void on_add_Patient_clicked(GtkButton *button, gpointer data)
 
 static void on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
-	// TODO Callback for nextPatient
-	g_print("Not implemented!\n");
-}
+//    TODO Callback for nextPatient
 
+//    movePerson(active_P, completed_P);
+//    appendPerson(person, list);
+//    printListPerson(list);
+	  g_print("Not implemented!\n");
+}
+/*
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)
 {
 	g_print("Arrival Type: %c\n", get_arrival_type_from_combobox(combobox));
 }
+*/
 
 int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
 {
@@ -137,6 +142,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	GtkWidget *hbox, *hbox_2, *hbox_3, *hbox_vscale; //Base class for all widgets
 	GtkWidget *vbox, *vbox_spin;					 //Base class for all widgets
 	GtkWidget *hsep;
+    GError *err = NULL;
 	GtkWidget *arrival_combobox;	  // the combo-box widget, it is easier to cast to other types from Widget instead of other way around
 	GtkListStore *arrival_list_store; // Storage for the arrival types & strings
 	GtkTreeIter iterator;			  // required for the list storage to set rows
@@ -144,9 +150,13 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	gchar buf[BUF];
 
 	gtk_init(&argc, &argv);
-	// Load a graphic into a pixbuf
-	pic = gdk_pixbuf_new_from_file("icon/a.gif", NULL);
-	// Create window with the following properties:
+    // Load a graphic into a pixbuf
+    const gchar *const icon_name = "Icon.png";
+    pic = gdk_pixbuf_new_from_file(icon_name, &err);
+    (pic == NULL ) ? g_print("The following error is occurred: %s\n", err->message)
+                   : gtk_window_set_default_icon( pic );
+
+    // Create window with the following properties:
 	win = g_object_new(GTK_TYPE_WINDOW,
 					   "title", "Hospital Simulator",
 					   "default-width", 380,
@@ -244,7 +254,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(on_next_Patient_clicked), &patient_info);
 
 	// Signalhandler for combobox
-	g_signal_connect(arrival_combobox, "changed", G_CALLBACK(on_arrival_combobox_changed), &patient_info);
+	g_signal_connect(arrival_combobox, "changed", G_CALLBACK(get_arrival_type_from_combobox), &patient_info);
 
 	/* Great packing of the widgets begins
 *  Adds a widget to the grid.
@@ -295,7 +305,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 */
 
 	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[0]), FALSE, FALSE, 0); //New Button
-																					 //	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[1]), FALSE, FALSE, 0); //Reset Button
+
 	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[2]), FALSE, FALSE, 0); //Next Button
 
 	gtk_box_pack_start(GTK_BOX(vbox_spin), GTK_WIDGET(hsep), FALSE, FALSE, 0);
