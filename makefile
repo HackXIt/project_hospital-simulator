@@ -3,7 +3,6 @@ CC=gcc
 CFLAGS=$(INC) -Wall -Wextra -pedantic -g -Wno-unused-parameter
 INC=-Iinc
 BUILD=./build/
-SOURCE=./src/
 # For GTK
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 GTKLIB=`pkg-config --libs gtk+-3.0`
@@ -12,10 +11,8 @@ vpath %.o ./build
 vpath %.c ./src
 vpath %.h ./inc
 
-_OBJECTS=gtk3.o seat_rows.o persons.o
-OBJECTS=$(patsubst %,$(BUILD)%,$(_OBJECTS))
-
 # Found this function here: https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
+# about patsubst: https://www.gnu.org/software/make/manual/html_node/Text-Functions.html
 _OBJECTS=gtk3.o seat_rows.o persons.o
 OBJECTS=$(patsubst %,$(BUILD)%,$(_OBJECTS))
 
