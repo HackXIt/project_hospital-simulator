@@ -14,7 +14,6 @@ struct node_s
 
 typedef struct Person
 {
-	unsigned short num;
 	char arrival; // Valid arrivals are: Z, R, (K is optional)
 	char *first_name;
 	char *last_name;

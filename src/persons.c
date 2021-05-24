@@ -42,13 +42,10 @@ ListPersons_t *createListPersons() {
 }
 
 // Fill empty struct of person with given information
-Person_t * fillStructPerson(unsigned short num, char arrival, char *first_name, char *last_name) {
+Person_t * fillStructPerson(char arrival, char *first_name, char *last_name) {
 
 	// create empty struct
 	Person_t * newPerson = createStructPerson();
-
-	// set num
-	newPerson->num = num; // TODO how should this number be assigned in GTK framework?
 
 	// set arrival
 	newPerson->arrival = arrival;
@@ -221,7 +218,7 @@ void freeListPersons(ListPersons_t *list){
 
 
 void printPerson(Person_t *person) {
-    printf("Number: %d\tArrival: %c\tFirst name: %s\tLast name: %s\t\t", person->num, person->arrival, person->first_name, person->last_name);
+    printf("Arrival: %c\tFirst name: %s\tLast name: %s\t", person->arrival, person->first_name, person->last_name);
     if (person->neighbour[0] == NULL) {
         printf("Neighbour 1: None.\t");
     } else {
@@ -273,8 +270,8 @@ void exportListPersons(ListPersons_t *list) {
     // Print list of persons into file
     Person_t *tmp = list->start;
     while (tmp != NULL) { // until end of list
-        fprintf(fp,"Number: %d\tArrival: %c\tFirst name: %s\tLast name: %s\tSeat Number: \tNeighbour 1: \tNeighbour 2: \t",
-                tmp->num, tmp->arrival, tmp->first_name, tmp->last_name);
+        fprintf(fp,"Arrival: %c\tFirst name: %s\tLast name: %s\tSeat Number: \tNeighbour 1: \tNeighbour 2: \t",
+                tmp->arrival, tmp->first_name, tmp->last_name);
         if (tmp->neighbour[0] == NULL) {
             fprintf(fp, "Neighbour 1: None.\t");
         } else {
