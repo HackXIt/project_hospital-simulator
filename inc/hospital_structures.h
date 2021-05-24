@@ -14,7 +14,6 @@ struct node_s
 
 typedef struct Person
 {
-	unsigned short num;
 	char arrival; // Valid arrivals are: Z, R, (K is optional)
 	char *first_name;
 	char *last_name;
@@ -32,6 +31,7 @@ typedef struct Seat
 typedef struct ListPersons
 {
 	unsigned short count;
+	unsigned short countZivil;
 	struct Person *start;
 	struct Person *last;
 } ListPersons_t;
