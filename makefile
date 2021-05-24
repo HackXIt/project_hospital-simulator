@@ -50,3 +50,6 @@ gtk: gtk3.c gtk3.h
 # Executed with: make clean
 clean:
 	rm $(BUILD)*.o $(BUILD)current
+
+# For targets which don't have any input-files
+.PHONY: clean
