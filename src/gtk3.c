@@ -55,7 +55,7 @@ static void on_destroy(GtkWidget *widget, gpointer data)
 }
 
 /* Evaluation input fields */
-static void on_add_Patient_clicked(GtkButton *button, gpointer data)
+static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	char *first_name;
@@ -95,6 +95,9 @@ static void on_add_Patient_clicked(GtkButton *button, gpointer data)
 		fprintf(stderr, "Failed to select row.\n");
 	}
 	g_print("Person hinzugefügt.\n");
+	gtk_entry_set_text(GTK_ENTRY(patient_info->first_name_entry), "Type here ...");
+	gtk_entry_set_text(GTK_ENTRY(patient_info->last_name_entry), "Type here ...");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(patient_info->arrival_combobox), -1); // Resets the combo-box to 'No active item'
 }
 
 static void on_next_Patient_clicked(GtkButton *button, gpointer data)
@@ -225,7 +228,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 					 G_CALLBACK(on_destroy), NULL);
 
 	// Signalhandler for the Buttons
-	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(on_add_Patient_clicked), &patient_info);
+	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(on_new_Patient_clicked), &patient_info);
 	//	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
 	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(on_next_Patient_clicked), &patient_info);
 
