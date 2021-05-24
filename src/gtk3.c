@@ -19,15 +19,6 @@
 #define BUF 50
 #define MAX_ROWS 5
 
-// Enum for the arrival combobox
-enum
-{
-	COLUMN_INT,
-	COLUMN_CHAR,
-	COLUMN_STRING,
-	N_COLUMNS
-};
-
 typedef struct gtk_patient_info
 {
 	GtkWidget *first_name_entry;
@@ -38,35 +29,6 @@ typedef struct gtk_patient_info
 	ListRows_t **rows;
 } gtk_patient_info_t;
 
-// When using GTK_COMBO_BOX, this implementation is needed to get the arrival_type
-/*
-char get_arrival_type_from_combobox(GtkComboBox *combobox)
-{
-	GtkListStore *store;
-	GtkTreeIter iter;
-	int return_value;
-	int row;
-	gchar *arrival_string;
-	gchar arrival_type;
-
-	return_value = gtk_combo_box_get_active_iter(combobox, &iter);
-	// g_print("Return: %i\n", return_value);
-	store = GTK_LIST_STORE(gtk_combo_box_get_model(combobox));
-	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
-					   COLUMN_INT, &row,
-					   COLUMN_CHAR, &arrival_type,
-					   COLUMN_STRING, &arrival_string,
-					   -1);
-#ifdef DEBUG
-	g_print("DEBUG get_arrival_type_from_combobox():\n");
-	g_print("element-number: %i\n", row);
-	g_print("arrival_string: %s\n", arrival_string);
-	g_print("arrival_type: %c\n", arrival_type);
-#endif
-	return arrival_type;
-}
-*/
-// When using GTK_COMBO_BOX_TEXT, this implementation is needed to get the arrival_type
 char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 {
 	char arrival_type;
@@ -111,9 +73,6 @@ static void on_add_Patient_clicked(GtkButton *button, gpointer data)
 
 	first_name = (char *)gtk_entry_get_text(GTK_ENTRY(patient_info->first_name_entry));
 	last_name = (char *)gtk_entry_get_text(GTK_ENTRY(patient_info->last_name_entry));
-	// When using GTK_COMBO_BOX, this implementation is needed to get the arrival_type
-	// arrival = get_arrival_type_from_combobox(GTK_COMBO_BOX(patient_info->arrival_combobox));
-	// When using GTK_COMBO_BOX_TEXT, this implementation is needed to get the arrival_type
 	arrival = get_arrival_type_from_combobox(GTK_COMBO_BOX_TEXT(patient_info->arrival_combobox));
 	if (arrival == 0)
 	{
@@ -140,11 +99,12 @@ static void on_add_Patient_clicked(GtkButton *button, gpointer data)
 
 static void on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
-	//    TODO Callback for nextPatient
-
-	//    movePerson(active_P, completed_P);
-	//    appendPerson(person, list);
-	//    printListPerson(list);
+	// TODO Callback for nextPatient
+	// Initialize local variable of gtk_patient_info_t
+	// In the following, it is necessary to dereference the given user-data to get the required pointers to the lists
+	// movePerson(Pointer-to-active-List, Pointer-to-completed-List);
+	// appendPerson() will be executed inside of movePerson()
+	// printListPerson(Pointer-to-active-List);
 	g_print("Not implemented!\n");
 }
 /*
@@ -174,9 +134,6 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	GtkWidget *hsep;
 	GError *err = NULL;
 	GtkWidget *arrival_combobox; // the combo-box widget, it is easier to cast to other types from Widget instead of other way around
-	// These variables are necessary when using GTK_COMBO_BOX instead of GTK_COMBO_BOX_TEXT
-	// GtkListStore *arrival_list_store; // Storage for the arrival types & strings
-	// GtkTreeIter iterator;			  // required for the list storage to set rows
 	guint i;
 	gchar buf[BUF];
 
@@ -253,26 +210,6 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(arrival_combobox),
 							  NULL,
 							  arrival_type_string[1]);
-	// Create list storage for combobox (Only need 2 entries)
-	// arrival_list_store = gtk_list_store_new(N_COLUMNS, G_TYPE_INT, G_TYPE_CHAR, G_TYPE_STRING);
-	// char arrival_type[] = {'Z', 'R'};
-	// char *arrival_type_string[] = {"Zivil", "Rettung"};
-	// // gchar arrival_Z = 'Z';
-	// // gchar arrival_R = 'R';
-	// for (int i = 0; i < 2; i++)
-	// {
-	// 	gtk_list_store_append(arrival_list_store, &iterator);
-	// 	gtk_list_store_set(arrival_list_store, &iterator,
-	// 					   COLUMN_INT, i,
-	// 					   COLUMN_CHAR, arrival_type[i],
-	// 					   COLUMN_STRING, arrival_type_string[i],
-	// 					   -1);
-	// }
-	// gtk_combo_box_set_model(GTK_COMBO_BOX(arrival_combobox), GTK_TREE_MODEL(arrival_list_store));
-	// Create combobox to set arrival type
-	// arrival_combobox = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(arrival_list_store));
-	// gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(arrival_combobox), COLUMN_STRING);
-	// g_object_unref(arrival_list_store);
 
 	// Create horizontal line
 	hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
