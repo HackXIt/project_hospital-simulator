@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(hospital_simulator C CXX)
 set(CMAKE_BUILD_TYPE "Debug")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 enable_testing()
 find_package(PkgConfig REQUIRED) # To check for the GTK Module
@@ -43,14 +43,15 @@ set(WARNING_LEVELS_GCC_DEBUG
 	-Wall
 	-Wextra
 	-Wno-unused-parameter
-	-pedantic
+	# -pedantic
+	-Wno-write-strings
 	-g
 )
 
 target_link_libraries(${PROJECT_NAME} ${GTK_LDFLAGS})
 target_compile_options(${PROJECT_NAME} PRIVATE ${GTK_CFLAGS} ${WARNING_LEVELS_GCC_DEBUG})
 
-target_link_libraries(${PROJECT_NAME}_unit_tests ${GTK_LDFLAGS} ${GTEST_LDFLAGS} libgtest libgtest_main)
+target_link_libraries(${PROJECT_NAME}_unit_tests ${GTK_LDFLAGS} ${GTEST_LDFLAGS} libgtest libgtest_main ${PROJECT_NAME}_library)
 target_compile_options(${PROJECT_NAME}_unit_tests PRIVATE ${GTK_CFLAGS} ${GTEST_CFLAGS} ${WARNING_LEVELS_GCC_DEBUG})
 
 gtest_discover_tests(${PROJECT_NAME}_unit_tests)
