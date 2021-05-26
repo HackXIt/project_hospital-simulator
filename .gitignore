@@ -19,7 +19,9 @@ CMakeFiles
 gtest
 CMakeCache.txt
 *_include.cmake
-cmake-build
+cmake-build/*
+!cmake-build/CMakeLists.txt
+!cmake-build/modules
 
 
 # ---- STEVE ----

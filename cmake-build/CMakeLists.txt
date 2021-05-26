@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(hospital_simulator C CXX)
 set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cmake-build/bin)
 
 enable_testing()
 find_package(PkgConfig REQUIRED) # To check for the GTK Module
@@ -12,10 +15,10 @@ include(GoogleTest)
 include(${CMAKE_CURRENT_SOURCE_DIR}/modules/CodeCoverage.cmake)
 append_coverage_compiler_flags()
 
-include_directories(inc ${GTK_INCLUDE_DIRS})
+include_directories(../inc ${GTK_INCLUDE_DIRS})
 link_directories(${GTK_LIBRARY_DIRS})
 
-file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.c)
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS ../src/*.c)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 add_library(${PROJECT_NAME}_library SHARED ${SRC_FILES})
 
@@ -25,7 +28,7 @@ add_dependencies(${PROJECT_NAME}
     libgtest_main
 )
 
-file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS tests/*.cxx)
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ../tests/*.cxx)
 add_executable(${PROJECT_NAME}_unit_tests ${TEST_FILES})
 add_dependencies(${PROJECT_NAME}_unit_tests
     ${PROJECT_NAME}_library
