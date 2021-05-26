@@ -10,13 +10,13 @@
 #include <stdbool.h> // for bool-datatype
 #include <unistd.h>	 // getopt(3)
 /*--- CUSTOM LIBRARIES ---*/
-#include "hospital_structures.h"
-#include "persons.h"
-#include "seat_rows.h"
-#include "gtk3.h"
+#include "hospital_structures.h" // -> Project-Datastructures
+#include "main.h"				 // -> Prototypes for this source
+#include "persons.h"			 // -> Functions for persons & personLists
+#include "seat_rows.h"			 // -> Functions for seats, rows & rowLists
+#include "gtk3.h"				 // -> Functions for GUI
 /*--- MACROS ---*/
 
-void print_help();
 int main(int argc, char *argv[])
 {
 	if (argc == 1) // Program is executed normally in GUI-Mode (no parameters given)
