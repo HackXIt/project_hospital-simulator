@@ -7,7 +7,6 @@
 /*--- COMMON LIBRARIES ---*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <gtk/gtk.h>
 /*--- CUSTOM LIBRARIES ---*/
 #include "gtk3.h"
 #include "persons.h"
@@ -18,16 +17,6 @@
 #define ENTRYS 4
 #define BUF 50
 #define MAX_ROWS 5
-
-typedef struct gtk_patient_info
-{
-	GtkWidget *first_name_entry;
-	GtkWidget *last_name_entry;
-	GtkWidget *arrival_combobox;
-	ListPersons_t *active_persons;
-	ListPersons_t *completed_persons;
-	ListRows_t **rows;
-} gtk_patient_info_t;
 
 char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 {
@@ -61,7 +50,6 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	char *first_name;
 	char *last_name;
 	char arrival;
-	unsigned short num = 0;
 	Person_t *person = NULL;
 
 #ifdef DEBUG
@@ -85,7 +73,7 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	g_print("Last Name: %s\n", last_name);
 	g_print("Arrival: %c\n", arrival);
 #endif
-	person = fillStructPerson(num, arrival, first_name, last_name);
+	person = fillStructPerson(arrival, first_name, last_name);
 	if (addPerson(patient_info->active_persons, person) < 0)
 	{
 		fprintf(stderr, "Failed to add Person.\n");
