@@ -1,6 +1,6 @@
 #ifndef SEAT_ROWS_H
 #define SEAT_ROWS_H
-
+#include "hospital_structures.h"
 #ifndef MAX_ROWS
 #define MAX_ROWS 5
 #endif
