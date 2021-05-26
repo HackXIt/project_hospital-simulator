@@ -1,5 +1,5 @@
 # Set the minimum version of cmake required to build this project
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_C_STANDARD)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
 
