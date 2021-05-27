@@ -12,7 +12,6 @@ TEST(person_unit_tests, DUMMY)
 {
 	EXPECT_EQ(1, 1);
 }
-
 TEST(person_unit_tests, fillStructPerson_assert_static)
 {
 	Person_t ref_person = {
