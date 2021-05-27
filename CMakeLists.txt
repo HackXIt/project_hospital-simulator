@@ -12,7 +12,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED "gtk+-3.0")
 
 
-include_directories(inc ${GTK_INCLUDE_DIRS})
+
 
 # Add other flags to the compiler
 ADD_DEFINITIONS(${GTK_CFLAGS_OTHER})
@@ -26,5 +26,5 @@ TARGET_LINK_LIBRARIES(6 ${GTK_LIBRARIES})
 
 # Setup CMake to use GTK+, tell the compiler where to look for headers
 # and to the linker where to look for libraries
-INCLUDE_DIRECTORIES(${GTK_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(inc ${GTK_INCLUDE_DIRS})
 LINK_DIRECTORIES(${GTK_LIBRARY_DIRS})
