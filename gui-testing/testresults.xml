@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<gtester>
+  <testbinary path=".">
+    <duration>0.001559</duration>
+  </testbinary>
+</gtester>
