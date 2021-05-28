@@ -4,8 +4,6 @@
 #define SUCCESS 1
 #define FAILURE 0
 
-extern FILE *quick_save;
-
 struct node_p
 {
 	struct Person *next;
@@ -23,15 +21,10 @@ typedef struct Person
 	char *first_name;
 	char *last_name;
 	struct Person *neighbour[2]; // storage of left & right neighbour
-	struct Seat_ref seat;		 // reference to seat, if any
+	struct Seat *seat;			 // reference to seat, if any
+	struct ListRows *row;
 	struct node_p node;
 } Person_t;
-
-typedef struct Seat_ref
-{
-	struct ListRows *row;
-	struct Seat *ref;
-} Seat_ref_t;
 
 typedef struct Seat
 {

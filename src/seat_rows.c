@@ -55,8 +55,8 @@ int occupySeat(ListRows_t *row, Person_t *person)
 	if (current->occupied == NULL)
 	{
 		current->occupied = person;
-		person->seat.ref = current;
-		person->seat.row = row;
+		person->seat = current;
+		person->row = row;
 		row->count++;
 		return EXIT_SUCCESS;
 	}
@@ -108,17 +108,21 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 
 int clearSeat(Person_t *person)
 {
-	if (person->seat.ref != NULL)
+	if (person->seat != NULL)
 	{
 		Seat_t *tmp = person->seat;
-		person->seat.ref = NULL;
-		tmp->person = NULL;
-		person->seat.row->count--;
-		person->seat.row = NULL;
+		person->seat = NULL;
+		tmp->occupied = NULL;
+		person->row->count--;
+		person->row = NULL;
 		return EXIT_SUCCESS;
 	}
 	else
 	{
+		/* NOTE This return value can be ignored
+		it just means the person wasn't of type 'Z' or didn't have a seat yet.
+		Nevertheless, nothing should be done.
+		*/
 		return EXIT_FAILURE;
 	}
 }
