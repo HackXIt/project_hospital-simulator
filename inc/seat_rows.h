@@ -9,6 +9,7 @@ ListRows_t *createRow();
 int occupySeat(ListRows_t *row, Person_t *person);
 // int assignSeat(ListRows_t *row, Person_t *person);
 int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person);
+int clearSeat(Person_t *person);
 int freeRow(ListRows_t *row);
 int freeSeat(Seat_t *seat);
 
