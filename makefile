@@ -49,8 +49,8 @@ current: main.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(GTKFLAGS) $^ -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make test
-$(BUILD)test: test.c
-	$(CC) $(CFLAGS) $< -o $(BUILD)$@
+quicksave: quick_save.c seat_rows.o persons.o
+	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
 
 # Executed with: make clean
 clean:
