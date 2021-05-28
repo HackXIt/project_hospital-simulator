@@ -1,6 +1,11 @@
 #ifndef HOSPITAL_STRUCTURES_H
 #define HOSPITAL_STRUCTURES_H
 
+#define SUCCESS 1
+#define FAILURE 0
+
+extern FILE *quick_save;
+
 struct node_p
 {
 	struct Person *next;
@@ -18,13 +23,19 @@ typedef struct Person
 	char *first_name;
 	char *last_name;
 	struct Person *neighbour[2]; // storage of left & right neighbour
-	struct Seat *seat;			 // reference to seat, if any
+	struct Seat_ref seat;		 // reference to seat, if any
 	struct node_p node;
 } Person_t;
 
-typedef struct Seat
+typedef struct Seat_ref
 {
-	struct Person *occupied; // if occupied != NULL then it is occupied
+	struct ListRows *row;
+	struct Seat *ref;
+} Seat_ref_t
+
+	typedef struct Seat
+{
+	struct Person *occupied; // if 'occupied != NULL' then it is occupied
 	struct node_s node;
 } Seat_t;
 

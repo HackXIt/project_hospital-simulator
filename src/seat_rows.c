@@ -55,7 +55,8 @@ int occupySeat(ListRows_t *row, Person_t *person)
 	if (current->occupied == NULL)
 	{
 		current->occupied = person;
-		person->seat = current;
+		person->seat.ref = current;
+		person->seat.row = row;
 		row->count++;
 		return EXIT_SUCCESS;
 	}
@@ -103,6 +104,23 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 	}
 	// TODO Error-Message when all rows are full
 	return EXIT_FAILURE;
+}
+
+int clearSeat(Person_t *person)
+{
+	if (person->seat.ref != NULL)
+	{
+		Seat_t *tmp = person->seat;
+		person->seat.ref = NULL;
+		tmp->person = NULL;
+		person->seat.row->count--;
+		person->seat.row = NULL;
+		return EXIT_SUCCESS;
+	}
+	else
+	{
+		return EXIT_FAILURE;
+	}
 }
 
 // Free the whole row from memory - Nick
