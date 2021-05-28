@@ -78,9 +78,12 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	{
 		fprintf(stderr, "Failed to add Person.\n");
 	}
-	if (selectRow(patient_info->rows, person) < 0)
+	if (person->arrival == 'Z')
 	{
-		fprintf(stderr, "Failed to select row.\n");
+		if (selectRow(patient_info->rows, person) < 0)
+		{
+			fprintf(stderr, "Failed to select row.\n");
+		}
 	}
 	g_print("Person hinzugefügt.\n");
 	gtk_entry_set_text(GTK_ENTRY(patient_info->first_name_entry), "Type here ...");
@@ -90,13 +93,9 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 
 static void on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
-	// TODO Callback for nextPatient
-	// Initialize local variable of gtk_patient_info_t
-	// In the following, it is necessary to dereference the given user-data to get the required pointers to the lists
-	// movePerson(Pointer-to-active-List, Pointer-to-completed-List);
-	// appendPerson() will be executed inside of movePerson()
-	// printListPerson(Pointer-to-active-List);
-	g_print("Not implemented!\n");
+	gtk_patient_info_t *patient_info = data;
+	movePerson(patient_info->active_persons, patient_info->completed_persons);
+	clearSeat(patient_info->completed_persons->last);
 }
 /*
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)
