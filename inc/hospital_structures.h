@@ -31,9 +31,9 @@ typedef struct Seat_ref
 {
 	struct ListRows *row;
 	struct Seat *ref;
-} Seat_ref_t
+} Seat_ref_t;
 
-	typedef struct Seat
+typedef struct Seat
 {
 	struct Person *occupied; // if 'occupied != NULL' then it is occupied
 	struct node_s node;
