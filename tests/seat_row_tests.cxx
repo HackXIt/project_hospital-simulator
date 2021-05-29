@@ -57,7 +57,6 @@ TEST(seat_rows_unit_tests, createRow ) {
     EXPECT_NE(createSeat(), NULL);
 }
 
-
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1 ){
         occupySeat(row[1], &p_1 ) ;
@@ -76,28 +75,32 @@ TEST(seat_rows_unit_tests, occupySeats_t3 ){
 }
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t4 ){
-    for(int i = 1; i <= 5; i ++) {
         occupySeat(row[1], &p_4 ) ;
         EXPECT_EQ(occupySeat(row[1], &p_4), 0);
-    }
 }
 // 0 is expected since occupying was successful
-TEST(seat_rows_unit_tests, occupySeats_t5 ){
-    for(int i = 1; i <= 5; i ++) {
+TEST(seat_rows_unit_tests, occupySeats_t5 ) {
         occupySeat(row[1], &p_5 ) ;
         EXPECT_EQ(occupySeat(row[1], &p_5), 0);
-    }
 }
 // Not 0 is expected since occupying must not be successful
 TEST(seat_rows_unit_tests, occupySeats_t5 ){
-    for(int i = 1; i <= 5; i ++) {
         occupySeat(row[1], &p_6 ) ;
         EXPECT_NE(occupySeat(row[1], &p_6 ), 0);
-    }
 }
-
+// 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow ) {
 EXPECT_EQ(selectRow(rows, &p_10), 0);
+}
+
+// 0 is expected for select row to be successful
+TEST(seat_rows_unit_tests, selectRow ) {
+EXPECT_EQ(selectRow(rows, &p_6), 0);
+}
+
+// 0 is expected for select row to be successful
+TEST(seat_rows_unit_tests, selectRow ) {
+EXPECT_EQ(selectRow(rows, &p_3), 0);
 }
 
 
