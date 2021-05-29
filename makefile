@@ -1,8 +1,10 @@
 # Variables for make targets
+PROJECT=hospital_simulator
 CC=gcc
 CFLAGS=$(INC) -Wall -Wextra -pedantic -g -Wno-unused-parameter
 INC=-Iinc
 BUILD=./build/
+CMAKE=/usr/bin/cmake
 # For GTK
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 GTKLIB=`pkg-config --libs gtk+-3.0`
@@ -54,5 +56,24 @@ $(BUILD)test: test.c
 clean:
 	rm $(BUILD)*.o $(BUILD)current
 
+# The following targets are shortcuts to use the underlying CMakeFiles.txt in 'cmake-build'
+
+# Cleans the created builds
+cmake-clean:
+	${MAKE} -C cmake-build clean
+# Configures and builds the CMake-Project
+build:
+	${CMAKE} cmake-build && ${MAKE} -C cmake-build
+# Builds the CMake-Project and runs the testcases via make
+test: build
+	${MAKE} -C cmake-build test
+# Builds the CMake-Project and runs the coverage report target
+coverage: build
+	${MAKE} -C cmake-build ${PROJECT}_coverage
+# Builds the CMake-Project and runs the unit tests executable directly
+testrun: build
+	./cmake-build/bin/${PROJECT}_unit_tests
+
 # For targets which don't have any input-files and just execute something
-.PHONY: clean
+# Read this for clarification: https://web.mit.edu/gnu/doc/html/make_4.html#SEC31
+.PHONY: clean cmake-clean build test coverage testrun build-test
