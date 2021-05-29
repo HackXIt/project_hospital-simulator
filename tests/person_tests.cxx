@@ -22,7 +22,7 @@ TEST(person_unit_tests, fillStructPerson_assert_static)
 		.neighbour = {NULL, NULL},
 		.seat = NULL,
 		.node = {.next = NULL, .prev = NULL}};
-	    Person_t *test_person = fillStructPerson('Z', "Peter", "Lustig");
+	Person_t *test_person = fillStructPerson('Z', "Peter", "Lustig");
 	//EXPECT_EQ(ref_person.arrival, test_person->arrival);
 	//EXPECT_STREQ(ref_person.first_name, test_person->first_name);
 	//EXPECT_STREQ(ref_person.last_name, test_person->last_name);
