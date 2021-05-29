@@ -244,6 +244,14 @@ int movePerson(ListPersons_t *listActive, ListPersons_t *listCompleted)
 	if (tmp->arrival == 'Z')
 	{
 		listActive->countZivil = listActive->countZivil - 1;
+		if (tmp->seat->node.prev != NULL)
+		{
+			tmp->neighbour[0] = tmp->seat->node.prev->occupied;
+		}
+		if (tmp->seat->node.next != NULL)
+		{
+			tmp->neighbour[1] = tmp->seat->node.next->occupied;
+		}
 	}
 	printf("Patient moved to list of completed patients:\n");
 	printPerson(tmp);
