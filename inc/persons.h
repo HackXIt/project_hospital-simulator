@@ -6,7 +6,6 @@
 Person_t *createStructPerson();
 ListPersons_t *createListPersons();
 Person_t * fillStructPerson(char arrival, char *first_name, char *last_name);
-Person_t * fillStructPersonMan(ListPersons_t *list);
 int addPerson(ListPersons_t *list, Person_t *person);
 int movePerson(ListPersons_t *listActive, ListPersons_t *listCompleted);
 int appendPerson(Person_t *person, ListPersons_t *list);
