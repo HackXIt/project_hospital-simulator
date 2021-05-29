@@ -22,7 +22,7 @@ typedef struct Person
 	char *last_name;
 	struct Person *neighbour[2]; // storage of left & right neighbour
 	struct Seat *seat;			 // reference to seat, if any
-	struct ListRows *row;
+	struct ListRows *row;		 // reference to row of the seat
 	struct node_p node;
 } Person_t;
 
@@ -32,15 +32,15 @@ typedef struct Seat
 	struct node_s node;
 } Seat_t;
 
-typedef struct ListPersons
+typedef struct ListPersons // There is an active & completed list
 {
 	unsigned short count;
-	unsigned short countZivil;
+	unsigned short countZivil; // This is for counting 'seated' Persons, since there are only a limited number of seats
 	struct Person *start;
 	struct Person *last;
 } ListPersons_t;
 
-typedef struct ListRows
+typedef struct ListRows // There are 5 rows in the hospital
 {
 	unsigned short count;
 	struct Seat *start;
