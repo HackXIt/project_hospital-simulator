@@ -3,6 +3,7 @@
 #include <stdlib.h>
 /*--- CUSTOM LIBRARIES ---*/
 #include "hospital_structures.h"
+#include "seat_rows.h"
 /*--- MACROS ---*/
 #define MAX_ROWS 5
 #define MAX_SEATS 5

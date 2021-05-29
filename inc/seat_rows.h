@@ -6,6 +6,7 @@
 #endif
 
 ListRows_t *createRow();
+Seat_t *createSeat();
 int occupySeat(ListRows_t *row, Person_t *person);
 // int assignSeat(ListRows_t *row, Person_t *person);
 int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person);
