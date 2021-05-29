@@ -91,6 +91,10 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 	int lowest = MAX_SEATS;
 	for (int i = 0; i < MAX_ROWS; i++)
 	{
+		if (rows[i] == NULL)
+		{
+			continue;
+		}
 		if (lowest > rows[i]->count)
 		{
 			selection = rows[i];
