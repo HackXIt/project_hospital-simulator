@@ -4,7 +4,7 @@ extern "C"
 {
 #include "hospital_structures.h"
 #include "persons.h"
-#include "gtk3.h"
+//#include "gtk3.h"
 }
 
 // This is a dummy-test, which will always be passed. It serves as a template for other testcases
@@ -22,32 +22,22 @@ TEST(person_unit_tests, fillStructPerson_assert_static)
 		.neighbour = {NULL, NULL},
 		.seat = NULL,
 		.node = {.next = NULL, .prev = NULL}};
-	    Person_t *test_person = fillStructPerson('Z', "Peter", "Lustig");
-	//EXPECT_EQ(ref_person.arrival, test_person->arrival);
-	//EXPECT_STREQ(ref_person.first_name, test_person->first_name);
-	//EXPECT_STREQ(ref_person.last_name, test_person->last_name);
+	Person_t *test_person = fillStructPerson('Z', "Peter", "Lustig");
+	EXPECT_EQ(ref_person.arrival, test_person->arrival);
+	EXPECT_STREQ(ref_person.first_name, test_person->first_name);
+	EXPECT_STREQ(ref_person.last_name, test_person->last_name);
 }
 
-/*
-TEST person_unit_tests, createStructPerson){
-
-
+TEST person_unit_tests, createStructPerson_test){
+    EXPECT_NE(createStructPerson(), nullptr);
 }
 
-TEST(person_unit_tests, createListPersons){
-
-
+TEST(person_unit_tests, createListPersons_test){
+    EXPECT_NE(createStructPerson(), nullptr);
 }
-
-
-TEST(person_unit_tests, fillStructPerson){
-
-
-}
-
 
 // Test if -1 is returned, once limit of active persons is reached
-TEST(person_unit_tests, addPerson_limit_active){
+TEST(person_unit_tests, addPerson_limit_active_test){
     Person_t *newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     list->count = 50;
@@ -56,9 +46,8 @@ TEST(person_unit_tests, addPerson_limit_active){
     EXPECT_EQ(-1, result);
 }
 
-
 // Test if -1 is returned, once limit of seated persons is reached
-TEST(person_unit_tests, addPerson_limit_seated){
+TEST(person_unit_tests, addPerson_limit_seated_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     list->countZivil = 25;
@@ -67,7 +56,7 @@ TEST(person_unit_tests, addPerson_limit_seated){
 }
 
 // Test if first person is added successfully
-TEST(person_unit_tests, addPerson_first){
+TEST(person_unit_tests, addPerson_first_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     result = addPerson(list, newPerson);
@@ -78,7 +67,7 @@ TEST(person_unit_tests, addPerson_first){
 }
 
 // Test if person is appended successfully
-TEST(person_unit_tests, appendPerson){
+TEST(person_unit_tests, appendPerson_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     addPerson(list, newPerson);
@@ -88,7 +77,7 @@ TEST(person_unit_tests, appendPerson){
 }
 
 // Test if person is moved successfully
-TEST(person_unit_tests, movePerson_return_success){
+TEST(person_unit_tests, movePerson_return_success_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *listActive = createListPersons();
     ListPersons_t *listCompleted = createListPersons();
@@ -99,32 +88,25 @@ TEST(person_unit_tests, movePerson_return_success){
 }
 
 // Test if -1 is returned, if list ist empty
-TEST(person_unit_tests, movePerson_return_failure){
+TEST(person_unit_tests, movePerson_return_failure_test){
     ListPersons_t *listActive = createListPersons();
     ListPersons_t *listCompleted = createListPersons();
     result = movePerson(listActive, listCompleted);
     EXPECT(-1, result);
 }
 
-TEST(person_unit_tests, freeListPersons){
-
-
-}
-
-
-TEST(person_unit_tests, printPerson){
-
+TEST(person_unit_tests, freeListPersons_test){
 
 }
 
-TEST(person_unit_tests, printListPersons){
-
-
-}
-
-TEST(person_unit_tests, exportListPersons){
-
+TEST(person_unit_tests, printPerson_test){
 
 }
 
-*/
+TEST(person_unit_tests, printListPersons_test){
+
+}
+
+TEST(person_unit_tests, exportListPersons_test){
+
+}
