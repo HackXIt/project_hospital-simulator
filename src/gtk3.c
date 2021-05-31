@@ -21,12 +21,14 @@
 char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 {
 	char arrival_type;
-	int return_value;
-	if (g_strcmp0((char *)gtk_combo_box_text_get_active_text(combobox), "Zivil"))
+	gchar *active_text = gtk_combo_box_text_get_active_text(combobox); // Needs to be free'd according to Documentation
+	gchar *cmp_zivil = "Zivil";										   // local variable
+	gchar *cmp_rettung = "Rettung";									   // local variable
+	if (g_strcmp0(active_text, cmp_zivil) == 0)
 	{
 		arrival_type = 'Z';
 	}
-	else if (g_strcmp0((char *)gtk_combo_box_text_get_active_text(combobox), "Rettung"))
+	else if (g_strcmp0(active_text, cmp_rettung) == 0)
 	{
 		arrival_type = 'R';
 	}
@@ -34,17 +36,18 @@ char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 	{
 		arrival_type = 0;
 	}
+	g_free(active_text);
 	return arrival_type;
 }
 
-static void on_destroy(GtkWidget *widget, gpointer data)
+void on_destroy(GtkWidget *widget, gpointer data)
 {
 	g_print("Good Bye!\n");
 	gtk_main_quit();
 }
 
 /* Evaluation input fields */
-static void on_new_Patient_clicked(GtkButton *button, gpointer data)
+void on_new_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	char *first_name;
@@ -65,6 +68,7 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	if (arrival == 0)
 	{
 		fprintf(stderr, "No arrival type was set.\n");
+		return;
 	}
 
 #ifdef DEBUG
@@ -77,12 +81,14 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	if (addPerson(patient_info->active_persons, person) < 0)
 	{
 		fprintf(stderr, "Failed to add Person.\n");
+		return;
 	}
 	if (person->arrival == 'Z')
 	{
 		if (selectRow(patient_info->rows, person) < 0)
 		{
 			fprintf(stderr, "Failed to select row.\n");
+			return;
 		}
 	}
 	g_print("Person hinzugefügt.\n");
@@ -91,7 +97,7 @@ static void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(patient_info->arrival_combobox), -1); // Resets the combo-box to 'No active item'
 }
 
-static void on_next_Patient_clicked(GtkButton *button, gpointer data)
+void on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	movePerson(patient_info->active_persons, patient_info->completed_persons);
