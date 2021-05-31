@@ -1,3 +1,12 @@
+# To build the project and NOT ruin the root-directory with build-files, please use the following:
+# cd cmake-build && cmake .. && make
+# The included makefile in the root-directory can be used instead to make this process easier
+# make build -> for creating a build
+# make test -> for creating a build and running `make test` in the build directory
+# make coverage -> for creating a build and creating a coverage report from the unit_tests
+# make testrun -> for creating a build and running the unit_tests executable
+# make cmake-clean -> for cleaning the build directory `cmake-build`
+
 cmake_minimum_required(VERSION 3.10.0)
 project(hospital_simulator C CXX)
 set(CMAKE_BUILD_TYPE "Debug")
@@ -15,10 +24,10 @@ include(GoogleTest)
 include(${CMAKE_CURRENT_SOURCE_DIR}/modules/CodeCoverage.cmake)
 append_coverage_compiler_flags()
 
-include_directories(../inc ${GTK_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc ${GTK_INCLUDE_DIRS})
 link_directories(${GTK_LIBRARY_DIRS})
 
-file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS ../src/*.c)
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 add_library(${PROJECT_NAME}_library SHARED ${SRC_FILES})
 
@@ -28,7 +37,7 @@ add_dependencies(${PROJECT_NAME}
     libgtest_main
 )
 
-file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ../tests/*.cxx)
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cxx)
 add_executable(${PROJECT_NAME}_unit_tests ${TEST_FILES})
 add_dependencies(${PROJECT_NAME}_unit_tests
     ${PROJECT_NAME}_library
