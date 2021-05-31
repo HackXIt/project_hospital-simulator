@@ -5,6 +5,7 @@ CFLAGS=$(INC) -Wall -Wextra -pedantic -g -Wno-unused-parameter
 INC=-Iinc
 BUILD=./build/
 CMAKE=/usr/bin/cmake
+CHANGE_DIR_CMAKE=cd cmake-build
 # For GTK
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 GTKLIB=`pkg-config --libs gtk+-3.0`
@@ -48,7 +49,7 @@ all: current
 current: main.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(GTKFLAGS) $^ -o $(BUILD)$@ $(GTKLIB)
 
-# Executed with: make test
+# Executed with: make quicksave
 quicksave: quick_save.c $(BUILD)seat_rows.o $(BUILD)persons.o
 	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
 
@@ -60,20 +61,20 @@ clean:
 
 # Cleans the created builds
 cmake-clean:
-	${MAKE} -C cmake-build clean
+	${CHANGE_DIR_CMAKE} && ${MAKE} clean
 # Configures and builds the CMake-Project
-build:
-	${CMAKE} cmake-build && ${MAKE} -C cmake-build
+build: switch-dir
+	${CHANGE_DIR_CMAKE} && ${CMAKE} .. && ${MAKE}
 # Builds the CMake-Project and runs the testcases via make
 test: build
-	${MAKE} -C cmake-build test
+	${CHANGE_DIR_CMAKE} && ${MAKE} test
 # Builds the CMake-Project and runs the coverage report target
 coverage: build
-	${MAKE} -C cmake-build ${PROJECT}_coverage
+	${CHANGE_DIR_CMAKE} && ${MAKE} ${PROJECT}_coverage
 # Builds the CMake-Project and runs the unit tests executable directly
 testrun: build
 	./cmake-build/bin/${PROJECT}_unit_tests
 
 # For targets which don't have any input-files and just execute something
 # Read this for clarification: https://web.mit.edu/gnu/doc/html/make_4.html#SEC31
-.PHONY: clean cmake-clean build test coverage testrun build-test
+.PHONY: clean switch-dir cmake-clean build test coverage testrun build-test
