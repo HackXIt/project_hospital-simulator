@@ -28,6 +28,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc ${GTK_INCLUDE_DIRS})
 link_directories(${GTK_LIBRARY_DIRS})
 
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
+list(FILTER SRC_FILES EXCLUDE REGEX "quick_save.c") # This expression ignores the specified file from the build
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 add_library(${PROJECT_NAME}_library SHARED ${SRC_FILES})
 
