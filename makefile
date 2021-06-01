@@ -50,7 +50,7 @@ current: main.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(GTKFLAGS) $^ -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make quicksave
-quicksave: quick_save.c $(BUILD)seat_rows.o $(BUILD)persons.o
+quicksave: quick_save.c $(BUILD)seat_rows.o $(BUILD)persons.o ${BUILD}serializer.o
 	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
 
 # Executed with: make clean
