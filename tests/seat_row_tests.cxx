@@ -67,17 +67,20 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 TEST(seat_rows_unit_tests, selectRow_t1)
 {
     selectRow(rows, &p_1);
-    printf("The first name of the person p_1 is %s\t", p_1.first_name);
-    printf( "The last name of the son p_1 is %s\t", p_2.last_name);
-   /*
-    printf("Neighbour 1: %s %s\t", p_1.neighbour[0]->first_name, p_1.neighbour[0]->last_name);
-    printf( "Neighbour 2: %s %s\t", p_1.neighbour[1]->last_name, p_1.neighbour[1]->last_name);
-    printf("The current place has the count: %d\n", row1->count);
-    printf("The next person p_1 is %s \n", p_1.node.next->first_name, p_1.node.next->last_name);
-    printf("The previous person p_1 is %s \n", p_1.node.prev->first_name, p_1.node.prev->last_name);
-    printf("The current place has the count: %d\n", row1->count);
+    EXPECT_STREQ("Stefan",p_1.first_name);
 
-*/
+    /*
+     printf("The first name of the person p_1 is %s\t", p_1.first_name);
+     printf( "The last name of the son p_1 is %s\t", p_2.last_name);
+
+     printf("Neighbour 1: %s %s\t", p_1.neighbour[0]->first_name, p_1.neighbour[0]->last_name);
+     printf( "Neighbour 2: %s %s\t", p_1.neighbour[1]->last_name, p_1.neighbour[1]->last_name);
+     printf("The current place has the count: %d\n", row1->count);
+     printf("The next person p_1 is %s \n", p_1.node.next->first_name, p_1.node.next->last_name);
+     printf("The previous person p_1 is %s \n", p_1.node.prev->first_name, p_1.node.prev->last_name);
+     printf("The current place has the count: %d\n", row1->count);
+
+ */
 }
 
 // 0 is expected for select row to be successful
@@ -87,6 +90,7 @@ TEST(seat_rows_unit_tests, selectRow_t2)
     EXPECT_EQ(selectRow(rows, &p_2), 0);
 	EXPECT_EQ(selectRow(rows, &p_3), 0);
     EXPECT_EQ(selectRow(rows, &p_4), 0);
+    EXPECT_EQ(selectRow(rows, &p_5), 0);
 }
 
 
