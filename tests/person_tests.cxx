@@ -63,6 +63,23 @@ TEST(person_unit_tests, addPerson_first_test){
     freeListPersons(list);
 }
 
+// Test if it is possible to add: 5 x person of type Z
+TEST(person_unit_tests, addPerson_just_Z_test){
+    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson4 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(addPerson(list, newPerson1), 0);
+    EXPECT_EQ(addPerson(list, newPerson2), 0);
+    EXPECT_EQ(addPerson(list, newPerson3), 0);
+    EXPECT_EQ(addPerson(list, newPerson4), 0);
+    EXPECT_EQ(addPerson(list, newPerson5), 0);
+    freeListPersons(list);
+}
+
+
 // Test if person is appended successfully
 TEST(person_unit_tests, appendPerson_test){
     Person_t * newPerson = createStructPerson();
@@ -111,12 +128,14 @@ TEST(person_unit_tests, printPerson_test){
     EXPECT_EQ(printPerson(newPerson), 0);
 }
 
+// Test printing an empty list
 TEST(person_unit_tests, printListPersons_return_failure_test){
     ListPersons_t *list = createListPersons();
     EXPECT_EQ(printListPersons(list), -1);
     freeListPersons(list);
 }
 
+// Test printing a list
 TEST(person_unit_tests, printListPersons_return_success_test){
     ListPersons_t *list = createListPersons();
     Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
@@ -129,6 +148,7 @@ TEST(person_unit_tests, printListPersons_return_success_test){
     freeListPersons(list);
 }
 
+// Test exporting a list
 TEST(person_unit_tests, exportListPersons_test){
     ListPersons_t *list = createListPersons();
     Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
