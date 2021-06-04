@@ -117,7 +117,7 @@ TEST(person_unit_tests, printListPersons_return_failure_test){
     freeListPersons(list);
 }
 
-TEST(person_unit_tests, printListPersons_return success_test){
+TEST(person_unit_tests, printListPersons_return_success_test){
     ListPersons_t *list = createListPersons();
     Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
     Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
