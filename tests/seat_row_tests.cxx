@@ -88,4 +88,3 @@ TEST(seat_rows_unit_tests, selectRow_t3)
 {
 	EXPECT_EQ(selectRow(rows, &p_3), 0);
 }
-*/
