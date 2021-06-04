@@ -41,6 +41,7 @@ TEST(person_unit_tests, addPerson_limit_active_test){
     ListPersons_t *list = createListPersons();
     list->count = 50;
     EXPECT_EQ(addPerson(list, newPerson), -1);
+    freeListPersons(list);
 }
 
 // Test if -1 is returned, once limit of seated persons is reached
@@ -50,6 +51,7 @@ TEST(person_unit_tests, addPerson_limit_seated_test){
     newPerson->arrival = 'Z';
     list->countZivil = 25;
     EXPECT_EQ(addPerson(list, newPerson), -1);
+    freeListPersons(list);
 }
 
 // Test if first person is added successfully
@@ -58,6 +60,7 @@ TEST(person_unit_tests, addPerson_first_test){
     ListPersons_t *list = createListPersons();
     addPerson(list, newPerson);
     EXPECT_EQ(list->start, list->last);
+    freeListPersons(list);
 }
 
 // Test if person is appended successfully
@@ -65,6 +68,7 @@ TEST(person_unit_tests, appendPerson_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     EXPECT_EQ(appendPerson(newPerson, list), 0);
+    freeListPersons(list);
 }
 
 // Test if person is moved successfully
@@ -74,6 +78,8 @@ TEST(person_unit_tests, movePerson_return_success_test){
     ListPersons_t *listCompleted = createListPersons();
     addPerson(listActive, newPerson);
     EXPECT_EQ(movePerson(listActive, listCompleted), 0);
+    freeListPersons(listActive);
+    freeListPersons(listCompleted);
 }
 
 // Test movePerson, if -1 is returned, if list ist empty
@@ -81,4 +87,21 @@ TEST(person_unit_tests, movePerson_return_failure_test){
     ListPersons_t *listActive = createListPersons();
     ListPersons_t *listCompleted = createListPersons();
     EXPECT_EQ(movePerson(listActive, listCompleted), -1);
+    freeListPersons(listActive);
+    freeListPersons(listCompleted);
+}
+
+// Test freeListPersons, if -1 is returned, if list ist empty
+TEST(person_unit_tests, freeListPersons_return_success_test){
+    ListPersons_t *listActive = createListPersons();
+
+    EXPECT_EQ(freeListPersons(listActive), 0);
+}
+
+// Test freeListPersons, if -1 is returned, if list ist empty
+TEST(person_unit_tests, freeListPersons_return_failure_test){
+    ListPersons_t *listActive = createListPersons();
+    Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
+    addPerson(listActive, newPerson);
+    EXPECT_EQ(freeListPersons(listActive), -1);
 }

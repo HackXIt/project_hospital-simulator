@@ -199,12 +199,12 @@ int movePerson(ListPersons_t *listActive, ListPersons_t *listCompleted) {
 }
 
 // Free list of persons
-void freeListPersons(ListPersons_t *list){
+int freeListPersons(ListPersons_t *list){
 
 	Person_t *tmp = list->start;
     if (list->start == NULL) {
         fprintf(stderr, "List is empty.\n");
-        return;
+        return -1;
     }
 	while (tmp->node.next != NULL) { // until finding last element tmp at end of list
     	Person_t *next = tmp->node.next; // set pointer to next element in list after tmp
@@ -214,10 +214,10 @@ void freeListPersons(ListPersons_t *list){
         tmp = next; // set previously saved element next as new tmp
     }
     printf("Success: Freeing list of persons.\n");
+	return 0;
 }
 
-
-void printPerson(Person_t *person) {
+int printPerson(Person_t *person) {
     printf("Arrival: %c\tFirst name: %s\tLast name: %s\t", person->arrival, person->first_name, person->last_name);
     if (person->neighbour[0] == NULL) {
         printf("Neighbour 1: None.\t");
@@ -230,10 +230,11 @@ void printPerson(Person_t *person) {
         printf("Neighbour 2: %s %s\t", person->neighbour[0]->first_name, person->neighbour[0]->last_name);
     }
     printf("\n");
+    return 0;
 }
 // Print list of persons
 // TODO names of neighbours need to be printed correctly
-void printListPersons(ListPersons_t *list) {
+int printListPersons(ListPersons_t *list) {
     if (list->start == NULL) {
         fprintf(stderr, "List is empty.\n");
     }
@@ -244,11 +245,12 @@ void printListPersons(ListPersons_t *list) {
     }
     printf("Final count: %hu\n", list->count);
     printf("Zivil persons count: %hu\n", list->countZivil);
+    return 0;
 }
 
 // Export Persons
 // TODO names of neighbours need to be printed correctly
-void exportListPersons(ListPersons_t *list) {
+int exportListPersons(ListPersons_t *list) {
 
     // Create file
 
@@ -292,4 +294,5 @@ void exportListPersons(ListPersons_t *list) {
     if (fflush(fp) != 0) {
         fprintf(stderr, "fflush was not successful!\n");
     }
+    return 0;
 }
