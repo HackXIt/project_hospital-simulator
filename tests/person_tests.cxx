@@ -112,7 +112,31 @@ TEST(person_unit_tests, addPerson_alternating_R_Z_test){
     EXPECT_EQ(addPerson(list, newPerson6), 0);
     freeListPersons(list);
 }
-
+TEST(person_unit_tests, addPerson_combination1_test){
+    ListPersons_t *list = createListPersons();
+    Person_t *person_1 = fillStructPerson('Z', "Christian", "Griffith");
+    Person_t *person_2 = fillStructPerson('Z', "Clara", "Tate");
+    Person_t *person_3 = fillStructPerson('Z', "Emily", "Lane");
+    Person_t *person_4 = fillStructPerson('Z', "Luis", "Herrera");
+    Person_t *person_5 = fillStructPerson('R', "Callie", "Moore");
+    Person_t *person_6 = fillStructPerson('Z', "Maria", "Richardson");
+    Person_t *person_7 = fillStructPerson('Z', "Agnes", "Underwood");
+    Person_t *person_8 = fillStructPerson('R', "Allie", "Chapman");
+    Person_t *person_9 = fillStructPerson('Z', "Garrett", "Frazier");
+    Person_t *person_10 = fillStructPerson('Z', "John", "Silva");
+    addPerson(list, person_1);
+    addPerson(list, person_2);
+    addPerson(list, person_3);
+    addPerson(list, person_4);
+    addPerson(list, person_5);
+    addPerson(list, person_6);
+    addPerson(list, person_7);
+    addPerson(list, person_8);
+    addPerson(list, person_9);
+    addPerson(list, person_10);
+    printListPersons(list);
+    freeListPersons(list);
+}
 
 // Test if person is appended successfully - list empty
 TEST(person_unit_tests, appendPerson_empty_test){
@@ -208,6 +232,9 @@ TEST(person_unit_tests, printListPersons_return_success_test){
     EXPECT_EQ(printListPersons(list), 0);
     freeListPersons(list);
 }
+
+
+
 
 // Test exporting a list
 TEST(person_unit_tests, exportListPersons_test){
