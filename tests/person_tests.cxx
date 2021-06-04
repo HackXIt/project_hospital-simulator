@@ -80,7 +80,7 @@ TEST(person_unit_tests, addPerson_just_Z_test){
 }
 
 // Test if it is possible to add: alternating person of type Z and R
-TEST(person_unit_tests, addPerson_just_Z_test){
+TEST(person_unit_tests, addPerson_alternating_R_Z_test){
 Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
 Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
 Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
