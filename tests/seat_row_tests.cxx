@@ -69,6 +69,7 @@ TEST(seat_rows_unit_tests, selectRow_t1)
     selectRow(rows, &p_1);
     printf("The first name of the person p_1 is %s\t", p_1.first_name);
     printf( "The last name of the son p_1 is %s\t", p_2.last_name);
+   /*
     printf("Neighbour 1: %s %s\t", p_1.neighbour[0]->first_name, p_1.neighbour[0]->last_name);
     printf( "Neighbour 2: %s %s\t", p_1.neighbour[1]->last_name, p_1.neighbour[1]->last_name);
     printf("The current place has the count: %d\n", row1->count);
@@ -76,7 +77,7 @@ TEST(seat_rows_unit_tests, selectRow_t1)
     printf("The previous person p_1 is %s \n", p_1.node.prev->first_name, p_1.node.prev->last_name);
     printf("The current place has the count: %d\n", row1->count);
 
-
+*/
 }
 
 // 0 is expected for select row to be successful
