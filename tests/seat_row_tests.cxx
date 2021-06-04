@@ -40,6 +40,12 @@ TEST(seat_rows_unit_tests, createSeat)
 	EXPECT_NE(createSeat(), nullptr);
 }
 
+// Not nullptr is expected if the seat was successful created
+TEST(seat_rows_unit_tests, createSeat_2)
+{
+    EXPECT_NE(createSeat(), nullptr);
+}
+
 // Not nullptr is expected if the row was successful created
 TEST(seat_rows_unit_tests, createRow)
 {
@@ -52,6 +58,7 @@ TEST(seat_rows_unit_tests, createRow_2)
     EXPECT_EQ(row_t->count, 0) ;
     EXPECT_NE(row_t->start, nullptr);
     EXPECT_NE( row_t->start, row_t->last);
+    freeRow(row_t);
 }
 
 
@@ -83,12 +90,28 @@ TEST(seat_rows_unit_tests, selectRow_t1)
 
  */
 }
+
+// The two strings must be equal
+TEST(seat_rows_unit_tests, selectRow_t1_2) {
+    selectRow(rows, &p_1);
+    EXPECT_STREQ("Patrick", p_1.first_name);
+    EXPECT_STREQ("Culies", p_1.last_name);
+}
+
 // The two strings must be equal
 TEST(seat_rows_unit_tests, selectRow_t7) {
     selectRow(rows, &p_7);
-    EXPECT_STREQ("Franklin", p_1.first_name);
-    EXPECT_STREQ("Domali", p_1.last_name);
+    EXPECT_STREQ("Franklin", p_7.first_name);
+    EXPECT_STREQ("Domali", p_7.last_name);
 }
+
+// The two strings must be equal
+TEST(seat_rows_unit_tests, selectRow_t7_2) {
+    selectRow(rows, &p_7);
+    EXPECT_STREQ("Dolphi", p_7.first_name);
+    EXPECT_STREQ("Rudosa", p_7.last_name);
+}
+
 
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t2)
