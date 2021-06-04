@@ -237,6 +237,7 @@ int printPerson(Person_t *person) {
 int printListPersons(ListPersons_t *list) {
     if (list->start == NULL) {
         fprintf(stderr, "List is empty.\n");
+        return -1;
     }
     Person_t *tmp = list->start;
     while (tmp != NULL) { // until end of list

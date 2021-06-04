@@ -92,15 +92,55 @@ TEST(person_unit_tests, movePerson_return_failure_test){
 }
 
 // Test freeListPersons, if -1 is returned, if list ist empty
-TEST(person_unit_tests, freeListPersons_return_success_test){
+TEST(person_unit_tests, freeListPersons_return_failure_test){
     ListPersons_t *listActive = createListPersons();
     EXPECT_EQ(freeListPersons(listActive), -1);
 }
 
 // Test freeListPersons, if 0 is returned
-TEST(person_unit_tests, freeListPersons_return_failure_test){
+TEST(person_unit_tests, freeListPersons_return_success_test){
     ListPersons_t *listActive = createListPersons();
     Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
     addPerson(listActive, newPerson);
     EXPECT_EQ(freeListPersons(listActive), 0);
+}
+
+// Test printing one person
+TEST(person_unit_tests, printPerson_test){
+    Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
+    EXPECT_EQ(printPerson(newPerson), 0);
+}
+
+TEST(person_unit_tests, printListPersons_return_failure_test){
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(printListPersons(list), -1);
+    freeListPersons(list);
+}
+
+TEST(person_unit_tests, printListPersons_return success_test){
+    ListPersons_t *list = createListPersons();
+    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    addPerson(list, newPerson1);
+    addPerson(list, newPerson2);
+    addPerson(list, newPerson3);
+    EXPECT_EQ(printListPersons(list), 0);
+    freeListPersons(list);
+}
+
+TEST(person_unit_tests, exportListPersons_test){
+    ListPersons_t *list = createListPersons();
+    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    addPerson(list, newPerson1);
+    addPerson(list, newPerson2);
+    addPerson(list, newPerson3);
+    EXPECT_EQ(exportListPersons(list), 0);
+    freeListPersons(list);
+}
+
+TEST(person_unit_tests, exportListPersons_test){
+
 }
