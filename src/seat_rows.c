@@ -3,11 +3,12 @@
 #include <stdlib.h>
 /*--- CUSTOM LIBRARIES ---*/
 #include "hospital_structures.h"
+#include "seat_rows.h"
 /*--- MACROS ---*/
 #define MAX_ROWS 5
 #define MAX_SEATS 5
 
-// Create Seat
+
 Seat_t *createSeat()
 {
 	Seat_t *newSeat = calloc(1, sizeof(Seat_t));
@@ -19,7 +20,7 @@ Seat_t *createSeat()
 	return newSeat;
 }
 
-// Create Sitzreihe - Nick
+
 ListRows_t *createRow()
 {
 	ListRows_t *newRow = calloc(1, sizeof(ListRows_t)); // Initializes values with
@@ -41,7 +42,6 @@ ListRows_t *createRow()
 	return newRow;
 }
 
-// Occupy a seat in the row with the given person
 int occupySeat(ListRows_t *row, Person_t *person)
 {
 	Seat_t *current = row->start;
@@ -118,6 +118,8 @@ int freeRow(ListRows_t *row)
 	free(row); // free list head
 	return EXIT_SUCCESS;
 }
+
+/*
 // Free a single seat in the list
 int freeSeat(Seat_t *seat)
 {
@@ -127,3 +129,4 @@ int freeSeat(Seat_t *seat)
 	free(seat);									  // Free the now unlinked seat
 	return EXIT_SUCCESS;
 }
+ */

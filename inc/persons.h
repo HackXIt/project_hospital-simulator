@@ -70,6 +70,5 @@ int printListPersons(ListPersons_t *list);
 @param List of persons.
 @returns 0 in case of success, -1 in case of failure.
 */
-int exportListPersons(ListPersons_t *list);
 
 #endif
