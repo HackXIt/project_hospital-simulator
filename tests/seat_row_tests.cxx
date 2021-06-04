@@ -94,8 +94,8 @@ TEST(seat_rows_unit_tests, selectRow_t1)
 // The two strings must be equal
 TEST(seat_rows_unit_tests, selectRow_t1_2) {
     selectRow(rows, &p_1);
-    EXPECT_STREQ("Patrick", p_1.first_name);
-    EXPECT_STREQ("Culies", p_1.last_name);
+    EXPECT_STRNE("Patrick", p_1.first_name);
+    EXPECT_STRNE("Culies", p_1.last_name);
 }
 
 // The two strings must be equal
@@ -108,8 +108,8 @@ TEST(seat_rows_unit_tests, selectRow_t7) {
 // The two strings must be equal
 TEST(seat_rows_unit_tests, selectRow_t7_2) {
     selectRow(rows, &p_7);
-    EXPECT_STREQ("Dolphi", p_7.first_name);
-    EXPECT_STREQ("Rudosa", p_7.last_name);
+    EXPECT_STRNE("Dolphi", p_7.first_name);
+    EXPECT_STRNE("Rudosa", p_7.last_name);
 }
 
 
