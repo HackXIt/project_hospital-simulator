@@ -56,7 +56,7 @@ TEST(person_unit_tests, addPerson_limit_seated_test){
 TEST(person_unit_tests, addPerson_first_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
-    addPerson(newPerson);
+    addPerson(list, newPerson);
     EXPECT_EQ(list->start, list->last);
 }
 
