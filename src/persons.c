@@ -280,7 +280,7 @@ int exportListPersons(ListPersons_t *list) {
         if (tmp->neighbour[1] == NULL) {
             fprintf(fp, "Neighbour 2: None.\t");
         } else {
-            fprintf(fp,"Neighbour 2: %s %s\t", tmp->neighbour[0]->first_name,
+            fprintf(fp,"Neighbour 2: %s %s\t", tmp->neighbour[1]->first_name,
                    tmp->neighbour[1]->last_name);
         }
         fprintf(fp, "\n");
