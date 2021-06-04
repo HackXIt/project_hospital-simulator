@@ -35,4 +35,10 @@ TEST(person_unit_tests, createListPersons_test){
     EXPECT_NE(createStructPerson(), nullptr);
 }
 
+TEST(person_unit_tests, addPerson_limit_active_test){
+    Person_t *newPerson = createStructPerson();
+    ListPersons_t *list = createListPersons();
+    list->count = 50;
+    EXPECT_EQ(addPerson(list, newPerson), -1);
+}
 
