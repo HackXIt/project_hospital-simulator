@@ -8,7 +8,7 @@
 #define MAX_ROWS 5
 #define MAX_SEATS 5
 
-// Create Seat
+
 Seat_t *createSeat()
 {
 	Seat_t *newSeat = calloc(1, sizeof(Seat_t));
@@ -20,7 +20,7 @@ Seat_t *createSeat()
 	return newSeat;
 }
 
-// Create Sitzreihe - Nick
+
 ListRows_t *createRow()
 {
 	ListRows_t *newRow = calloc(1, sizeof(ListRows_t)); // Initializes values with
@@ -42,7 +42,6 @@ ListRows_t *createRow()
 	return newRow;
 }
 
-// Occupy a seat in the row with the given person
 int occupySeat(ListRows_t *row, Person_t *person)
 {
 	Seat_t *current = row->start;
