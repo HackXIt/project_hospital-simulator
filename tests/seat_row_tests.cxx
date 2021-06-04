@@ -56,8 +56,8 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 	occupySeat(rows[1], &p_1);
 	printf("The current place has the count: %d", row1->count);
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
-
 }
+
 
 
 // 0 is expected for select row to be successful
