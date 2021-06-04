@@ -63,8 +63,8 @@ TEST(seat_rows_unit_tests, occupySeats_t2)
 
 TEST(seat_rows_unit_tests, occupySeats_t3)
 {
-    occupySeat( rows[1], &p_3);;
-    EXPECT_EQ( occupySeat(rows[1], &p_3), 0);
+    occupySeat( rows[1], &p_4);;
+    EXPECT_EQ( occupySeat(rows[1], &p_4), 0);
 
 }
 
