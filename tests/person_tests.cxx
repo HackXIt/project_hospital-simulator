@@ -81,20 +81,20 @@ TEST(person_unit_tests, addPerson_just_Z_test){
 
 // Test if it is possible to add: alternating person of type Z and R
 TEST(person_unit_tests, addPerson_alternating_R_Z_test){
-Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
-Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
-Person_t * newPerson4 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
-Person_t * newPerson6 = fillStructPerson('R', "Peter", "Lustig");
-ListPersons_t *list = createListPersons();
-EXPECT_EQ(addPerson(list, newPerson1), 0);
-EXPECT_EQ(addPerson(list, newPerson2), 0);
-EXPECT_EQ(addPerson(list, newPerson3), 0);
-EXPECT_EQ(addPerson(list, newPerson4), 0);
-EXPECT_EQ(addPerson(list, newPerson5), 0);
-EXPECT_EQ(addPerson(list, newPerson6), 0);
-freeListPersons(list);
+    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
+    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson4 = fillStructPerson('R', "Peter", "Lustig");
+    Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t * newPerson6 = fillStructPerson('R', "Peter", "Lustig");
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(addPerson(list, newPerson1), 0);
+    EXPECT_EQ(addPerson(list, newPerson2), 0);
+    EXPECT_EQ(addPerson(list, newPerson3), 0);
+    EXPECT_EQ(addPerson(list, newPerson4), 0);
+    EXPECT_EQ(addPerson(list, newPerson5), 0);
+    EXPECT_EQ(addPerson(list, newPerson6), 0);
+    freeListPersons(list);
 }
 
 
@@ -118,11 +118,11 @@ TEST(person_unit_tests, appendPerson_not_empty_test){
 
 // Test if person can not be appended if limit is reached
 TEST(person_unit_tests, appendPerson_limit_test){
-ListPersons_t *list = createListPersons();
-list->count = 100;
-Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
-EXPECT_EQ(appendPerson(newPerson, list), -1);
-freeListPersons(list);
+    ListPersons_t *list = createListPersons();
+    list->count = 100;
+    Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
+    EXPECT_EQ(appendPerson(newPerson, list), -1);
+    freeListPersons(list);
 }
 
 
@@ -184,6 +184,8 @@ TEST(person_unit_tests, printListPersons_return_success_test){
     Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
     Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
     Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    newPerson1->neighbour[0] = newPerson2;
+    newPerson1->neighbour[1] = newPerson3;
     addPerson(list, newPerson1);
     addPerson(list, newPerson2);
     addPerson(list, newPerson3);
