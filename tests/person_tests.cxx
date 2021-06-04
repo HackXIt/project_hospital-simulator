@@ -47,6 +47,7 @@ TEST(person_unit_tests, addPerson_limit_active_test){
 TEST(person_unit_tests, addPerson_limit_seated_test){
     Person_t *newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
+    newPerson->arrival = 'Z';
     list->countZivil = 25;
     EXPECT_EQ(addPerson(list, newPerson), -1);
 }
