@@ -60,8 +60,8 @@ set(WARNING_LEVELS_GCC_DEBUG
 target_link_libraries(${PROJECT_NAME} ${GTK_LDFLAGS})
 target_compile_options(${PROJECT_NAME} PRIVATE ${GTK_CFLAGS} ${WARNING_LEVELS_GCC_DEBUG})
 
-target_link_libraries(${PROJECT_NAME}_unit_tests ${GTK_LDFLAGS} ${GTEST_LDFLAGS} libgtest libgtest_main ${PROJECT_NAME}_library)
-target_compile_options(${PROJECT_NAME}_unit_tests PRIVATE ${GTK_CFLAGS} ${GTEST_CFLAGS} ${WARNING_LEVELS_GCC_DEBUG})
+target_link_libraries(${PROJECT_NAME}_unit_tests libgtest libgtest_main ${GTK_LDFLAGS} ${PROJECT_NAME}_library)
+target_compile_options(${PROJECT_NAME}_unit_tests PRIVATE ${GTEST_CFLAGS} ${WARNING_LEVELS_GCC_DEBUG} ${GTK_CFLAGS})
 
 gtest_discover_tests(${PROJECT_NAME}_unit_tests)
 setup_target_for_coverage_gcovr_html(
