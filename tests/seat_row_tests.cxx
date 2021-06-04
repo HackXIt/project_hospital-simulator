@@ -50,7 +50,7 @@ TEST(seat_rows_unit_tests, createRow_2)
 {
     ListRows_t *row_t = createRow();
     EXPECT_EQ(row_t->count, 0) ;
-  //  EXPECT_NE(row_t->start, 0);
+    EXPECT_NE(row_t->start, nullptr);
   // EXPECT_EQ( row_t->start, row_t->last);
 }
 
