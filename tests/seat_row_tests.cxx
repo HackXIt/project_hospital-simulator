@@ -50,7 +50,6 @@ TEST(seat_rows_unit_tests, createRow)
 
 
 
-
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1)
 {
@@ -58,13 +57,6 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 	printf("The current place has the count: %d", row1->count);
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
 
-    occupySeat(rows[1], &p_2);
-    printf("The current place has the count: %d", row1->count);
-    EXPECT_EQ(occupySeat(rows[1], &p_2), 0);
-
-    occupySeat(rows[1], &p_3);
-    printf("The current place has the count: %d", row1->count);
-    EXPECT_EQ(occupySeat(rows[1], &p_3), 0);
 }
 
 
