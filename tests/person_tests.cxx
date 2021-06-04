@@ -116,6 +116,16 @@ TEST(person_unit_tests, appendPerson_not_empty_test){
     freeListPersons(list);
 }
 
+// Test if person can not be appended if limit is reached
+TEST(person_unit_tests, appendPerson_limit_test){
+ListPersons_t *list = createListPersons();
+list->count = 100;
+Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
+EXPECT_EQ(appendPerson(newPerson, list), -1);
+freeListPersons(list);
+}
+
+
 // Test if person is moved successfully
 TEST(person_unit_tests, movePerson_return_success_test){
     Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
