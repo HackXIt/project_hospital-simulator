@@ -28,12 +28,13 @@ ListRows_t *row5 = createRow();
 ListRows_t *rows[5] = {row1, row2, row3, row4, row5};
 
 
-
 // This is a dummy-test, which will always be passed. It serves as a template for other testcases
 TEST(seat_rows_unit_tests, DUMMY)
 {
 	EXPECT_EQ(1, 1);
 }
+
+
 
 // Not nullptr is expected if the seat was successful created
 TEST(seat_rows_unit_tests, createSeat)
@@ -47,10 +48,14 @@ TEST(seat_rows_unit_tests, createRow)
 	EXPECT_NE(createSeat(), nullptr);
 }
 
+
+
+
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1)
 {
 	occupySeat(rows[1], &p_1);
+	printf("The current place has the count: %d", row1->count);
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
 }
 
@@ -58,12 +63,14 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 TEST(seat_rows_unit_tests, occupySeats_t2)
 {
 	occupySeat(rows[1], &p_2);
-	EXPECT_EQ(occupySeat(rows[1], &p_2), 0);
+    printf("The current place has the count: %d", row1->count);
+    EXPECT_EQ(occupySeat(rows[1], &p_2), 0);
 }
 
 TEST(seat_rows_unit_tests, occupySeats_t3)
 {
-    occupySeat( rows[1], &p_4);;
+    occupySeat( rows[1], &p_4);
+    printf("The current place has the count: %d", row1->count);
     EXPECT_EQ( occupySeat(rows[1], &p_4), 0);
 
 }
