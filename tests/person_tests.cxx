@@ -98,11 +98,21 @@ freeListPersons(list);
 }
 
 
-// Test if person is appended successfully
-TEST(person_unit_tests, appendPerson_test){
+// Test if person is appended successfully - list empty
+TEST(person_unit_tests, appendPerson_empty_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     EXPECT_EQ(appendPerson(newPerson, list), 0);
+    freeListPersons(list);
+}
+
+// Test if person is appended successfully - list not empty
+TEST(person_unit_tests, appendPerson_not_empty_test){
+    ListPersons_t *list = createListPersons();
+    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+    EXPECT_EQ(appendPerson(newPerson1, list), 0);
+    Person_t * newPerson2 = fillStructPerson('Z', "Susi", "Fad");
+    EXPECT_EQ(appendPerson(newPerson2, list), 0);
     freeListPersons(list);
 }
 
