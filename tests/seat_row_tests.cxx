@@ -102,9 +102,10 @@ TEST(seat_rows_unit_tests, selectRow_t2)
 {
 	EXPECT_EQ(selectRow(rows, &p_6), 0);
 }
-
+/*
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t3)
 {
 	EXPECT_EQ(selectRow(rows, &p_3), 0);
 }
+*/
