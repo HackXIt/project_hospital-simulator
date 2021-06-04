@@ -129,12 +129,13 @@ TEST(seat_rows_unit_tests, freeRow) {
     EXPECT_EQ(freeRow(temp), 0);
 }
 
-/*
+
 TEST(seat_rows_unit_tests, freeSingleSeat)
 {
-    Seat_t *temp = createSeat();
-    EXPECT_EQ(freeSeat(temp), 0);
+    ListRows_t *temp = createRow();
+
+    EXPECT_EQ(freeSeat(temp->start), 0);
 }
-*/
+
 
 
