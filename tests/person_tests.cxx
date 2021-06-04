@@ -44,7 +44,7 @@ TEST(person_unit_tests, addPerson_limit_active_test){
 }
 
 // Test if -1 is returned, once limit of seated persons is reached
-TEST(person_unit_tests, addPerson_limit_active_test){
+TEST(person_unit_tests, addPerson_limit_seated_test){
     Person_t *newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     list->countZivil = 25;
