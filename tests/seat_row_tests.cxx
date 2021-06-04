@@ -54,6 +54,7 @@ TEST(seat_rows_unit_tests, createRow_2)
     EXPECT_EQ( row_t->start, row_t->last);
 }
 
+/*
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1)
 {
@@ -80,7 +81,8 @@ TEST(seat_rows_unit_tests, selectRow_t1)
 }
 
 
-/*
+
+
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t3)
 {
