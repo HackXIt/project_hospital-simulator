@@ -34,8 +34,6 @@ TEST(seat_rows_unit_tests, DUMMY)
 	EXPECT_EQ(1, 1);
 }
 
-
-
 // Not nullptr is expected if the seat was successful created
 TEST(seat_rows_unit_tests, createSeat)
 {
@@ -45,16 +43,22 @@ TEST(seat_rows_unit_tests, createSeat)
 // Not nullptr is expected if the row was successful created
 TEST(seat_rows_unit_tests, createRow)
 {
-	EXPECT_NE(createSeat(), nullptr);
+   EXPECT_NE(createRow(), nullptr);
 }
 
-
+TEST(seat_rows_unit_tests, createRow_2)
+{
+    ListRows_t *row_t = createRow();
+    EXPECT_EQ(row_t->count, 0) ;
+    EXPECT_NE(row_t->start, 0);
+    EXPECT_EQ( row_t->start, row_t->last);
+}
 
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1)
 {
 	occupySeat(rows[1], &p_1);
-	printf("The current place has the count: %d", row1->count);
+	printf("The current place has the count: %d\n", row1->count);
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
 }
 
@@ -63,14 +67,19 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t1)
 {
-	EXPECT_EQ(selectRow(rows, &p_10), 0);
+    EXPECT_EQ(selectRow(rows, &p_1), 0);
+    EXPECT_EQ(selectRow(rows, &p_2), 0);
+	EXPECT_EQ(selectRow(rows, &p_3), 0);
+    EXPECT_EQ(selectRow(rows, &p_4), 0);
+    EXPECT_EQ(selectRow(rows, &p_5), 0);
+    EXPECT_EQ(selectRow(rows, &p_6), 0);
+    EXPECT_EQ(selectRow(rows, &p_7), 0);
+    EXPECT_EQ(selectRow(rows, &p_8), 0);
+    EXPECT_EQ(selectRow(rows, &p_9), 0);
+    EXPECT_EQ(selectRow(rows, &p_10), 0);
 }
 
-// 0 is expected for select row to be successful
-TEST(seat_rows_unit_tests, selectRow_t2)
-{
-	EXPECT_EQ(selectRow(rows, &p_6), 0);
-}
+
 /*
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t3)
