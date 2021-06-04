@@ -40,14 +40,15 @@ char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 	return arrival_type;
 }
 
-void on_destroy(GtkWidget *widget, gpointer data)
+int on_destroy(GtkWidget *widget, gpointer data)
 {
 	g_print("Good Bye!\n");
 	gtk_main_quit();
+	return 0;
 }
 
 /* Evaluation input fields */
-void on_new_Patient_clicked(GtkButton *button, gpointer data)
+int on_new_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	char *first_name;
@@ -68,7 +69,7 @@ void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	if (arrival == 0)
 	{
 		fprintf(stderr, "No arrival type was set.\n");
-		return;
+		return -1;
 	}
 
 #ifdef DEBUG
@@ -81,27 +82,31 @@ void on_new_Patient_clicked(GtkButton *button, gpointer data)
 	if (addPerson(patient_info->active_persons, person) < 0)
 	{
 		fprintf(stderr, "Failed to add Person.\n");
-		return;
+		return -1;
 	}
 	if (person->arrival == 'Z')
 	{
 		if (selectRow(patient_info->rows, person) < 0)
 		{
 			fprintf(stderr, "Failed to select row.\n");
-			return;
+			return -1;
 		}
 	}
 	g_print("Person hinzugefügt.\n");
 	gtk_entry_set_text(GTK_ENTRY(patient_info->first_name_entry), "Type here ...");
 	gtk_entry_set_text(GTK_ENTRY(patient_info->last_name_entry), "Type here ...");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(patient_info->arrival_combobox), -1); // Resets the combo-box to 'No active item'
+
+	return 0;
 }
 
-void on_next_Patient_clicked(GtkButton *button, gpointer data)
+int on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	movePerson(patient_info->active_persons, patient_info->completed_persons);
 	// clearSeat(patient_info->completed_persons->last);
+
+    return 0;
 }
 /*
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)
@@ -119,7 +124,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 		.first_name_entry = NULL,
 		.last_name_entry = NULL,
 		.arrival_combobox = NULL};
-	GtkWindow *win;
+	GtkWidget *win;
 	GdkPixbuf *pic;
 	GtkGrid *table; //Pack widgets in rows and columns
 	GtkLabel *label[ENTRYS];
