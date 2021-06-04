@@ -67,7 +67,7 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 TEST(seat_rows_unit_tests, selectRow_t1)
 {
     selectRow(rows, &p_1);
-    EXPECT_STREQ("Stefan",p_1.first_name);
+    EXPECT_STREQ("Stefano",p_1.first_name);
 
     /*
      printf("The first name of the person p_1 is %s\t", p_1.first_name);
