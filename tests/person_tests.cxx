@@ -79,6 +79,24 @@ TEST(person_unit_tests, addPerson_just_Z_test){
     freeListPersons(list);
 }
 
+// Test if it is possible to add: alternating person of type Z and R
+TEST(person_unit_tests, addPerson_just_Z_test){
+Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
+Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
+Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+Person_t * newPerson4 = fillStructPerson('R', "Peter", "Lustig");
+Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
+Person_t * newPerson6 = fillStructPerson('R', "Peter", "Lustig");
+ListPersons_t *list = createListPersons();
+EXPECT_EQ(addPerson(list, newPerson1), 0);
+EXPECT_EQ(addPerson(list, newPerson2), 0);
+EXPECT_EQ(addPerson(list, newPerson3), 0);
+EXPECT_EQ(addPerson(list, newPerson4), 0);
+EXPECT_EQ(addPerson(list, newPerson5), 0);
+EXPECT_EQ(addPerson(list, newPerson6), 0);
+freeListPersons(list);
+}
+
 
 // Test if person is appended successfully
 TEST(person_unit_tests, appendPerson_test){
