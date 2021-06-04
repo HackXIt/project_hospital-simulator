@@ -51,11 +51,11 @@ TEST(person_unit_tests, addPerson_limit_seated_test){
     list->countZivil = 25;
     EXPECT_EQ(addPerson(list, newPerson), -1);
 }
-/*
+
 // Test if first person is added successfully
 TEST(person_unit_tests, addPerson_first_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
     EXPECT_EQ(list->start, list->last);
 }
-*/
+
