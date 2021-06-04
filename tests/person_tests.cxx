@@ -59,3 +59,24 @@ TEST(person_unit_tests, addPerson_first_test){
     EXPECT_EQ(list->start, list->last);
 }
 
+// Test if person is appended successfully
+TEST(person_unit_tests, appendPerson_test){
+    Person_t * newPerson = createStructPerson();
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(appendPerson(list, newPerson), 0);
+}
+
+// Test if person is moved successfully
+TEST(person_unit_tests, movePerson_return_success_test){
+    Person_t * newPerson = createStructPerson();
+    ListPersons_t *listActive = createListPersons();
+    ListPersons_t *listCompleted = createListPersons();
+    EXPECT_EQ(movePerson(listActive, listCompleted), 0);
+}
+
+// Test movePerson, if -1 is returned, if list ist empty
+TEST(person_unit_tests, movePerson_return_failure_test){
+    ListPersons_t *listActive = createListPersons();
+    ListPersons_t *listCompleted = createListPersons();
+    EXPECT_EQ(movePerson(listActive, listCompleted), -1);
+}
