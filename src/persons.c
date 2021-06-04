@@ -142,10 +142,14 @@ int appendPerson(Person_t *person, ListPersons_t *list) {
     // delete first element if limit is reached
     if (list->count >= MAX_PERSONS_COMPLETED) {
         tmp = list->start;
-        list->start = tmp->node.next;
-        free(tmp->first_name);
-        free(tmp->last_name);
-        free(tmp);
+        if (tmp->node.next != NULL) {
+            list->start = tmp->node.next;
+            free(tmp->first_name);
+            free(tmp->last_name);
+            free(tmp);
+        } else {
+            return -1;
+        };
     }
 
     // if list is empty: insert new person as first element
