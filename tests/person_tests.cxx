@@ -63,7 +63,7 @@ TEST(person_unit_tests, addPerson_first_test){
 TEST(person_unit_tests, appendPerson_test){
     Person_t * newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
-    EXPECT_EQ(appendPerson(list, newPerson), 0);
+    EXPECT_EQ(appendPerson(newPerson, list), 0);
 }
 
 // Test if person is moved successfully
