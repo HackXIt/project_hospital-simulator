@@ -67,12 +67,7 @@ TEST(seat_rows_unit_tests, occupySeats_t2)
 	occupySeat(rows[1], &p_2);
 	EXPECT_EQ(occupySeat(rows[1], &p_2), 0);
 }
-// Not 0 is expected since occupying was successful
-TEST(seat_rows_unit_tests, occupySeats_t3)
-{
-	occupySeat(rows[1], &p_3);
-	EXPECT_NE(occupySeat(rows[1], &p_3), 0);
-}
+
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t4)
 {
