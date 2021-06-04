@@ -7,16 +7,16 @@ extern "C"
 #include "persons.h" // -> Functions for persons & personLists
 }
 
-Person_t p_1 = {.arrival = 'Z', .first_name = "Stefan", .last_name = "Hubolt", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_2 = {.arrival = 'R', .first_name = "Patrick", .last_name = "Culies", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_3 = {.arrival = 'R', .first_name = "Sandra", .last_name = "Humar", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_4 = {.arrival = 'R', .first_name = "Ricardo", .last_name = "Monatez", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_5 = {.arrival = 'R', .first_name = "Petra", .last_name = "Turner", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_6 = {.arrival = 'R', .first_name = "Luigi", .last_name = "Pomodoro", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_7 = {.arrival = 'R', .first_name = "Franklin", .last_name = "Domali", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_8 = {.arrival = 'R', .first_name = "Malcolm", .last_name = "Mehves", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_9 = {.arrival = 'R', .first_name = "Fillin", .last_name = "Kasper", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
-Person_t p_10 = {.arrival = 'R', .first_name = "Afua", .last_name = "Mara", .neighbour = {NULL, NULL}, .seat = NULL, .node = {.next = NULL, .prev = NULL}};
+Person_t p_1 = {.arrival = 'Z', .first_name = "Stefan", .last_name = "Hubolt", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_2 = {.arrival = 'R', .first_name = "Patrick", .last_name = "Culies", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_3 = {.arrival = 'R', .first_name = "Sandra", .last_name = "Humar", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_4 = {.arrival = 'R', .first_name = "Ricardo", .last_name = "Monatez", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_5 = {.arrival = 'R', .first_name = "Petra", .last_name = "Turner", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_6 = {.arrival = 'R', .first_name = "Luigi", .last_name = "Pomodoro", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_7 = {.arrival = 'R', .first_name = "Franklin", .last_name = "Domali", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_8 = {.arrival = 'R', .first_name = "Malcolm", .last_name = "Mehves", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_9 = {.arrival = 'R', .first_name = "Fillin", .last_name = "Kasper", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
+Person_t p_10 = {.arrival = 'R', .first_name = "Afua", .last_name = "Mara", .neighbour = {nullptr, nullptr}, .seat = nullptr, .node = {.next = nullptr, .prev = nullptr}};
 
 ListRows_t *row1 = createRow();
 ListRows_t *row2 = createRow();
@@ -42,13 +42,13 @@ TEST(seat_rows_unit_tests, DUMMY)
 	EXPECT_EQ(1, 1);
 }
 
-// Not NULL is expected if the seat was successful created
+// Not nullptr is expected if the seat was successful created
 TEST(seat_rows_unit_tests, createSeat)
 {
 	EXPECT_NE(createSeat(), nullptr);
 }
 
-// Not NULL is expected if the row was successful created
+// Not nullptr is expected if the row was successful created
 TEST(seat_rows_unit_tests, createRow)
 {
 	EXPECT_NE(createSeat(), nullptr);
