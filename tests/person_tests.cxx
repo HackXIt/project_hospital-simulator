@@ -69,9 +69,10 @@ TEST(person_unit_tests, appendPerson_test){
 
 // Test if person is moved successfully
 TEST(person_unit_tests, movePerson_return_success_test){
-    Person_t * newPerson = createStructPerson();
+    Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
     ListPersons_t *listActive = createListPersons();
     ListPersons_t *listCompleted = createListPersons();
+    addPerson(listActive, newPerson);
     EXPECT_EQ(movePerson(listActive, listCompleted), 0);
 }
 
