@@ -30,44 +30,47 @@ int main(int argc, char *argv[])
 		ListRows_t *row_3 = createRow();
 		ListRows_t *row_4 = createRow();
 		ListRows_t *row_5 = createRow();
-		ListRows_t *rows[5] = {row_1, row_2, row_3, row_4, row_5};
+		ListRows_t *rows[MAX_ROWS] = {row_1, row_2, row_3, row_4, row_5};
 		// gtk_main(persons_active, persons_completed, rows);
 		gui_main(argc, argv, persons_active, persons_completed, rows);
+		// FIXME Shouldn't we export the active-list as well? To document the persons currently still sitting?
+		exportListPersons(persons_completed);
+		freeListPersons(persons_active);
+		freeListPersons(persons_completed);
+		for (int i = 0; i < MAX_ROWS; i++)
+		{
+			freeRow(rows[i]);
+		}
 	}
 	else if (argc > 1) // Program is executed in CLI-Mode (parameters exist)
 	{
 		int opt;
-		char *valid_options = "b:hp:t:"; // NOTE Please retain the order of the options alphabetically
+		char *valid_options = "b:h"; // NOTE Please retain the order of the options alphabetically
 		/* NOTE Valid options for CLI-Execution:
 		b = binary | Read from provided binary to export it into output-file
 		h = help | Print help message for program execution
-		p = patients | List of patients to be used in automatic execution
-		t = test | Test program execution with given testcase automatically (requires option 'p')
 		*/
-		bool p_given = false;
-		bool t_given = false;
+		bool b_given = false;
 		while ((opt = getopt(argc, argv, valid_options))) // Parse parameters
 		{
 			switch (opt) // NOTE Please retain the order of this switch-statement alphabetically
 			{
 			case 'b':
 				// TODO Parse argument of b
+				b_given = true;
 				break;
 			case 'h':
 				print_help(argv[0]);
 				break;
-			case 'p':
-				p_given = true;
-				// TODO Parse argument of p
-				break;
-			case 't':
-				t_given = true;
-				// TODO Parse argument of t
-				break;
 			default:
 				fprintf(stderr, "Non-valid option given.\n");
+				exit(EXIT_FAILURE);
 				break;
 			}
+		}
+		if (b_given)
+		{
+			fprintf(stderr, "Not implemented.\n");
 		}
 	}
 
