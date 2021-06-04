@@ -94,14 +94,13 @@ TEST(person_unit_tests, movePerson_return_failure_test){
 // Test freeListPersons, if -1 is returned, if list ist empty
 TEST(person_unit_tests, freeListPersons_return_success_test){
     ListPersons_t *listActive = createListPersons();
-
-    EXPECT_EQ(freeListPersons(listActive), 0);
+    EXPECT_EQ(freeListPersons(listActive), -1);
 }
 
-// Test freeListPersons, if -1 is returned, if list ist empty
+// Test freeListPersons, if 0 is returned
 TEST(person_unit_tests, freeListPersons_return_failure_test){
     ListPersons_t *listActive = createListPersons();
     Person_t * newPerson = fillStructPerson('Z', "Peter", "Lustig");
     addPerson(listActive, newPerson);
-    EXPECT_EQ(freeListPersons(listActive), -1);
+    EXPECT_EQ(freeListPersons(listActive), 0);
 }
