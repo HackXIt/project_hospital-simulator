@@ -85,32 +85,8 @@ TEST(seat_rows_unit_tests, selectRow_t2)
 {
     EXPECT_EQ(selectRow(rows, &p_1), 0);
     EXPECT_EQ(selectRow(rows, &p_2), 0);
-	EXPECT_EQ(selectRow(rows, &p_3), 1);
-    EXPECT_EQ(selectRow(rows, &p_4), 1);
-    EXPECT_EQ(selectRow(rows, &p_5), 1);
-    EXPECT_EQ(selectRow(rows, &p_6), 0);
-    EXPECT_EQ(selectRow(rows, &p_7), 0);
-    EXPECT_EQ(selectRow(rows, &p_8), 0);
-    EXPECT_EQ(selectRow(rows, &p_9), 0);
-    EXPECT_EQ(selectRow(rows, &p_10), 0);
-
-    EXPECT_EQ(selectRow(rows, &p_1), 0);
-    EXPECT_EQ(selectRow(rows, &p_2), 0);
-    EXPECT_EQ(selectRow(rows, &p_3), 0);
+	EXPECT_EQ(selectRow(rows, &p_3), 0);
     EXPECT_EQ(selectRow(rows, &p_4), 0);
-    EXPECT_EQ(selectRow(rows, &p_5), 0);
-    EXPECT_EQ(selectRow(rows, &p_6), 0);
-    EXPECT_EQ(selectRow(rows, &p_7), 0);
-    EXPECT_EQ(selectRow(rows, &p_8), 0);
-    EXPECT_EQ(selectRow(rows, &p_9), 0);
-    EXPECT_EQ(selectRow(rows, &p_10), 0);
-
-    EXPECT_EQ(selectRow(rows, &p_1), 0);
-    EXPECT_EQ(selectRow(rows, &p_2), 0);
-    EXPECT_EQ(selectRow(rows, &p_3), 0);
-    EXPECT_EQ(selectRow(rows, &p_4), 0);
-    EXPECT_EQ(selectRow(rows, &p_5), 0);
-
 }
 
 
