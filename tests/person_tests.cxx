@@ -35,6 +35,7 @@ TEST(person_unit_tests, createListPersons_test){
     EXPECT_NE(createStructPerson(), nullptr);
 }
 
+// Test if -1 is returned, once limit of active persons is reached
 TEST(person_unit_tests, addPerson_limit_active_test){
     Person_t *newPerson = createStructPerson();
     ListPersons_t *list = createListPersons();
@@ -42,3 +43,17 @@ TEST(person_unit_tests, addPerson_limit_active_test){
     EXPECT_EQ(addPerson(list, newPerson), -1);
 }
 
+// Test if -1 is returned, once limit of seated persons is reached
+TEST(person_unit_tests, addPerson_limit_active_test){
+    Person_t *newPerson = createStructPerson();
+    ListPersons_t *list = createListPersons();
+    list->countZivil = 25;
+    EXPECT_EQ(addPerson(list, newPerson), -1);
+}
+
+// Test if first person is added successfully
+TEST(person_unit_tests, addPerson_first_test){
+    Person_t * newPerson = createStructPerson();
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(list->start, list->last);
+}
