@@ -30,3 +30,7 @@ TEST(person_unit_tests, fillStructPerson_assert_static)
 	// NULL-Pointer kann man auch vergleichen, lass ich aber hier kurz weg
 }
  */
+
+TEST(person_unit_tests, createStructPerson_test){
+    EXPECT_NE(createStructPerson(), nullptr);
+}
