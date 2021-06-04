@@ -134,7 +134,8 @@ TEST(seat_rows_unit_tests, freeSingleSeat)
 {
    Seat_t *tmp = createSeat();
    EXPECT_NE(tmp, nullptr);
- //   EXPECT_EQ(freeSeat(tmp), nullptr);
+    freeSeat(tmp);
+    EXPECT_EQ(freeSeat(tmp), 0);
 }
 
 
