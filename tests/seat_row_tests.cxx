@@ -51,10 +51,10 @@ TEST(seat_rows_unit_tests, createRow_2)
     ListRows_t *row_t = createRow();
     EXPECT_EQ(row_t->count, 0) ;
     EXPECT_NE(row_t->start, nullptr);
-  // EXPECT_EQ( row_t->start, row_t->last);
+    EXPECT_EQ( row_t->start, row_t->last);
 }
 
-/*
+
 // 0 is expected since occupying was successful
 TEST(seat_rows_unit_tests, occupySeats_t1)
 {
@@ -63,7 +63,7 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
 }
 
-
+/*
 
 // 0 is expected for select row to be successful
 TEST(seat_rows_unit_tests, selectRow_t1)
