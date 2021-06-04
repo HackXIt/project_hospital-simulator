@@ -166,8 +166,8 @@ TEST(person_unit_tests, printPerson_test){
     EXPECT_EQ(printPerson(Peter), 0);
     Person_t * Susi = fillStructPerson('Z', "Susi", "Fad");
     Person_t * testNeighbour = fillStructPerson('Z', "Neighbour", "Neighbourson");
-    Susi->neighour[0] = testNeighbour;
-    Susi->neighour[1] = testNeighbour;
+    Susi->neighbour[0] = testNeighbour;
+    Susi->neighbour[1] = testNeighbour;
     EXPECT_EQ(printPerson(Susi), 0);
 }
 
