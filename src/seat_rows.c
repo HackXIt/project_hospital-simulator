@@ -119,6 +119,8 @@ int freeRow(ListRows_t *row)
 	free(row); // free list head
 	return EXIT_SUCCESS;
 }
+
+/*
 // Free a single seat in the list
 int freeSeat(Seat_t *seat)
 {
@@ -128,3 +130,4 @@ int freeSeat(Seat_t *seat)
 	free(seat);									  // Free the now unlinked seat
 	return EXIT_SUCCESS;
 }
+ */
