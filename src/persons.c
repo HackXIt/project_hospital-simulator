@@ -109,7 +109,7 @@ int addPerson(ListPersons_t *list, Person_t *person) {
                 while (tmp->arrival == 'R') { // find last person of type R
                     tmp = tmp->node.next; //
                 }
-                if (tmp->arrival = 'Z') { // if tmp->arrival is NOT Z, we are at end of list, skip this part
+                if (tmp->arrival == 'Z') { // if tmp->arrival is NOT Z, we are at end of list, skip this part
                     person->node.prev = tmp->node.prev; // set last r as previous of person, link between person and previous element - established in person
                     person->node.next = tmp; // set tmp as next of person, link between person and following element - established in person
                     tmp->node.prev->node.next = person; // set person as next of last r, link between person and previous element - established in previous element
