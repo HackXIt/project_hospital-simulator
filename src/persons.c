@@ -99,25 +99,32 @@ int addPerson(ListPersons_t *list, Person_t *person) {
 		if (person->arrival == 'R') {
 
 			// case 1: only Zs in list! - insert R  before first Z
-			if (tmp->arrival == 'Z'){
+			if (tmp->arrival == 'Z'){ // first element of list is Z
 				tmp->node.prev = person;
 				person->node.next = tmp;
 				list->start = person; // assign pointer to new start
 
-            // case 2: Rs and Zs in list - insert R before first Z
-			} else {
-                while (tmp->arrival == 'R') { // find last person of type R
-                    tmp = tmp->node.next; //
-                }
-                if (tmp->arrival == 'Z') { // if tmp->arrival is NOT Z, we are at end of list, skip this part
+			} else if (tmp->arrival == 'R'){ // first element of list is R
+
+			    // case 2: only Rs in list! - insert R last
+                if(list->last->arrival == 'R') {
+                    list->last->node.next = person; // set person als new last element
+                    person->node.prev = list->last; // set tmp as previous element of person
+                    list->last = person;
+
+                // case 3: Rs and Zs in list - insert R before first Z
+                } else {
+                    while (tmp->arrival == 'R') { // find first person of Type Z
+                        tmp = tmp->node.next; //
+                    }
                     person->node.prev = tmp->node.prev; // set last r as previous of person, link between person and previous element - established in person
                     person->node.next = tmp; // set tmp as next of person, link between person and following element - established in person
                     tmp->node.prev->node.next = person; // set person as next of last r, link between person and previous element - established in previous element
                     tmp->node.prev = person; // set person als previous of tmp, link between person and following element - established in following element
-                }
-            }
+			    }
+			}
 
-        // case 3: type R: only Rs in list - insert last OR case 4: type Z: always insert last
+        // case 4: type Z: always insert last
 		} else {
 			tmp = list->last;
 			tmp->node.next = person; // set person als new last element
@@ -214,6 +221,7 @@ int freeListPersons(ListPersons_t *list){
 	return 0;
 }
 
+// Print a person
 int printPerson(Person_t *person) {
     printf("Arrival: %c\tFirst name: %s\tLast name: %s\t", person->arrival, person->first_name, person->last_name);
     if (person->neighbour[0] == NULL) {
@@ -229,6 +237,7 @@ int printPerson(Person_t *person) {
     printf("\n");
     return 0;
 }
+
 // Print list of persons
 int printListPersons(ListPersons_t *list) {
     if (list->start == NULL) {
