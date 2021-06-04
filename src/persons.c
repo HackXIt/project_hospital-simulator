@@ -224,13 +224,12 @@ int printPerson(Person_t *person) {
     if (person->neighbour[1] == NULL) {
         printf("Neighbour 2: None.\t");
     } else {
-        printf("Neighbour 2: %s %s\t", person->neighbour[0]->first_name, person->neighbour[0]->last_name);
+        printf("Neighbour 2: %s %s\t", person->neighbour[1]->first_name, person->neighbour[1]->last_name);
     }
     printf("\n");
     return 0;
 }
 // Print list of persons
-// TODO names of neighbours need to be printed correctly
 int printListPersons(ListPersons_t *list) {
     if (list->start == NULL) {
         fprintf(stderr, "List is empty.\n");
@@ -276,13 +275,13 @@ int exportListPersons(ListPersons_t *list) {
             fprintf(fp, "Neighbour 1: None.\t");
         } else {
             fprintf(fp,"Neighbour 1: %s %s\t", tmp->neighbour[0]->first_name,
-                   tmp->neighbour[0]->last_name); // TODO is this dereferenced correctly??
+                   tmp->neighbour[0]->last_name);
         }
         if (tmp->neighbour[1] == NULL) {
             fprintf(fp, "Neighbour 2: None.\t");
         } else {
             fprintf(fp,"Neighbour 2: %s %s\t", tmp->neighbour[0]->first_name,
-                   tmp->neighbour[0]->last_name); // TODO is this dereferenced correctly??
+                   tmp->neighbour[1]->last_name);
         }
         fprintf(fp, "\n");
         tmp = tmp->node.next; // set next element as tmp
