@@ -199,6 +199,8 @@ TEST(person_unit_tests, exportListPersons_test){
     Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
     Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
     Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
+    newPerson1->neighbour[0] = newPerson2;
+    newPerson1->neighbour[1] = newPerson3;
     addPerson(list, newPerson1);
     addPerson(list, newPerson2);
     addPerson(list, newPerson3);
