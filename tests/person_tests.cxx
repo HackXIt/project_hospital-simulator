@@ -65,75 +65,61 @@ TEST(person_unit_tests, addPerson_first_test){
 
 // Test if it is possible to add: 5 x person of type Z
 TEST(person_unit_tests, addPerson_just_Z_test){
-    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson2 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson4 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
+    Person_t *newPerson1 = fillStructPerson('Z', "Christian", "Griffith");
+    Person_t *newPerson2 = fillStructPerson('Z', "Clara", "Tate");
+    Person_t *newPerson3 = fillStructPerson('Z', "Emily", "Lane");
+    Person_t *newPerson4 = fillStructPerson('Z', "Luis", "Herrera");
+    Person_t *newPerson5 = fillStructPerson('Z', "Callie", "Moore");
     ListPersons_t *list = createListPersons();
     EXPECT_EQ(addPerson(list, newPerson1), 0);
     EXPECT_EQ(addPerson(list, newPerson2), 0);
     EXPECT_EQ(addPerson(list, newPerson3), 0);
     EXPECT_EQ(addPerson(list, newPerson4), 0);
     EXPECT_EQ(addPerson(list, newPerson5), 0);
+    printListPersons(list);
     freeListPersons(list);
 }
 
 // Test if it is possible to add: 5 x person of type R
 TEST(person_unit_tests, addPerson_just_R_test){
-Person_t * newPerson1 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson3 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson4 = fillStructPerson('R', "Peter", "Lustig");
-Person_t * newPerson5 = fillStructPerson('R', "Peter", "Lustig");
-ListPersons_t *list = createListPersons();
-EXPECT_EQ(addPerson(list, newPerson1), 0);
-EXPECT_EQ(addPerson(list, newPerson2), 0);
-EXPECT_EQ(addPerson(list, newPerson3), 0);
-EXPECT_EQ(addPerson(list, newPerson4), 0);
-EXPECT_EQ(addPerson(list, newPerson5), 0);
-freeListPersons(list);
+    Person_t *newPerson1 = fillStructPerson('R', "Christian", "Griffith");
+    Person_t *newPerson2 = fillStructPerson('R', "Clara", "Tate");
+    Person_t *newPerson3 = fillStructPerson('R', "Emily", "Lane");
+    Person_t *newPerson4 = fillStructPerson('R', "Luis", "Herrera");
+    Person_t *newPerson5 = fillStructPerson('R', "Callie", "Moore");
+    ListPersons_t *list = createListPersons();
+    EXPECT_EQ(addPerson(list, newPerson1), 0);
+    EXPECT_EQ(addPerson(list, newPerson2), 0);
+    EXPECT_EQ(addPerson(list, newPerson3), 0);
+    EXPECT_EQ(addPerson(list, newPerson4), 0);
+    EXPECT_EQ(addPerson(list, newPerson5), 0);
+    printListPersons(list);
+    freeListPersons(list);
 }
 
 // Test if it is possible to add: alternating person of type Z and R
 TEST(person_unit_tests, addPerson_alternating_R_Z_test){
-    Person_t * newPerson1 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson2 = fillStructPerson('R', "Peter", "Lustig");
-    Person_t * newPerson3 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson4 = fillStructPerson('R', "Peter", "Lustig");
-    Person_t * newPerson5 = fillStructPerson('Z', "Peter", "Lustig");
-    Person_t * newPerson6 = fillStructPerson('R', "Peter", "Lustig");
     ListPersons_t *list = createListPersons();
+    Person_t *newPerson1 = fillStructPerson('Z', "Christian", "Griffith");
+    Person_t *newPerson2 = fillStructPerson('Z', "Clara", "Tate");
+    Person_t *newPerson3 = fillStructPerson('Z', "Emily", "Lane");
+    Person_t *newPerson4 = fillStructPerson('Z', "Luis", "Herrera");
+    Person_t *newPerson5 = fillStructPerson('R', "Callie", "Moore");
+    Person_t *newPerson6 = fillStructPerson('Z', "Maria", "Richardson");
+    Person_t *newPerson7 = fillStructPerson('Z', "Agnes", "Underwood");
+    Person_t *newPerson8 = fillStructPerson('R', "Allie", "Chapman");
+    Person_t *newPerson9 = fillStructPerson('Z', "Garrett", "Frazier");
+    Person_t *newPerson10 = fillStructPerson('Z', "John", "Silva");
     EXPECT_EQ(addPerson(list, newPerson1), 0);
     EXPECT_EQ(addPerson(list, newPerson2), 0);
     EXPECT_EQ(addPerson(list, newPerson3), 0);
     EXPECT_EQ(addPerson(list, newPerson4), 0);
     EXPECT_EQ(addPerson(list, newPerson5), 0);
     EXPECT_EQ(addPerson(list, newPerson6), 0);
-    freeListPersons(list);
-}
-TEST(person_unit_tests, addPerson_combination1_test){
-    ListPersons_t *list = createListPersons();
-    Person_t *person_1 = fillStructPerson('Z', "Christian", "Griffith");
-    Person_t *person_2 = fillStructPerson('Z', "Clara", "Tate");
-    Person_t *person_3 = fillStructPerson('Z', "Emily", "Lane");
-    Person_t *person_4 = fillStructPerson('Z', "Luis", "Herrera");
-    Person_t *person_5 = fillStructPerson('R', "Callie", "Moore");
-    Person_t *person_6 = fillStructPerson('Z', "Maria", "Richardson");
-    Person_t *person_7 = fillStructPerson('Z', "Agnes", "Underwood");
-    Person_t *person_8 = fillStructPerson('R', "Allie", "Chapman");
-    Person_t *person_9 = fillStructPerson('Z', "Garrett", "Frazier");
-    Person_t *person_10 = fillStructPerson('Z', "John", "Silva");
-    addPerson(list, person_1);
-    addPerson(list, person_2);
-    addPerson(list, person_3);
-    addPerson(list, person_4);
-    addPerson(list, person_5);
-    addPerson(list, person_6);
-    addPerson(list, person_7);
-    addPerson(list, person_8);
-    addPerson(list, person_9);
-    addPerson(list, person_10);
+    EXPECT_EQ(addPerson(list, newPerson7), 0);
+    EXPECT_EQ(addPerson(list, newPerson8), 0);
+    EXPECT_EQ( addPerson(list, newPerson9), 0);
+    EXPECT_EQ(addPerson(list, newPerson10), 0);
     printListPersons(list);
     freeListPersons(list);
 }
