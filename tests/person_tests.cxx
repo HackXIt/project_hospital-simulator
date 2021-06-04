@@ -163,15 +163,12 @@ TEST(person_unit_tests, freeListPersons_return_success_test){
 // Test printing one person
 TEST(person_unit_tests, printPerson_test){
     Person_t * Peter = fillStructPerson('Z', "Peter", "Lustig");
-    EXPECT_EQ(printPerson(newPerson1), 0);
+    EXPECT_EQ(printPerson(Peter), 0);
     Person_t * Susi = fillStructPerson('Z', "Susi", "Fad");
-    EXPECT_EQ(printPerson(newPerson2), 0);
     Person_t * testNeighbour = fillStructPerson('Z', "Neighbour", "Neighbourson");
-    Peter->neighour[0] = testNeighbour;
-    Peter->neighour[1] = testNeighbour;
     Susi->neighour[0] = testNeighbour;
     Susi->neighour[1] = testNeighbour;
-    EXPECT_EQ(printPerson(newPerson2), 0);
+    EXPECT_EQ(printPerson(Susi), 0);
 }
 
 // Test printing an empty list

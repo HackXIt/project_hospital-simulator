@@ -246,7 +246,6 @@ int printListPersons(ListPersons_t *list) {
 }
 
 // Export Persons
-// TODO names of neighbours need to be printed correctly
 int exportListPersons(ListPersons_t *list) {
 
     // Create file
