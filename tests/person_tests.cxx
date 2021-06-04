@@ -140,7 +140,3 @@ TEST(person_unit_tests, exportListPersons_test){
     EXPECT_EQ(exportListPersons(list), 0);
     freeListPersons(list);
 }
-
-TEST(person_unit_tests, exportListPersons_test){
-
-}
