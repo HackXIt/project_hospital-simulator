@@ -63,11 +63,12 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 	EXPECT_EQ(occupySeat(rows[1], &p_1), 0);
 }
 
-// 0 is expected for select row to be successful
+// The two strings must be equal
 TEST(seat_rows_unit_tests, selectRow_t1)
 {
     selectRow(rows, &p_1);
-    EXPECT_STREQ("Stefano",p_1.first_name);
+    EXPECT_STREQ("Stefan",p_1.first_name);
+    EXPECT_STREQ("Hubolt",p_1.last_name);
 
     /*
      printf("The first name of the person p_1 is %s\t", p_1.first_name);
@@ -81,6 +82,12 @@ TEST(seat_rows_unit_tests, selectRow_t1)
      printf("The current place has the count: %d\n", row1->count);
 
  */
+}
+// The two strings must be equal
+TEST(seat_rows_unit_tests, selectRow_t7) {
+    selectRow(rows, &p_7);
+    EXPECT_STREQ("Franklin", p_1.first_name);
+    EXPECT_STREQ("Domali", p_1.last_name);
 }
 
 // 0 is expected for select row to be successful
