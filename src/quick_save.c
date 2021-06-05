@@ -2,91 +2,12 @@
 #include <stdlib.h>
 
 #include "hospital_structures.h"
-// #include "auto_serializer.h"
 #include "serialize.h" // Custom Library from the Internet to serialize C-Structures (Credits/Sources in serialize.h)
 #include "seat_rows.h"
 #include "persons.h"
+#include "quick_save.h"
 
-typedef struct hospital_translators
-{
-	ser_tra_t *t_node_p;
-	// ser_tra_t *t_node_s;
-	ser_tra_t *t_person;
-	ser_tra_t *t_person_ref;
-	// ser_tra_t *t_seat;
-	// ser_tra_t *t_listPerson;
-	// ser_tra_t *t_listRow;
-} hospital_tra_t;
-
-FILE *in;
-FILE *out;
-
-/* NOTE was used for "auto_serializer.h", didn't work out as intended
-int write_fn(const uint8_t *bytes, size_t n, void *q)
-{
-	size_t written;
-	if ((written = fwrite(bytes, sizeof(uint8_t), n, (FILE *)q)) == 0)
-	{
-		return 1;
-	}
-	else
-	{
-		printf("Wrote %zu bytes\n", written);
-		return 0;
-	}
-	// fflush((FILE *)q);
-}
-int read_fn(uint8_t *bytes, size_t n, void *q)
-{
-	size_t read;
-	if ((read = fread(bytes, sizeof(uint8_t), n, (FILE *)q)) == 0)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-// Current strategy: DUMP everything in a matter of "I have no idea of what I'm doing and will improve results later"
-void quick_save(ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
-{
-	int a = 0xAA;
-	int b = 0xBB;
-	int c = 0xCC;
-	if (active->start != NULL)
-	{
-		if (!cser_raw_store_struct_ListPersons(active, write_fn, out))
-		{
-			fprintf(stderr, "Serialization {persons_active} completed!\n");
-		}
-	}
-	fwrite(&a, sizeof(uint8_t), 1, out);
-	if (completed->start != NULL)
-	{
-		if (!cser_raw_store_struct_ListPersons(completed, write_fn, out))
-		{
-			fprintf(stderr, "Serialization {persons_completed} completed!\n");
-		}
-	}
-	fwrite(&b, sizeof(uint8_t), 1, out);
-	for (int i = 0; i < MAX_ROWS; i++)
-	{
-		if (rows[i] == NULL)
-		{
-			continue;
-		}
-		if (!cser_raw_store_struct_ListRows(rows[i], write_fn, out))
-		{
-			fprintf(stderr, "Serialization {rows[%d]} completed!\n", i);
-		}
-		fwrite(&c, sizeof(uint8_t), 1, out);
-	}
-}
-*/
-
-void quick_save(ListPersons_t *active, ListPersons_t *completed, ListRows_t **rows)
+void quick_save(ListPersons_t *active, ListPersons_t *completed)
 {
 	return;
 }
@@ -108,38 +29,10 @@ hospital_tra_t *initialize_translators()
 	ser_new_field(translators->t_person_ref, "string", 0, "last_name", offsetof(Person_t, last_name));
 	ser_new_field(translators->t_person, "person_ref", 1, "left_neighbour", offsetof(Person_t, neighbour[0]));
 	ser_new_field(translators->t_person, "person_ref", 1, "right_neighbour", offsetof(Person_t, neighbour[1]));
-	/* NOTE All the stuff I won't serialize because it's freaking complicated (It's faulty)
-	// translators->t_seat = ser_new_tra("seat", sizeof(Seat_t), NULL);
-	// ser_new_field(translators->t_seat, "person_ref", 1, "occupied", offsetof(Seat_t, occupied));
-	// translators->t_node_s = ser_new_tra("node_s", sizeof(struct node_s), translators->t_seat);
-	// ser_new_field(translators->t_node_p, "seat", 1, "s_next", offsetof(struct node_s, next));
-	// ser_new_field(translators->t_node_p, "seat", 1, "s_prev", offsetof(struct node_s, prev));
-	// ser_new_field(translators->t_seat, "node_s", 0, "node_s", offsetof(Seat_t, node));
-	// translators->t_listPerson = ser_new_tra("listPerson", sizeof(ListPersons_t), translators->t_person);
-	// ser_new_field(translators->t_listPerson, "ushort", 0, "p_count", offsetof(ListPersons_t, count));
-	// ser_new_field(translators->t_listPerson, "ushort", 0, "p_countZivil", offsetof(ListPersons_t, countZivil));
-	// ser_new_field(translators->t_listPerson, "person_ref", 1, "p_start", offsetof(ListPersons_t, start));
-	// ser_new_field(translators->t_listPerson, "person_ref", 1, "p_last", offsetof(ListPersons_t, last));
-	// translators->t_listRow = ser_new_tra("listRow", sizeof(ListRows_t), translators->t_seat);
-	// ser_new_field(translators->t_listRow, "ushort", 0, "s_count", offsetof(ListRows_t, count));
-	// ser_new_field(translators->t_listPerson, "seat", 1, "s_start", offsetof(ListRows_t, start));
-	// ser_new_field(translators->t_listPerson, "seat", 1, "s_last", offsetof(ListRows_t, last));
-	// translators->t_neighbours = ser_new_tra("neighbours", sizeof(Person_t.neighbour), translators->t_person);
-	// ser_new_field(translators->t_neighbours, "person_ref", 1, "neighbour", offsetof(Person_t, neighbour));
-
-	// ser_new_field(translators->t_person, "node_p", 1, "node_p", offsetof(Person_t, node));
-	// translators->t_listPerson = ser_new_tra("listPerson", sizeof(ListPersons_t), translators->t_person);
-	// ser_new_field(translators->t_listPerson, "person", 1, "p_start", offsetof(ListPersons_t, start));
-	// ser_new_field(translators->t_listPerson, "person", 1, "p_last", offsetof(ListPersons_t, last));
-
-	// Translators for Seat-Stuff
-	// translators.t_seat = ser_new_tra("seat", sizeof(Seat_t), NULL);
-	// translators.t_node_s = ser_new_tra("node_s", sizeof(node_s), translators.t_seat);
-	// translators.t_listRow = ser_new_tra("listRow", sizeof(ListRows_t), translators.t_seat);
-	*/
 	return translators;
 }
 
+/* NOTE This main is for testing-purposes of quick_save.c and can be compiled using `make quicksave`
 int main(int argc, char const *argv[])
 {
 	hospital_tra_t *trans = initialize_translators();
@@ -253,3 +146,4 @@ int main(int argc, char const *argv[])
 	free(trans);
 	return 0;
 }
+*/
