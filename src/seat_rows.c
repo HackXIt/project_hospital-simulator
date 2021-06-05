@@ -8,33 +8,41 @@
 #define MAX_ROWS 5
 #define MAX_SEATS 5
 
-
 Seat_t *createSeat()
 {
 	Seat_t *newSeat = calloc(1, sizeof(Seat_t));
 	if (newSeat == NULL)
 	{
-		// TODO Memory-Error-Handling in createSeat();
+		fprintf(stderr, "Couldn't allocate memory for Seat!\n");
 		return NULL;
 	}
 	return newSeat;
 }
-
 
 ListRows_t *createRow()
 {
 	ListRows_t *newRow = calloc(1, sizeof(ListRows_t)); // Initializes values with
 	if (newRow == NULL)
 	{
-		// TODO Memory-Error-Handling in createRow();
+		fprintf(stderr, "Couldn't allocate memory for Row!\n");
 		return NULL;
 	}
 	newRow->count = 0;
 	newRow->start = createSeat();
+	if (newRow->start == NULL)
+	{
+		free(newRow);
+		return NULL;
+	}
 	newRow->last = newRow->start;
 	for (int i = 0; i < MAX_SEATS - 1; i++)
 	{
 		Seat_t *newSeat = createSeat();
+		if (newSeat == NULL)
+		{
+			freeRow(newRow);
+			return NULL;
+		}
 		newRow->last->node.next = newSeat;
 		newSeat->node.prev = newRow->last;
 		newRow->last = newSeat;
@@ -50,7 +58,6 @@ int occupySeat(ListRows_t *row, Person_t *person)
 	{
 		current = current->node.next;
 	}
-	// TODO Create logic where an empty seat between persons is preferred, if possible at all
 	// Current logic is "First come, first served"
 	if (current->occupied == NULL)
 	{
@@ -101,7 +108,7 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 		occupySeat(selection, person);
 		return EXIT_SUCCESS;
 	}
-	// TODO Error-Message when all rows are full
+	fprintf("All rows are full, there is no empty seat left!\n");
 	return EXIT_FAILURE;
 }
 

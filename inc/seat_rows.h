@@ -5,7 +5,6 @@
 #define MAX_ROWS 5
 #endif
 
-
 /*!
 @brief This function creates a row
 @param None.
@@ -37,13 +36,12 @@ int occupySeat(ListRows_t *row, Person_t *person);
 // int assignSeat(ListRows_t *row, Person_t *person);
 int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person);
 
-
 /*!
 @brief This function is to free the whole row
 @param ListRows_t *row - The list which will be deleted.
 @returns 0 for success
 */
 int freeRow(ListRows_t *row);
-int freeSeat(Seat_t *seat); //TODO: Does we need it?
+// int freeSeat(Seat_t *seat); // NOTE not needed
 
 #endif
