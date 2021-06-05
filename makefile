@@ -39,7 +39,7 @@ $(BUILD)gtk3.o: gtk3.c
 	$(CC) $(CFLAGS) $(GTKFLAGS) $(GTKLIB) -c $< -o $@
 
 # Automatic variable for compiling object files
-$(BUILD)%.o: %.c
+$(BUILD)%.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # This target is executed when just using 'make'
@@ -50,7 +50,7 @@ current: main.c $(OBJECTS)
 	$(CC) $(CFLAGS) $(GTKFLAGS) $^ -o $(BUILD)$@ $(GTKLIB)
 
 # Executed with: make quicksave
-quicksave: quick_save.c $(BUILD)seat_rows.o $(BUILD)persons.o ${BUILD}serializer.o
+quicksave: quick_save.c $(BUILD)seat_rows.o $(BUILD)persons.o ${BUILD}serialize.o
 	$(CC) $(CFLAGS) $^ -o $(BUILD)$@
 
 # Executed with: make clean
