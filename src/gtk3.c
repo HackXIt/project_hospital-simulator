@@ -106,7 +106,7 @@ int on_next_Patient_clicked(GtkButton *button, gpointer data)
 	movePerson(patient_info->active_persons, patient_info->completed_persons);
 	// clearSeat(patient_info->completed_persons->last);
 
-    return 0;
+	return 0;
 }
 /*
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)
@@ -123,7 +123,8 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 		.rows = rows,
 		.first_name_entry = NULL,
 		.last_name_entry = NULL,
-		.arrival_combobox = NULL};
+		.arrival_combobox = NULL,
+		.patient_list_view = NULL};
 	GtkWidget *win;
 	GdkPixbuf *pic;
 	GtkGrid *table; //Pack widgets in rows and columns
@@ -137,6 +138,44 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	GtkWidget *arrival_combobox; // the combo-box widget, it is easier to cast to other types from Widget instead of other way around
 	guint i;
 	gchar buf[BUF];
+	// Initialize List-Storage for the patient-list to be displayed in the GUI
+	GtkWidget *tree;
+	GtkTreeIter iterator;
+	GtkListStore *patient_list_store;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+	patient_list_store = gtk_list_store_new(N_COLUMNS,
+											G_TYPE_INT,
+											G_TYPE_CHAR,
+											G_TYPE_STRING,
+											G_TYPE_STRING);
+	tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(patient_list_store));
+	g_object_unref(G_OBJECT(patient_list_store)); // Storage can be unreferenced because tree-view keeps own model
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes("ID",
+													  renderer,
+													  "text", ID_COLUMN,
+													  NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes("Arrival",
+													  renderer,
+													  "text", ARRIVAL_COLUMN,
+													  NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes("First name",
+													  renderer,
+													  "text", FIRST_NAME_COLUMN,
+													  NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes("Last name",
+													  renderer,
+													  "text", LAST_NAME_COLUMN,
+													  NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+	patient_info.patient_list_view = tree;
 
 	gtk_init(&argc, &argv);
 	// Load a graphic into a pixbuf
@@ -248,6 +287,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	// Arrival
 	gtk_grid_attach(table, GTK_WIDGET(label[2]), 0, 3, 1, 1);
 	gtk_grid_attach(table, arrival_combobox, 1, 3, 1, 1);
+	gtk_grid_attach(table, tree, 2, 0, 1, 1);
 
 	gtk_grid_attach(table, GTK_WIDGET(hbox), 1, 6, 1, 1);
 
