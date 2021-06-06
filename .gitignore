@@ -22,6 +22,9 @@ CMakeCache.txt
 cmake-build/*
 !cmake-build/README.md
 
+# Doxygen Output
+html
+
 # ---- STEVE ----
 cmake-build-debug/
 .idea
