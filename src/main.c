@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 		ListRows_t *row_5 = createRow();
 		ListRows_t *rows[MAX_ROWS] = {row_1, row_2, row_3, row_4, row_5};
 		gui_main(argc, argv, persons_active, persons_completed, rows);
-		// FIXME Shouldn't we export the active-list as well? To document the persons currently still sitting?
 		exportListPersons(persons_completed);
 		freeListPersons(persons_active);
 		freeListPersons(persons_completed);
@@ -83,7 +82,6 @@ int main(int argc, char *argv[])
 
 void print_help(char *const argzero)
 {
-	// TODO proper help message, currently just placeholer
 	printf("%s [OPTIONS]... [ARGUMENTS]...\n", argzero);
 	printf("Application to track patients & their seat-neighbours in a simulated hospital.\n\n");
 	printf("When no options are given, program is executed normally with a Graphical-User-Interface.\n");
