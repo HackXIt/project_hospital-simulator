@@ -328,7 +328,7 @@ int exportListPersons(ListPersons_t *list)
 	time_t now = time(NULL);
 	struct tm *timenow = localtime(&now);
 
-	strftime(name, sizeof(name), "Export_%Y-%m-%d_%H:%M:%S", timenow);
+	strftime(name, sizeof(name), "Export_%Y-%m-%d_%H-%M-%S", timenow);
 	fp = fopen(name, "w");
 
 	// Check if valid pointer has been returned
