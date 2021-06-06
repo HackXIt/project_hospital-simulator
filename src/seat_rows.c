@@ -108,7 +108,7 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 		occupySeat(selection, person);
 		return EXIT_SUCCESS;
 	}
-	fprintf("All rows are full, there is no empty seat left!\n");
+	fprintf(stderr, "All rows are full, there is no empty seat left!\n");
 	return EXIT_FAILURE;
 }
 
