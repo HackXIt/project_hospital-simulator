@@ -104,9 +104,8 @@ int on_next_Patient_clicked(GtkButton *button, gpointer data)
 {
 	gtk_patient_info_t *patient_info = data;
 	movePerson(patient_info->active_persons, patient_info->completed_persons);
-	// clearSeat(patient_info->completed_persons->last);
-
-    return 0;
+	clearSeat(patient_info->completed_persons->last);
+	return 0;
 }
 /*
 static void on_arrival_combobox_changed(GtkComboBox *combobox, gpointer data)

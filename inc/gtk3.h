@@ -10,7 +10,6 @@
  of patients is kept.
  @returns a struct
 */
-
 typedef struct gtk_patient_info
 {
 	GtkWidget *first_name_entry;
@@ -20,7 +19,6 @@ typedef struct gtk_patient_info
 	ListPersons_t *completed_persons;
 	ListRows_t **rows;
 } gtk_patient_info_t;
-
 
 /*!
  @brief This callback function acquires the priorization of the patient.

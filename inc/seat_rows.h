@@ -27,6 +27,13 @@ Seat_t *createSeat();
 int occupySeat(ListRows_t *row, Person_t *person);
 
 /*!
+@brief This functions clears the occupation of a seat from the given person.
+@param Person_t *person - The person of which the reference should be free'd
+@returns 0 for success, 1 for failure (can be ignored for type 'R') 
+*/
+int clearSeat(Person_t *person);
+
+/*!
 @brief This function selects the row with the lowest person count
  and occupy a seat in that row.
 @param ListRows_t *rows[Max_ROWS] - These are the rows through which will be traversed

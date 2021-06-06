@@ -29,7 +29,8 @@ struct node_s
  * @param char *first_name is the first name of the person
  * @param char *last_name is the last name of the person
  * @param struct Person *neighbour[2] is the storage of left & right neighbour
- * @param struct Seat *seat is the reference to seat, if any TODO: Does we need, because is assigned but never accessed?
+ * @param struct Seat *seat is the reference to seat, if any
+ * @param struct ListRows *row is the reference to the row of the seat, if any
  * @param struct node_p node is a reference to node->next and node->prev
  */
 typedef struct Person
@@ -38,7 +39,8 @@ typedef struct Person
 	char *first_name;
 	char *last_name;
 	struct Person *neighbour[2];
-	struct Seat *seat;
+	struct Seat *seat;	  // reference to seat, if any
+	struct ListRows *row; // reference to row of the seat
 	struct node_p node;
 } Person_t;
 
