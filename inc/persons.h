@@ -22,7 +22,7 @@ ListPersons_t *createListPersons();
 @param Arrival type, first name, last name - as received from GUI.
 @returns Pointer to a struct person.
 */
-Person_t * fillStructPerson(char arrival, char *first_name, char *last_name);
+Person_t *fillStructPerson(char arrival, char *first_name, char *last_name);
 
 /*!
 @brief This function add a person to a list of persons.
@@ -70,5 +70,6 @@ int printListPersons(ListPersons_t *list);
 @param List of persons.
 @returns 0 in case of success, -1 in case of failure.
 */
+int exportListPersons(ListPersons_t *list);
 
 #endif
