@@ -97,6 +97,10 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 	int lowest = MAX_SEATS;
 	for (int i = 0; i < MAX_ROWS; i++)
 	{
+		if (rows[i] == NULL)
+		{
+			continue;
+		}
 		if (lowest > rows[i]->count)
 		{
 			selection = rows[i];
@@ -110,6 +114,27 @@ int selectRow(ListRows_t *rows[MAX_ROWS], Person_t *person)
 	}
 	fprintf(stderr, "All rows are full, there is no empty seat left!\n");
 	return EXIT_FAILURE;
+}
+
+int clearSeat(Person_t *person)
+{
+	if (person->seat != NULL)
+	{
+		Seat_t *tmp = person->seat;
+		person->seat = NULL;
+		tmp->occupied = NULL;
+		person->row->count--;
+		person->row = NULL;
+		return EXIT_SUCCESS;
+	}
+	else
+	{
+		/* NOTE This return value can be ignored
+		it just means the person wasn't of type 'Z' or didn't have a seat yet.
+		Nevertheless, nothing should be done.
+		*/
+		return EXIT_FAILURE;
+	}
 }
 
 // Free the whole row from memory - Nick
