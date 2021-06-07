@@ -15,10 +15,23 @@ typedef struct gtk_patient_info
 	GtkWidget *first_name_entry;
 	GtkWidget *last_name_entry;
 	GtkWidget *arrival_combobox;
+	GtkWidget *patient_list_view;
 	ListPersons_t *active_persons;
 	ListPersons_t *completed_persons;
 	ListRows_t **rows;
 } gtk_patient_info_t;
+
+/*
+ @brief This enum serves the column numbers to the Tree-View-Model in the GUI.
+*/
+enum
+{
+	ID_COLUMN,		   // G_TYPE_INT
+	ARRIVAL_COLUMN,	   // G_TYPE_CHAR
+	FIRST_NAME_COLUMN, // G_TYPE_STRING
+	LAST_NAME_COLUMN,  // G_YTPE_STRING
+	N_COLUMNS		   // NUMBER OF COLUMNS
+};
 
 /*!
  @brief This callback function acquires the priorization of the patient.

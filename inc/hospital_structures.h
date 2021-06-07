@@ -1,5 +1,6 @@
 #ifndef HOSPITAL_STRUCTURES_H
 #define HOSPITAL_STRUCTURES_H
+#include <gtk/gtk.h>
 
 /*
  * @brief This is a helper struct for the linked list in 'Person'
@@ -32,6 +33,7 @@ struct node_s
  * @param struct Seat *seat is the reference to seat, if any
  * @param struct ListRows *row is the reference to the row of the seat, if any
  * @param struct node_p node is a reference to node->next and node->prev
+ * @param GtkTreeIter iter holds a reference to the row inside the GUI.
  */
 typedef struct Person
 {
@@ -42,6 +44,7 @@ typedef struct Person
 	struct Seat *seat;	  // reference to seat, if any
 	struct ListRows *row; // reference to row of the seat
 	struct node_p node;
+	GtkTreeIter iter;
 } Person_t;
 
 /*
