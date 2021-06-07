@@ -33,6 +33,7 @@ int add_patient_to_view(Person_t *person, GtkTreeView *tree, gint id)
 	gchar *arrival = (person->arrival == 'R') ? "Rettung" : "Zivil";
 	storage = GTK_LIST_STORE(gtk_tree_view_get_model(tree));
 	gtk_list_store_append(storage, &iter);
+	person->iter = iter;
 	gtk_list_store_set(storage, &iter,
 					   ID_COLUMN, id,
 					   ARRIVAL_COLUMN, arrival,
@@ -44,16 +45,14 @@ int add_patient_to_view(Person_t *person, GtkTreeView *tree, gint id)
 
 int remove_patient_from_view(Person_t *person, GtkTreeView *tree, gint id)
 {
-	// GtkListStore *storage;
-	// GtkTreeIter iter;
-	// GValue *value;
+	GtkListStore *storage;
+	GtkTreeIter iter = person->iter;
 	if (person == NULL)
 	{
 		return -1;
 	}
-	// storage = GTK_LIST_STORE(gtk_tree_view_get_model(tree));
-	// value = gtk_tree_model_get_value(GTK_TREE_MODEL(storage),
-	// 								 iter, );
+	storage = GTK_LIST_STORE(gtk_tree_view_get_model(tree));
+	gtk_list_store_remove(storage, &iter);
 	return 0;
 }
 
@@ -250,7 +249,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 					   "border-width", 10,
 					   "icon", pic,
 					   NULL);
-	// Create a table 8x3
+	// Create a table
 	table = GTK_GRID(gtk_grid_new());			 //Creates a new Grid-Widget
 	gtk_grid_set_row_spacing(table, ROWS);		 //Sets the amount of space between rows of grid .
 	gtk_grid_set_column_spacing(table, COLUMNS); //Sets the amount of space between columns of grid .
