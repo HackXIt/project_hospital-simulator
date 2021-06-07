@@ -14,9 +14,48 @@
 #include "hospital_structures.h" // Is listed here for completion, but not necessary since gtk3.h includes it
 /*--- MACROS ---*/
 #define DEBUG
-#define ENTRYS 4
+#define ENTRYS 2
+#define LABELS 3
+#define BUTTONS 2
+#define ROWS 4
+#define COLUMNS 2
 #define BUF 50
 #define MAX_ROWS 5
+
+int add_patient_to_view(Person_t *person, GtkTreeView *tree, gint id)
+{
+	GtkListStore *storage;
+	GtkTreeIter iter;
+	if (person == NULL)
+	{
+		return -1;
+	}
+	gchar *arrival = (person->arrival == 'R') ? "Rettung" : "Zivil";
+	storage = GTK_LIST_STORE(gtk_tree_view_get_model(tree));
+	gtk_list_store_append(storage, &iter);
+	gtk_list_store_set(storage, &iter,
+					   ID_COLUMN, id,
+					   ARRIVAL_COLUMN, arrival,
+					   FIRST_NAME_COLUMN, (gchar *)person->first_name,
+					   LAST_NAME_COLUMN, (gchar *)person->last_name,
+					   -1);
+	return 0;
+}
+
+int remove_patient_from_view(Person_t *person, GtkTreeView *tree, gint id)
+{
+	// GtkListStore *storage;
+	// GtkTreeIter iter;
+	// GValue *value;
+	if (person == NULL)
+	{
+		return -1;
+	}
+	// storage = GTK_LIST_STORE(gtk_tree_view_get_model(tree));
+	// value = gtk_tree_model_get_value(GTK_TREE_MODEL(storage),
+	// 								 iter, );
+	return 0;
+}
 
 char get_arrival_type_from_combobox(GtkComboBoxText *combobox)
 {
@@ -92,6 +131,9 @@ int on_new_Patient_clicked(GtkButton *button, gpointer data)
 			return -1;
 		}
 	}
+	add_patient_to_view(person,
+						GTK_TREE_VIEW(patient_info->patient_list_view),
+						(gint)patient_info->active_persons->count);
 	g_print("Person hinzugefügt.\n");
 	gtk_entry_set_text(GTK_ENTRY(patient_info->first_name_entry), "Type here ...");
 	gtk_entry_set_text(GTK_ENTRY(patient_info->last_name_entry), "Type here ...");
@@ -105,6 +147,10 @@ int on_next_Patient_clicked(GtkButton *button, gpointer data)
 	gtk_patient_info_t *patient_info = data;
 	movePerson(patient_info->active_persons, patient_info->completed_persons);
 	// clearSeat(patient_info->completed_persons->last);
+
+	remove_patient_from_view(patient_info->completed_persons->last,
+							 GTK_TREE_VIEW(patient_info->patient_list_view),
+							 (gint)patient_info->active_persons->count + 1);
 
 	return 0;
 }
@@ -128,28 +174,39 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	GtkWidget *win;
 	GdkPixbuf *pic;
 	GtkGrid *table; //Pack widgets in rows and columns
-	GtkLabel *label[ENTRYS];
+	GtkLabel *label[LABELS];
 	GtkEntry *entry[ENTRYS]; //    Textfields - GtkEntry
-	GtkButton *entry_button[3];
-	GtkWidget *hbox, *hbox_2, *hbox_3, *hbox_vscale; //Base class for all widgets
-	GtkWidget *vbox, *vbox_spin;					 //Base class for all widgets
-	GtkWidget *hsep;
+	GtkButton *entry_button[BUTTONS];
+	GtkWidget *hbox_buttons; //Base class for all widgets
+	GtkWidget *vbox;
 	GError *err = NULL;
 	GtkWidget *arrival_combobox; // the combo-box widget, it is easier to cast to other types from Widget instead of other way around
-	guint i;
-	gchar buf[BUF];
 	// Initialize List-Storage for the patient-list to be displayed in the GUI
 	GtkWidget *tree;
-	GtkTreeIter iterator;
+	GtkWidget *viewport;
+	GtkWidget *scroll_window;
 	GtkListStore *patient_list_store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
+	GtkAdjustment *v_adjust;
+	GtkAdjustment *h_adjust;
+
+	gtk_init(&argc, &argv);
+
+	// Initialize List-Storage for the patient-list to be displayed in the GUI
 	patient_list_store = gtk_list_store_new(N_COLUMNS,
 											G_TYPE_INT,
-											G_TYPE_CHAR,
+											G_TYPE_STRING,
 											G_TYPE_STRING,
 											G_TYPE_STRING);
 	tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(patient_list_store));
+	h_adjust = gtk_adjustment_new(0.0, 0.0, 5.0, 1.0, 2.0, 10.0);
+	v_adjust = gtk_adjustment_new(0.0, 0.0, 5.0, 1.0, 2.0, 10.0);
+	viewport = gtk_viewport_new(h_adjust, v_adjust);
+	scroll_window = gtk_scrolled_window_new(h_adjust, v_adjust);
+	gtk_container_set_border_width(GTK_CONTAINER(scroll_window), 10);
+	gtk_widget_set_size_request(scroll_window, 400, 200);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 	g_object_unref(G_OBJECT(patient_list_store)); // Storage can be unreferenced because tree-view keeps own model
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes("ID",
@@ -177,7 +234,6 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 	patient_info.patient_list_view = tree;
 
-	gtk_init(&argc, &argv);
 	// Load a graphic into a pixbuf
 	const gchar *const icon_name = "Icon.png";
 	pic = gdk_pixbuf_new_from_file(icon_name, &err);
@@ -195,34 +251,19 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 					   "icon", pic,
 					   NULL);
 	// Create a table 8x3
-	table = GTK_GRID(gtk_grid_new());	   //Creates a new Grid-Widget
-	gtk_grid_set_row_spacing(table, 3);	   //Sets the amount of space between rows of grid .
-	gtk_grid_set_column_spacing(table, 3); //Sets the amount of space between columns of grid .
+	table = GTK_GRID(gtk_grid_new());			 //Creates a new Grid-Widget
+	gtk_grid_set_row_spacing(table, ROWS);		 //Sets the amount of space between rows of grid .
+	gtk_grid_set_column_spacing(table, COLUMNS); //Sets the amount of space between columns of grid .
 	// Create a horizontal box
-	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10); //Creates a new GTK-Box -> GtkBox — A container for packing widgets in a single row or column
-	// Create a second horizontal box
-	hbox_2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-
-	// Create a vertical box
-	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-	// Create a vertical box for the number fields
-	vbox_spin = gtk_box_new(GTK_ORIENTATION_VERTICAL, 7);
-
+	hbox_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10); //Creates a new GTK-Box -> GtkBox — A container for packing widgets in a single row or column
+	vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 	// Creates ENTRYS number fields
-	for (i = 0; i < ENTRYS - 2; i++)
+	for (int i = 0; i < ENTRYS; i++)
 	{
 		entry[i] = GTK_ENTRY(gtk_entry_new());
 		gtk_entry_set_text(entry[i], "Type here ...");
 		gtk_entry_set_max_length(entry[i], BUF);
 	}
-
-	// Our check button "Zivil"
-	g_snprintf(buf, BUF, "Zivil");
-	entry[2] = g_object_new(GTK_TYPE_CHECK_BUTTON, "label", buf, NULL);
-
-	//Check button "Rettung"
-	g_snprintf(buf, BUF, "Rettung");
-	entry[3] = g_object_new(GTK_TYPE_CHECK_BUTTON, "label", buf, NULL);
 
 	// Create labels for text fields
 	label[0] = g_object_new(GTK_TYPE_LABEL,
@@ -239,8 +280,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 
 	// Create buttons to evaluate the text fields
 	entry_button[0] = g_object_new(GTK_TYPE_BUTTON, "label", "New Patient", NULL);
-	//    entry_button[1] = g_object_new( GTK_TYPE_BUTTON,"label", "Reset",NULL );
-	entry_button[2] = g_object_new(GTK_TYPE_BUTTON, "label", "Next Patient", NULL);
+	entry_button[1] = g_object_new(GTK_TYPE_BUTTON, "label", "Next Patient", NULL);
 
 	gchar *arrival_type_string[] = {"Zivil", "Rettung"};
 	arrival_combobox = gtk_combo_box_text_new();
@@ -250,9 +290,6 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(arrival_combobox),
 							  NULL,
 							  arrival_type_string[1]);
-
-	// Create horizontal line
-	hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 
 	// Initialize struct for all the relevant patient_information widgets
 	// MUST BE DONE HERE, after initialization of widgets, otherwise the data will be incorrect.
@@ -267,7 +304,7 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	// Signalhandler for the Buttons
 	g_signal_connect(entry_button[0], "clicked", G_CALLBACK(on_new_Patient_clicked), &patient_info);
 	//	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(entry_loeschen), NULL);
-	g_signal_connect(entry_button[2], "clicked", G_CALLBACK(on_next_Patient_clicked), &patient_info);
+	g_signal_connect(entry_button[1], "clicked", G_CALLBACK(on_next_Patient_clicked), &patient_info);
 
 	// Signalhandler for combobox
 	// Not used at the moment
@@ -287,9 +324,8 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 	// Arrival
 	gtk_grid_attach(table, GTK_WIDGET(label[2]), 0, 3, 1, 1);
 	gtk_grid_attach(table, arrival_combobox, 1, 3, 1, 1);
-	gtk_grid_attach(table, tree, 2, 0, 1, 1);
 
-	gtk_grid_attach(table, GTK_WIDGET(hbox), 1, 6, 1, 1);
+	gtk_grid_attach(table, GTK_WIDGET(hbox_buttons), 0, 4, 2, 1);
 
 	/* NOTE GRID-Helper
 	1st Number is left
@@ -319,21 +355,21 @@ int gui_main(int argc, char **argv, ListPersons_t *active, ListPersons_t *comple
 *  The child is packed after any other child packed with reference to the start of box .
 */
 
-	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[0]), FALSE, FALSE, 0); //New Button
+	gtk_box_pack_start(GTK_BOX(hbox_buttons), GTK_WIDGET(entry_button[0]), FALSE, FALSE, 0); //New Button
 
-	gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(entry_button[2]), FALSE, FALSE, 0); //Next Button
+	gtk_box_pack_start(GTK_BOX(hbox_buttons), GTK_WIDGET(entry_button[1]), FALSE, FALSE, 0); //Next Button
 
-	gtk_box_pack_start(GTK_BOX(vbox_spin), GTK_WIDGET(hsep), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(table), FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(vbox), scroll_window, FALSE, FALSE, 10);
 
 	/* Adds widget to container . Typically used for simple containers such as GtkWindow,
  * GtkFrame, or GtkButton; for more complicated layout containers such as GtkBox or GtkGrid,
  * this function will pick default packing parameters that may not be correct.
  *
 */
-
-	gtk_container_add(GTK_CONTAINER(vbox), GTK_WIDGET(hbox_2));
-	gtk_container_add(GTK_CONTAINER(hbox_2), GTK_WIDGET(table));
-	gtk_container_add(GTK_CONTAINER(win), GTK_WIDGET(vbox));
+	gtk_container_add(GTK_CONTAINER(scroll_window), viewport);
+	gtk_container_add(GTK_CONTAINER(viewport), tree);
+	gtk_container_add(GTK_CONTAINER(win), vbox);
 
 	/* Show the window */
 	gtk_widget_show_all(GTK_WIDGET(win));

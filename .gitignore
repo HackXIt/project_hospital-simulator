@@ -21,6 +21,7 @@ CMakeCache.txt
 *_include.cmake
 cmake-build/*
 !cmake-build/README.md
+html
 
 # ---- STEVE ----
 cmake-build-debug/
