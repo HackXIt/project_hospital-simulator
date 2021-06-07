@@ -71,7 +71,7 @@ TEST(seat_rows_unit_tests, occupySeats_t1)
 // The two strings must be equal
 TEST(seat_rows_unit_tests, selectRow_t1)
 {
-	selectRow(rows, &p_1);
+	EXPECT_EQ(selectRow(rows, &p_1), 0);
 	EXPECT_STREQ("Stefan", p_1.first_name);
 	EXPECT_STREQ("Hubolt", p_1.last_name);
 
