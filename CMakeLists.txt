@@ -54,6 +54,7 @@ set(WARNING_LEVELS_GCC_DEBUG
 	-Wno-unused-parameter
 	# -pedantic
 	-Wno-write-strings
+	-Wno-missing-field-initializers
 	-g
 )
 
