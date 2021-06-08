@@ -15,6 +15,7 @@ Inside the Project, there's a folder structure, which contains various files as 
  - `cmake-build/` ... is the output-directory for building the project. Also contains a README on how to build the project.
  
  Further below is an explanation on how to build the project.
+ The project includes Doxygen-Documentation and Unit-Tests, which need to be built according to the build-targets.
 
  # Info on Requirements-Linking to Code
 
@@ -37,4 +38,17 @@ Included in this project is a Makefile and a CMakeLists.
 Since the makefile includes targes for cmake, it is optional to use cmake directly.
 It is recommended to use the provided Makefile, as it correctly uses the provided output-folder `cmake-build`.
 
-TBD
+| target | purpose |
+| --- | --- |
+| `make` | Executes the default-target, which is `build` |
+| `make build` | Builds the project using CMAKE - generates the main & unit-tests executable inside `cmake-build/bin/` |
+| `make test` | Builds the project & executes the unit-tests |
+| `make coverage` | Builds the project & executes the unit-tests including coverage-report generation |
+| `make testrun` | Builds the project & executes the unit-tests-executable directly (different view of tests) |
+| `make current` | Builds the current state of the project with MAKE, generating the executable `build/current` |
+| `make doc` | Builds the doxygen-documentation in HTML format, which is generated into `html/` |
+
+In case something goes wrong using the Makefile, the project can be built with CMake manually:
+_(Copy&Paste in terminal from Project-Root-Directory)_
+
+`cd cmake-build && cmake .. && make`
