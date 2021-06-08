@@ -5,6 +5,25 @@ This project was built in collaboration, with the team members being:
  - Eva Grabler
  - Nikolaus Rieder
 
+ # Development process
+
+ For our project we focused on a V-Model Development-process.
+
+ We began by defining our Requirements and worked towards defining how we will structurize the data used throughout the program.
+ Then we handed out tasks to each team-member to implement basic functions, which will create/manipulate/free those data structures.
+
+ After the foundation in the codebase was set, we continued adding necessary functions & features to suffice our requirements.
+
+ Before we had a user-interface we wrote functional tests in C (basically main files executing our functions) to find problems early on.
+
+ One of the biggest hurdles was the implementation of the graphical User-Interface.
+
+ The main focus for the team was stability, once we had a working graphical application. So we started working on the unit-tests, which test our main project sources. (`persons.c` & `seat_rows.c`)
+
+ We struggled to write unit-tests for the GUI and in the end gave up on doing so, because it didn't seam feasable with the GTest Framework.
+
+ Once we came to this point, we started documenting our functions using doxygen and prepared for finalization of the project.
+
 # Project Structure
 
 Inside the Project, there's a folder structure, which contains various files as described below:
