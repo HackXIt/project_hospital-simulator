@@ -4,8 +4,9 @@ CC=gcc
 CFLAGS=$(INC) -Wall -Wextra -pedantic -g -Wno-unused-parameter
 INC=-Iinc
 BUILD=./build/
-CMAKE=/usr/bin/cmake
+CMAKE=cmake
 CHANGE_DIR_CMAKE=cd cmake-build
+DOXYGEN=doxygen
 # For GTK
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 GTKLIB=`pkg-config --libs gtk+-3.0`
@@ -43,7 +44,7 @@ $(BUILD)%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # This target is executed when just using 'make'
-all: current
+all: build
 
 # Executed with: make current
 current: main.c $(OBJECTS)
@@ -52,6 +53,9 @@ current: main.c $(OBJECTS)
 # Executed with: make clean
 clean:
 	rm $(BUILD)*.o $(BUILD)current
+
+doc: Doxyfile
+	${DOXYGEN} $<
 
 # The following targets are shortcuts to use the underlying CMakeFiles.txt in 'cmake-build'
 
