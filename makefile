@@ -59,7 +59,7 @@ clean:
 cmake-clean:
 	${CHANGE_DIR_CMAKE} && ${MAKE} clean
 # Configures and builds the CMake-Project
-build: switch-dir
+build:
 	${CHANGE_DIR_CMAKE} && ${CMAKE} .. && ${MAKE}
 # Builds the CMake-Project and runs the testcases via make
 test: build
@@ -73,4 +73,4 @@ testrun: build
 
 # For targets which don't have any input-files and just execute something
 # Read this for clarification: https://web.mit.edu/gnu/doc/html/make_4.html#SEC31
-.PHONY: clean switch-dir cmake-clean build test coverage testrun build-test
+.PHONY: clean cmake-clean build test coverage testrun build-test
