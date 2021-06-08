@@ -63,6 +63,7 @@ int occupySeat(ListRows_t *row, Person_t *person)
 	{
 		current->occupied = person;
 		person->seat = current;
+		person->row = row;
 		row->count++;
 		return EXIT_SUCCESS;
 	}

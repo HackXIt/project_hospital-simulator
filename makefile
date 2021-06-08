@@ -41,7 +41,7 @@ $(BUILD)gtk3.o: gtk3.c
 
 # Automatic variable for compiling object files
 $(BUILD)%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(GTKFLAGS) $(GTKLIB) -c $< -o $@
 
 # This target is executed when just using 'make'
 all: build
